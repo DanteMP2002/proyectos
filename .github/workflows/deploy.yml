@@ -1,0 +1,21 @@
+name: Desplegar a InfinityFree
+
+on:
+  push:
+    branches:
+      - main  # Se activa cada vez que subes cambios a la rama principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar Código
+        uses: actions/checkout@v3
+
+      - name: Sincronizar Archivos por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /htdocs/  # Si es para un subdominio, cambia esto por el nombre de la carpeta (ej. /dante2077.ct.ws/)
