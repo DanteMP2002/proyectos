@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portafolio de proyectos de Dante.">
-    <title>Mis proyectos | Portafolio</title>
+    <meta name="description" content="Proyecto N°1: Tienda virtual de bodas y eventos.">
+    <title>Tienda Bodas & Eventos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="hero">
         <nav class="contenedor barra" aria-label="Navegación principal">
-            <img class="logo" src="logo.jpg" alt="Logo" width="50" height="50">
-            <a class="marca" href="/">Dante Mita Puma<span>.</span></a>
+            <a class="marca" href="/">
+                <img class="logo" src="logo.jpg" alt="Logo" width="50" height="50">
+                Dante Mita Puma<span>.</span>
+            </a>
             <div class="menu">
                 <a href="#proyectos">Proyectos</a>
                 <a href="#contacto">Contacto</a>
@@ -31,7 +33,7 @@
             <span class="contador">1 proyecto publicado</span>
         </div>
         <div class="proyectos">
-            <a class="proyecto" href="https://dmp-lab.freedev.app/" target="_blank" rel="noopener noreferrer">
+            <a class="proyecto" href="https://dmp-lab.freedev.app/proyecto1/" target="_blank" rel="noopener noreferrer">
                 <span class="numero">01 — Publicado</span>
                 <h3>Tienda virtual de bodas</h3>
                 <p>Una tienda virtual orientada a productos y eventos para bodas.</p>
