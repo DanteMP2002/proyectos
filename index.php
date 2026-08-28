@@ -5,36 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portafolio de proyectos de Dante.">
     <title>Mis proyectos | Portafolio</title>
-    <style>
-        :root { --fondo:#0b1020; --superficie:#151d35; --texto:#f8fafc; --texto-suave:#aebbd4; --acento:#7c3aed; --acento-claro:#a78bfa; --borde:rgba(255,255,255,.1); }
-        * { box-sizing:border-box; } html { scroll-behavior:smooth; }
-        body { margin:0; min-width:320px; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--texto); background:var(--fondo); }
-        a { color:inherit; text-decoration:none; } .contenedor { width:min(1120px,calc(100% - 40px)); margin:auto; }
-        .barra { display:flex; justify-content:space-between; align-items:center; min-height:76px; }
-        .marca { font-size:1.15rem; font-weight:800; letter-spacing:-.03em; } .marca span,.numero,.ver-proyecto,.etiqueta { color:var(--acento-claro); }
-        .menu { display:flex; gap:24px; color:var(--texto-suave); font-size:.95rem; } .menu a:hover { color:var(--texto); }
-        .hero { overflow:hidden; border-bottom:1px solid var(--borde); background:radial-gradient(circle at 76% 12%,rgba(124,58,237,.32),transparent 28rem),radial-gradient(circle at 15% 95%,rgba(14,165,233,.16),transparent 23rem); }
-        .presentacion { padding:86px 0 96px; max-width:760px; } .etiqueta { display:inline-block; margin-bottom:18px; font-size:.78rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-        h1 { max-width:700px; margin:0; font-size:clamp(2.65rem,7vw,5.2rem); line-height:1.03; letter-spacing:-.065em; }
-        .descripcion { max-width:600px; margin:26px 0 32px; color:var(--texto-suave); font-size:clamp(1rem,2vw,1.15rem); line-height:1.7; }
-        .boton { display:inline-flex; align-items:center; gap:8px; padding:13px 19px; border-radius:9px; color:white; font-weight:750; background:var(--acento); box-shadow:0 10px 28px rgba(124,58,237,.28); transition:transform .2s,background .2s; }
-        .boton:hover { background:#6d28d9; transform:translateY(-2px); }
-        main { padding:72px 0 92px; } .encabezado-seccion { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:25px; }
-        h2 { margin:0; font-size:clamp(1.7rem,4vw,2.4rem); letter-spacing:-.045em; } .contador { color:var(--texto-suave); font-size:.94rem; }
-        .proyectos { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:20px; }
-        .proyecto { display:flex; flex-direction:column; min-height:265px; padding:27px; border:1px solid var(--borde); border-radius:14px; background:var(--superficie); transition:transform .2s,border-color .2s,box-shadow .2s; }
-        .proyecto:not(.proximamente):hover { transform:translateY(-5px); border-color:rgba(167,139,250,.7); box-shadow:0 18px 38px rgba(0,0,0,.22); }
-        .numero { font-size:.85rem; font-weight:800; } h3 { margin:25px 0 11px; font-size:1.35rem; letter-spacing:-.025em; }
-        .proyecto p { margin:0; color:var(--texto-suave); line-height:1.6; } .ver-proyecto { margin-top:auto; padding-top:26px; font-weight:750; } .proximamente { opacity:.72; border-style:dashed; }
-        footer { padding:25px 0; border-top:1px solid var(--borde); color:var(--texto-suave); font-size:.9rem; text-align:center; }
-        @media (max-width:600px) { .contenedor { width:min(100% - 32px,1120px); } .menu { gap:15px; font-size:.85rem; } .presentacion { padding:62px 0 70px; } main { padding:56px 0 68px; } }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="hero">
         <nav class="contenedor barra" aria-label="Navegación principal">
-            <a class="marca" href="/">Dante<span>.</span></a>
-            <div class="menu"><a href="#proyectos">Proyectos</a><a href="#contacto">Contacto</a></div>
+            <img class="logo" src="logo.jpg" alt="Logo" width="50" height="50">
+            <a class="marca" href="/">Dante Mita Puma<span>.</span></a>
+            <div class="menu">
+                <a href="#proyectos">Proyectos</a>
+                <a href="#contacto">Contacto</a>
+            </div>
         </nav>
         <section class="contenedor presentacion">
             <span class="etiqueta">Portafolio personal</span>
@@ -43,17 +24,32 @@
             <a class="boton" href="#proyectos">Ver proyectos <span aria-hidden="true">↓</span></a>
         </section>
     </header>
+
     <main class="contenedor" id="proyectos">
-        <div class="encabezado-seccion"><h2>Mis proyectos</h2><span class="contador">1 proyecto publicado</span></div>
+        <div class="encabezado-seccion">
+            <h2>Mis proyectos</h2>
+            <span class="contador">1 proyecto publicado</span>
+        </div>
         <div class="proyectos">
             <a class="proyecto" href="https://dmp-lab.freedev.app/" target="_blank" rel="noopener noreferrer">
-                <span class="numero">01 — Publicado</span><h3>Tienda virtual de bodas</h3><p>Una tienda virtual orientada a productos y eventos para bodas.</p><span class="ver-proyecto">Visitar proyecto →</span>
+                <span class="numero">01 — Publicado</span>
+                <h3>Tienda virtual de bodas</h3>
+                <p>Una tienda virtual orientada a productos y eventos para bodas.</p>
+                <span class="ver-proyecto">Visitar proyecto →</span>
             </a>
             <article class="proyecto proximamente">
-                <span class="numero">02 — Próximamente</span><h3>Nuevo proyecto</h3><p>Este espacio está listo para el siguiente proyecto que incorpores al portafolio.</p><span class="ver-proyecto">En desarrollo</span>
+                <span class="numero">02 — Próximamente</span>
+                <h3>Nuevo proyecto</h3>
+                <p>Este espacio está listo para el siguiente proyecto que incorpores al portafolio.</p>
+                <span class="ver-proyecto">En desarrollo</span>
             </article>
         </div>
     </main>
-    <footer id="contacto"><div class="contenedor">© <?= date('Y') ?> Dante — Portafolio de proyectos</div></footer>
+
+    <footer id="contacto">
+        <div class="contenedor">
+            © <?= date('Y') ?> Dante — Portafolio de proyectos
+        </div>
+    </footer>
 </body>
 </html>
