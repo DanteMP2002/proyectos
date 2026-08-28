@@ -7,13 +7,21 @@
     <title>MENU</title>
 </head>
 <body>
-    <ul>
-        <li>Inicio</li>
-        <li>Productos</li>
-        <li>Contacto</li>
-        <li>Carrito</li>
-        <li>Login</li>
-        <li> //carrito </li>
-    </ul>
+    <header>
+        <img src="logo.png" alt="Logo de la tienda">
+        <ul>
+            <li>Inicio</li>
+            <li>Productos</li>
+            <li>Contacto</li>
+            <li>Carrito</li>
+            <li>Login</li>
+            <li> //carrito </li>
+        </ul>
+    </header>
+    
+    <div>
+        imagenes de productos
+    </div>
+
 </body>
 </html>
