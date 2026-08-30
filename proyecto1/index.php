@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Tienda de Bodas</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles1.css">
 </head>
 <body>
     <!-- Cabecera -->

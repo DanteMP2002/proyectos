@@ -1,0 +1,249 @@
+:root {
+    --vino: #7a2847;
+    --vino-oscuro: #4e1730;
+    --rosa: #d99aae;
+    --crema: #fff9f5;
+    --arena: #f6e7df;
+    --texto: #33252a;
+    --texto-suave: #745f65;
+    --blanco: #ffffff;
+    --sombra: 0 14px 35px rgba(83, 35, 53, .13);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    color: var(--texto);
+    background: var(--crema);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Cabecera */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 18px max(5%, 32px);
+    background: var(--blanco);
+    box-shadow: 0 2px 12px rgba(72, 32, 46, .08);
+}
+
+.logo h1 {
+    margin: 0;
+    color: var(--vino);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.55rem, 3vw, 2rem);
+    font-weight: 700;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav a {
+    position: relative;
+    color: var(--texto-suave);
+    font-size: .95rem;
+    font-weight: 700;
+}
+
+nav a::after {
+    position: absolute;
+    right: 0;
+    bottom: -7px;
+    left: 0;
+    height: 2px;
+    content: '';
+    background: var(--vino);
+    transform: scaleX(0);
+    transition: transform .2s ease;
+}
+
+nav a:hover {
+    color: var(--vino);
+}
+
+nav a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Banner */
+.banner {
+    display: grid;
+    min-height: 390px;
+    padding: 70px 8%;
+    place-content: center start;
+    color: var(--blanco);
+    text-align: left;
+    background:
+        linear-gradient(90deg, rgba(78, 23, 48, .91), rgba(122, 40, 71, .66), rgba(122, 40, 71, .12)),
+        url('../img/logo.jpg') center / cover no-repeat,
+        var(--vino);
+}
+
+.banner h2 {
+    max-width: 650px;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    line-height: 1.05;
+}
+
+.banner p {
+    max-width: 500px;
+    margin: 20px 0 30px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+}
+
+.btn {
+    display: inline-block;
+    width: fit-content;
+    padding: 13px 24px;
+    border: 2px solid var(--vino);
+    border-radius: 4px;
+    color: var(--blanco);
+    font-weight: 700;
+    background: var(--vino);
+    box-shadow: 0 7px 16px rgba(57, 16, 35, .22);
+    transition: transform .2s ease, background .2s ease;
+}
+
+.btn:hover {
+    background: var(--vino-oscuro);
+    transform: translateY(-3px);
+}
+
+/* Productos */
+main {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 70px 0 85px;
+    text-align: center;
+}
+
+main > h2 {
+    margin: 0 0 35px;
+    color: var(--vino-oscuro);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.productos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.producto {
+    overflow: hidden;
+    padding: 20px;
+    border: 1px solid #efdad2;
+    border-radius: 12px;
+    background: var(--blanco);
+    box-shadow: var(--sombra);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.producto:hover {
+    box-shadow: 0 20px 40px rgba(83, 35, 53, .2);
+    transform: translateY(-7px);
+}
+
+.producto img {
+    display: block;
+    width: 100%;
+    height: 210px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--arena);
+}
+
+.producto h3 {
+    margin: 20px 0 8px;
+    color: var(--vino-oscuro);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+}
+
+.producto p {
+    margin: 0 0 20px;
+    color: var(--vino);
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.producto .btn {
+    width: 100%;
+}
+
+/* Pie de página */
+footer {
+    padding: 24px 20px;
+    color: #f9e9ee;
+    text-align: center;
+    background: var(--vino-oscuro);
+}
+
+footer p {
+    margin: 0;
+}
+
+@media (max-width: 760px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    nav ul {
+        gap: 13px 18px;
+    }
+
+    .banner {
+        min-height: 330px;
+        padding: 58px 32px;
+    }
+
+    .productos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    main {
+        width: min(100% - 32px, 1120px);
+        padding: 50px 0 60px;
+    }
+
+    .banner {
+        padding: 52px 24px;
+    }
+
+    .productos {
+        grid-template-columns: 1fr;
+    }
+}
