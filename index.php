@@ -39,7 +39,7 @@
                 <p>Una tienda virtual orientada a productos y eventos para bodas.</p>
                 <span class="ver-proyecto">Visitar proyecto →</span>
             </a>
-            <a class="proyecto proximamente">
+            <a class="proyecto proximamente" href="https://dmp-lab.freedev.app/proyecto2/" target="_blank" rel="noopener noreferrer">
                 <span class="numero">02 — Próximamente</span>
                 <h3>Nuevo proyecto</h3>
                 <p>Este espacio está listo para el siguiente proyecto que incorpores al portafolio.</p>
