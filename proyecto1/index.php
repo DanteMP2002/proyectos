@@ -1,61 +1,61 @@
-<?php
-require_once 'config/conexion.php';
-
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Proyecto N°1: Tienda virtual de bodas y eventos.">
-    <title>Tienda Bodas & Eventos</title>
-    <link rel="stylesheet" href="styles1.css">
+    <title>Tienda de Bodas</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="hero">
-        <nav class="contenedor barra" aria-label="Navegación principal">
-            <a class="marca" href="/">
-                <img class="logo" src="img/logo.jpg" alt="Logo" width="50" height="50">
-                Dante Mita Puma<span>.</span>
-            </a>
-            <div class="menu">
-                <a href="#proyectos">Proyectos</a>
-                <a href="#contacto">Contacto</a>
-            </div>
+    <!-- Cabecera -->
+    <header>
+        <div class="logo">
+            <h1>Tienda de Bodas</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Vestidos</a></li>
+                <li><a href="#">Decoración</a></li>
+                <li><a href="#">Regalos</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
         </nav>
-        <section class="contenedor presentacion">
-            <span class="etiqueta">Portafolio personal</span>
-            <h1>Proyectos que voy construyendo.</h1>
-            <p class="descripcion">Este es mi espacio para reunir cada proyecto, mostrar su avance y acceder rápidamente a sus demostraciones.</p>
-            <a class="boton" href="#proyectos">Ver proyectos <span aria-hidden="true">↓</span></a>
-        </section>
     </header>
 
-    <main class="contenedor" id="proyectos">
-        <div class="encabezado-seccion">
-            <h2>Mis proyectos</h2>
-            <span class="contador">1 proyecto publicado</span>
-        </div>
-        <div class="proyectos">
-            <a class="proyecto" href="https://dmp-lab.freedev.app/proyecto1/" target="_blank" rel="noopener noreferrer">
-                <span class="numero">01 — Publicado</span>
-                <h3>Tienda virtual de bodas</h3>
-                <p>Una tienda virtual orientada a productos y eventos para bodas.</p>
-                <span class="ver-proyecto">Visitar proyecto →</span>
-            </a>
-            <article class="proyecto proximamente">
-                <span class="numero">02 — Próximamente</span>
-                <h3>Nuevo proyecto</h3>
-                <p>Este espacio está listo para el siguiente proyecto que incorpores al portafolio.</p>
-                <span class="ver-proyecto">En desarrollo</span>
-            </article>
+    <!-- Banner principal -->
+    <section class="banner">
+        <h2>Todo para tu boda soñada</h2>
+        <p>Encuentra vestidos, decoración y más.</p>
+        <a href="#" class="btn">Ver productos</a>
+    </section>
+
+    <!-- Sección de productos -->
+    <main>
+        <h2>Productos destacados</h2>
+        <div class="productos">
+            <?php
+            // Ejemplo de productos en un array
+            $productos = [
+                ["nombre" => "Vestido de novia", "precio" => 1200, "imagen" => "vestido.jpg"],
+                ["nombre" => "Centro de mesa", "precio" => 80, "imagen" => "centro.jpg"],
+                ["nombre" => "Anillos de boda", "precio" => 500, "imagen" => "anillos.jpg"],
+            ];
+
+            foreach ($productos as $p) {
+                echo "<div class='producto'>";
+                echo "<img src='images/".$p['imagen']."' alt='".$p['nombre']."'>";
+                echo "<h3>".$p['nombre']."</h3>";
+                echo "<p>S/ ".$p['precio']."</p>";
+                echo "<a href='#' class='btn'>Comprar</a>";
+                echo "</div>";
+            }
+            ?>
         </div>
     </main>
 
-    <footer id="contacto">
-        <div class="contenedor">
-            © <?= date('Y') ?> Dante — Portafolio de proyectos
-        </div>
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Tienda de Bodas. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>
