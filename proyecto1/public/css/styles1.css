@@ -1,0 +1,93 @@
+/* Paleta principal de la tienda. */
+:root { --vino: #7a2847; --vino-oscuro: #4e1730; --rosa: #d99aae; --crema: #fff9f5; --arena: #f6e7df; --texto: #33252a; --suave: #745f65; --blanco: #fff; --sombra: 0 15px 36px rgba(83,35,53,.13); }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--texto); background: var(--crema); font-family: Arial, Helvetica, sans-serif; }
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+/* Barra superior fija con navegación y acceso rápido al carrito. */
+.encabezado-principal { display: flex; position: sticky; z-index: 10; top: 0; align-items: center; justify-content: space-between; gap: 24px; padding: 18px max(5%,32px); background: rgba(255,255,255,.96); box-shadow: 0 2px 12px rgba(72,32,46,.08); backdrop-filter: blur(8px); }
+.marca { color: var(--vino); font-family: Georgia, serif; font-size: clamp(1.35rem,3vw,1.8rem); font-weight: 700; }
+.marca span, .etiqueta, .categoria-producto { color: var(--rosa); }
+.navegacion { display: flex; gap: 22px; color: var(--suave); font-weight: 700; }
+.navegacion a:hover { color: var(--vino); }
+.boton-carrito, .boton-secundario { padding: 10px 15px; border: 1px solid var(--vino); border-radius: 4px; color: var(--vino); background: transparent; font-weight: 700; transition: .2s; }
+.boton-carrito:hover, .boton-secundario:hover { color: var(--blanco); background: var(--vino); transform: translateY(-2px); }
+.boton-carrito span { display: inline-grid; width: 22px; height: 22px; margin-left: 4px; border-radius: 50%; place-items: center; color: var(--blanco); background: var(--vino); font-size: .8rem; }
+
+/* Hero con la imagen del proyecto y una capa de color para conservar legibilidad. */
+.portada { display: grid; min-height: 500px; padding: 90px max(8%,32px); align-content: center; color: var(--blanco); background: linear-gradient(90deg,rgba(78,23,48,.93),rgba(122,40,71,.65),rgba(122,40,71,.16)),url('../img/logo.jpg') center/cover,var(--vino); }
+.portada > * { max-width: 690px; }
+.etiqueta { margin: 0 0 10px; font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.portada h1, .titulo-seccion h2, .seccion-nosotros h2, .caja-checkout h1 { margin: 0; font-family: Georgia, serif; letter-spacing: -.04em; }
+.portada h1 { font-size: clamp(2.8rem,7vw,5.2rem); line-height: 1.02; }
+.portada h1 em { color: #ffdce6; }
+.portada > p:not(.etiqueta) { max-width: 520px; margin: 24px 0 30px; font-size: 1.1rem; line-height: 1.65; }
+.boton-principal { display: inline-block; width: fit-content; padding: 13px 22px; border: 0; border-radius: 4px; color: var(--blanco); background: var(--vino); box-shadow: 0 8px 18px rgba(57,16,35,.23); font-weight: 700; transition: .2s; }
+.portada .boton-principal { color: var(--vino-oscuro); background: var(--blanco); }
+.boton-principal:hover { transform: translateY(-3px); background: var(--vino-oscuro); }
+.portada .boton-principal:hover { color: var(--blanco); background: var(--vino); }
+.ancho-completo { width: 100%; }
+
+/* Catálogo: cada tarjeta se alimenta desde la base de datos. */
+.seccion-productos, .seccion-nosotros { width: min(1120px,calc(100% - 40px)); margin: auto; padding: 80px 0; }
+.titulo-seccion { text-align: center; }
+.titulo-seccion h2, .seccion-nosotros h2, .caja-checkout h1 { color: var(--vino-oscuro); font-size: clamp(2rem,4vw,2.8rem); }
+.rejilla-productos { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; margin-top: 35px; }
+.tarjeta-producto { overflow: hidden; border: 1px solid #efd9d1; border-radius: 12px; background: var(--blanco); box-shadow: var(--sombra); transition: .25s; }
+.tarjeta-producto:hover { box-shadow: 0 20px 40px rgba(83,35,53,.2); transform: translateY(-6px); }
+.tarjeta-producto img { display: block; width: 100%; height: 220px; object-fit: cover; background: var(--arena); }
+.contenido-producto { padding: 20px; }
+.categoria-producto { font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.contenido-producto h3 { margin: 10px 0 8px; color: var(--vino-oscuro); font-family: Georgia,serif; font-size: 1.35rem; }
+.descripcion-producto { min-height: 45px; margin: 0; color: var(--suave); line-height: 1.5; }
+.pie-producto { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; color: var(--vino); }
+.seccion-nosotros { max-width: 760px; padding-top: 15px; text-align: center; }
+.seccion-nosotros > p:last-child { color: var(--suave); font-size: 1.08rem; line-height: 1.7; }
+.aviso-compra { width: min(600px,calc(100% - 40px)); margin: 30px auto -30px; padding: 14px; border-left: 4px solid var(--vino); color: var(--vino-oscuro); background: #f8e3ea; }
+.pie-pagina { padding: 27px; color: #f9e9ee; text-align: center; background: var(--vino-oscuro); }
+
+/* Fondo y panel lateral del carrito. */
+.fondo-modal { visibility: hidden; position: fixed; z-index: 20; inset: 0; opacity: 0; background: rgba(38,16,26,.48); transition: .2s; }
+.fondo-modal.visible { visibility: visible; opacity: 1; }
+.panel-carrito { display: flex; visibility: hidden; position: fixed; z-index: 30; top: 0; right: 0; width: min(430px,100%); height: 100vh; flex-direction: column; padding: 24px; opacity: 0; background: var(--crema); box-shadow: -12px 0 40px rgba(52,20,35,.2); transform: translateX(100%); transition: .25s; }
+.panel-carrito.visible { visibility: visible; opacity: 1; transform: translateX(0); }
+.cabecera-panel { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ebd6ce; }
+.cabecera-panel h2 { color: var(--vino-oscuro); font-family: Georgia,serif; }
+.boton-cerrar { border: 0; color: var(--vino); background: none; font-size: 2rem; line-height: 1; }
+.contenido-carrito { overflow: auto; flex: 1; padding: 10px 0; }
+.linea-carrito { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 18px 0; border-bottom: 1px solid #ebd6ce; }
+.linea-carrito span { display: block; margin-top: 4px; color: var(--suave); font-size: .85rem; }
+.controles-cantidad { grid-column: 1/-1; display: flex; align-items: center; gap: 10px; }
+.controles-cantidad button { width: 28px; height: 28px; border: 1px solid var(--rosa); border-radius: 50%; color: var(--vino); background: var(--blanco); }
+.controles-cantidad .enlace-eliminar { width: auto; margin-left: auto; border: 0; border-radius: 0; background: none; text-decoration: underline; }
+.pie-carrito { padding-top: 14px; border-top: 1px solid #ebd6ce; }
+.pie-carrito p { display: flex; justify-content: space-between; font-size: 1.15rem; }
+
+/* Modales de login, registro y validación administrativa. */
+.modal-acceso { visibility: hidden; position: fixed; z-index: 31; top: 50%; left: 50%; width: min(460px,calc(100% - 32px)); padding: 30px; border-radius: 12px; opacity: 0; background: var(--blanco); box-shadow: var(--sombra); transform: translate(-50%,-45%); transition: .2s; }
+.modal-acceso.visible { visibility: visible; opacity: 1; transform: translate(-50%,-50%); }
+.modal-acceso > .boton-cerrar { position: absolute; top: 16px; right: 16px; }
+.modal-acceso h2 { margin-top: 0; color: var(--vino-oscuro); font-family: Georgia,serif; }
+form { display: grid; gap: 15px; margin-top: 22px; }
+label { display: grid; gap: 7px; color: var(--suave); font-size: .9rem; font-weight: 700; }
+input, select { width: 100%; padding: 11px; border: 1px solid #dbc2bb; border-radius: 4px; color: var(--texto); background: #fffdfc; }
+input:focus, select:focus { outline: 2px solid var(--rosa); border-color: var(--rosa); }
+.cambio-formulario { color: var(--suave); font-size: .9rem; text-align: center; }
+.cambio-formulario button { border: 0; color: var(--vino); background: none; font-weight: 700; text-decoration: underline; }
+.mensaje-formulario { min-height: 20px; margin: 15px 0 0; color: var(--vino); text-align: center; }
+
+/* Páginas sencillas para checkout y panel de administrador. */
+.pagina-simple { display: grid; min-height: 100vh; padding: 32px 16px; place-items: center; }
+.caja-checkout { width: min(760px,100%); padding: 36px; border-radius: 12px; background: var(--blanco); box-shadow: var(--sombra); }
+.caja-checkout > a { color: var(--vino); font-weight: 700; }
+.caja-checkout .etiqueta { margin-top: 30px; }
+.tabla-responsive { overflow: auto; margin: 25px 0; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 13px; border-bottom: 1px solid #ebd6ce; }
+th { color: var(--vino-oscuro); }
+
+@media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 500px) { .portada { padding: 64px 24px; } .seccion-productos, .seccion-nosotros { width: min(100% - 32px,1120px); padding: 55px 0; } .rejilla-productos { grid-template-columns: 1fr; } .caja-checkout { padding: 25px; } }

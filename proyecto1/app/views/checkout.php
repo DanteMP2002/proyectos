@@ -1,0 +1,5 @@
+<?php require_once __DIR__ . '/../helpers/Autenticacion.php'; ?>
+<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Confirmar pedido</title><link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css"></head>
+<body class="pagina-simple"><main class="caja-checkout"><a href="<?= URL_BASE ?>/inicio">← Volver a la tienda</a><p class="etiqueta">Último paso</p><h1>Confirma tu pedido</h1><p>Hola, <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>. Total: <strong>S/ <?= number_format($total, 2) ?></strong></p>
+<!-- El método se registra como pendiente; la pasarela de pago real puede añadirse después. -->
+<form action="<?= URL_BASE ?>/checkout/confirmar" method="post"><label>Método de pago<select name="metodo_pago"><option value="yape">Yape</option><option value="tarjeta">Tarjeta</option><option value="transferencia">Transferencia</option></select></label><button class="boton-principal ancho-completo">Registrar pedido</button></form></main></body></html>
