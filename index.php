@@ -39,12 +39,12 @@
                 <p>Una tienda virtual orientada a productos y eventos para bodas.</p>
                 <span class="ver-proyecto">Visitar proyecto →</span>
             </a>
-            <article class="proyecto proximamente">
+            <a class="proyecto proximamente">
                 <span class="numero">02 — Próximamente</span>
                 <h3>Nuevo proyecto</h3>
                 <p>Este espacio está listo para el siguiente proyecto que incorpores al portafolio.</p>
                 <span class="ver-proyecto">En desarrollo</span>
-            </article>
+            </a>
         </div>
     </main>
 

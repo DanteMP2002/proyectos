@@ -9,7 +9,7 @@ require_once 'config/conexion.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Proyecto N°1: Tienda virtual de bodas y eventos.">
     <title>Tienda Bodas & Eventos</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles1.css">
 </head>
 <body>
     <header class="hero">
