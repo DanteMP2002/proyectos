@@ -29,7 +29,23 @@ unset($_SESSION['mensaje_compra']);
             <?php foreach ($productos as $producto): ?>
                 <?php $agotado = (int)$producto['stock'] < 1; ?>
                 <!-- Si el stock llega a cero, se conserva la tarjeta y se bloquea su compra. -->
-                <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>"><div class="contenedor-imagen-producto"><img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>"><?php if ($agotado): ?><span class="sello-agotado">AGOTADO</span><?php endif; ?></div><div class="contenido-producto"><span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span><h3><?= htmlspecialchars($producto['nombre']) ?></h3><p class="descripcion-producto"><?= htmlspecialchars($producto['descripcion']) ?></p><div class="pie-producto"><strong>S/ <?= number_format((float)$producto['precio'], 2) ?></strong><?php if ($agotado): ?><button class="boton-secundario boton-deshabilitado" disabled>Agotado</button><?php else: ?><button class="boton-secundario" data-agregar="<?= (int)$producto['id'] ?>">Añadir</button><?php endif; ?></div></div></article>
+                <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>">
+                    <div class="contenedor-imagen-producto">
+                        <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>"><?php if ($agotado): ?><span class="sello-agotado">AGOTADO</span><?php endif; ?>
+                    </div>
+                    <div class="contenido-producto">
+                        <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?>
+                        </span>
+                        <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
+                        <p class="descripcion-producto"><?= htmlspecialchars($producto['descripcion']) ?></p>
+                        <div class="pie-producto">
+                            <strong>S/ <?= number_format((float)$producto['precio'], 2) ?></strong><?php if ($agotado): ?>
+                                <button class="boton-secundario boton-deshabilitado" disabled>Agotado</button>
+                                <?php else: ?>
+                                    <button class="boton-secundario" data-agregar="<?= (int)$producto['id'] ?>">Añadir</button><?php endif; ?>
+                        </div>
+                    </div>
+                </article>
             <?php endforeach; ?>
         </div></section>
         <!-- Contenido informativo de la tienda. -->
