@@ -22,4 +22,14 @@ class Autenticacion {
             exit;
         }
     }
+
+    // Token que evita que otro sitio envíe formularios administrativos en nombre del usuario.
+    public static function tokenFormulario(): string {
+        $_SESSION['token_formulario'] ??= bin2hex(random_bytes(32));
+        return $_SESSION['token_formulario'];
+    }
+
+    public static function validarToken(?string $token): bool {
+        return isset($_SESSION['token_formulario']) && is_string($token) && hash_equals($_SESSION['token_formulario'], $token);
+    }
 }
