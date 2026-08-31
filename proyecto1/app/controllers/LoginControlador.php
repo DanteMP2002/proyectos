@@ -37,9 +37,8 @@ class LoginControlador {
     public function administrador(): void {
         $usuario = (new Usuario())->buscarPorCorreo(trim($_POST['correo'] ?? ''));
         $claveCorrecta = $usuario && password_verify($_POST['clave'] ?? '', $usuario['clave']);
-        // El hash vive en el config.php privado del hosting; si no existe, se niega el acceso.
-        $codigoCorrecto = defined('CODIGO_ADMIN_HASH') && password_verify($_POST['codigo_admin'] ?? '', CODIGO_ADMIN_HASH);
-        if (!$claveCorrecta || $usuario['rol'] !== 'administrador' || !$codigoCorrecto) $this->respuesta(['ok' => false, 'mensaje' => 'No se pudo validar el acceso de administrador.'], 403);
+        // El rol se valida en la base de datos: no basta con conocer un correo y contraseña cualquiera.
+        if (!$claveCorrecta || $usuario['rol'] !== 'administrador') $this->respuesta(['ok' => false, 'mensaje' => 'No se pudo validar el acceso de administrador.'], 403);
         $this->iniciarSesion($usuario);
         $this->respuesta(['ok' => true, 'redirigir' => URL_BASE . '/admin']);
     }

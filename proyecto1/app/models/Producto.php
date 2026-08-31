@@ -10,7 +10,8 @@ class Producto {
     }
 
     public function listarDisponibles(): array {
-        return $this->bd->query("SELECT * FROM productos WHERE activo = 1 AND stock > 0 ORDER BY id DESC")->fetchAll();
+        // Los productos activos se muestran aunque no tengan stock para indicar que están agotados.
+        return $this->bd->query("SELECT * FROM productos WHERE activo = 1 ORDER BY id DESC")->fetchAll();
     }
 
     public function listarTodos(): array {
