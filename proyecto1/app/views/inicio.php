@@ -9,13 +9,16 @@ unset($_SESSION['mensaje_compra']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vínculo Bodas | Tienda</title>
+    <title>Vínculo Bodas - Tienda</title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
 </head>
 <body>
 
     <!-- ─── ENCABEZADO ─────────────────────────────────────────────────────── -->
     <!-- Cualquiera puede recorrer el catálogo sin iniciar sesión.              -->
+    <?php 
+    echo URL_BASE;
+    ?>
     <header class="encabezado-principal">
         <a class="marca" href="<?= URL_BASE ?>/inicio">
             Vínculo <span>Bodas</span>
@@ -55,6 +58,16 @@ unset($_SESSION['mensaje_compra']);
             <div class="titulo-seccion">
                 <p class="etiqueta">Nuestra selección</p>
                 <h2>Productos destacados</h2>
+            </div>
+
+            <div class="filtro-productos">
+                <label>
+                    Filtrar por categoría
+                    <select id="filtro-categoria">
+                        <option value="">Todas</option>
+        <!--recorrer lista de categorias en base de datos -->
+                    </select>
+                </label>
             </div>
 
             <div class="rejilla-productos">
@@ -227,7 +240,13 @@ unset($_SESSION['mensaje_compra']);
 
         <p class="mensaje-formulario" id="mensaje-administrador"></p>
     </section>
-
+    <!-- Boton de WhatsApp para comunicacion -->
+     <!-- Botón de WhatsApp -->
+    <a href="https://wa.me" 
+    target="_blank" 
+    style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; font-family: Arial, sans-serif;">
+    Pedir información por WhatsApp
+    </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
         © <?= date('Y') ?> Vínculo Bodas · Diseñado para celebrar.
