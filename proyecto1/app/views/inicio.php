@@ -243,9 +243,9 @@ unset($_SESSION['mensaje_compra']);
     <!-- Boton de WhatsApp para comunicacion -->
      <!-- Botón de WhatsApp -->
     <a href="https://wa.me" 
-    target="_blank" 
+    target="51902021468" 
     style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; font-family: Arial, sans-serif;">
-    Pedir información por WhatsApp
+    <img src="" alt="50" height="50">
     </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
