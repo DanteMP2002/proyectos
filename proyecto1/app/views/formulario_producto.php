@@ -21,9 +21,7 @@
                 <label class="interruptor">
                     <input name="activo" type="checkbox" <?= $producto['activo'] ? 'checked' : '' ?>><span>Mostrar este producto en la tienda</span>
                 </label>
-                <button class="boton-principal ancho-completo">
-                <?php echo $accion ?>    
-                Guardar producto</button>
+                <button class="boton-principal ancho-completo">Guardar producto</button>
             </form>
         </main>
     </body>
