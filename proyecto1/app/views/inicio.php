@@ -16,9 +16,6 @@ unset($_SESSION['mensaje_compra']);
 
     <!-- ─── ENCABEZADO ─────────────────────────────────────────────────────── -->
     <!-- Cualquiera puede recorrer el catálogo sin iniciar sesión.              -->
-    <?php 
-    echo URL_BASE;
-    ?>
     <header class="encabezado-principal">
         <a class="marca" href="<?= URL_BASE ?>/inicio">
             Vínculo <span>Bodas</span>
@@ -245,7 +242,7 @@ unset($_SESSION['mensaje_compra']);
     <a href="https://wa.me" 
     target="51902021468" 
     style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; font-family: Arial, sans-serif;">
-    <img src="" alt="50" height="50">
+    <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp">
     </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
