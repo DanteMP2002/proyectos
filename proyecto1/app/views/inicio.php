@@ -239,10 +239,10 @@ unset($_SESSION['mensaje_compra']);
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
      <!-- Botón de WhatsApp -->
-    <a href="https://wa.me" 
-    target="51902021468" 
+    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20este%20producto" 
+    target="_blank" 
     style="background-color: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-flex; align-items: center; font-family: Arial, sans-serif;">
-    <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp">
+    <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" height="50" width="50">
     </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
