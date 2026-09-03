@@ -51,7 +51,7 @@
 
         <p style="color: var(--suave);">Hola, <strong><?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></strong>. Aquí puedes hacer el seguimiento de tus solicitudes para el gran día.</p>
 
-        <!-- 3. RENDERIZADO DE LA TABLA -->
+        <!-- 3. RENDERIZADO DE xLA TABLA -->
         <div class="tabla-responsive">
             <table>
                 <thead>
