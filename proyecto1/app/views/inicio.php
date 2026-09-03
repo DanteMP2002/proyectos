@@ -62,7 +62,7 @@ unset($_SESSION['mensaje_compra']);
                     Filtrar por categoría
                     <select id="filtro-categoria">
                         <option value="">Todas</option>
-        <!--recorrer lista de categorias en base de datos -->
+                    <!--recorrer lista de categorias en base de datos -->
                     </select>
                 </label>
             </div>
@@ -70,6 +70,19 @@ unset($_SESSION['mensaje_compra']);
             <div class="rejilla-productos">
                 <?php foreach ($productos as $producto): ?>
                     <?php $agotado = (int) $producto['stock'] < 1; ?>
+                        <?php
+                            // 1. Extraemos el nombre del producto actual
+                            $nombre_producto = $producto['nombre']; 
+                            
+                            // 2. Definimos tu número de WhatsApp (código de país + número, sin + ni espacios)
+                            $telefono = "51902021468"; // Reemplaza con tu número de WhatsApp
+                            
+                            // 3. Redactamos el mensaje insertando la variable del producto
+                            $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera saber mas informacion sobre este.";
+                            
+                            // 4. Codificamos el texto para la URL (convierte espacios en %20, comas, etc.)
+                            $enlace_dinamico = "https://wa.me" . $telefono . "?text=" . rawurlencode($mensaje);
+                        ?>
 
                     <!-- Si el stock es cero, la tarjeta se conserva pero la compra se bloquea. -->
                     <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>">
@@ -105,6 +118,11 @@ unset($_SESSION['mensaje_compra']);
                                         Añadir
                                     </button>
                                 <?php endif; ?>
+                                <a href="<?= $enlace_dinamico ?>" target="_blank">
+                                    <button class="boton-secundario boton-whatsapp">
+                                        mas informacion
+                                    </button>
+                                </a>
                             </div>
                         </div>
 
@@ -239,7 +257,7 @@ unset($_SESSION['mensaje_compra']);
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
      <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20este%20producto." target="_blank" class="boton-whatsapp">
+    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20este%20producto." target="_blank" class="boton-whatsapp boton-whatsapp-fijo">
         <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" height="50" width="50">
     </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->

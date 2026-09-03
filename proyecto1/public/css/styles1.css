@@ -101,6 +101,31 @@ th { color: var(--vino-oscuro); }
     text-decoration: none; border-radius: 5px; font-weight: bold; 
     display: inline-flex; align-items: center; font-family: Arial, sans-serif;
 }
+.btn-whatsapp-fijo {
+    position: fixed;
+    bottom: 20px;       /* Distancia desde abajo */
+    right: 20px;        /* Distancia desde la derecha */
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-radius: 50px; /* Bordes completamente redondeados */
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+    z-index: 1000;      /* Se asegura de quedar por encima de cualquier otro elemento */
+    display: flex;
+    align-items: center;
+    gap: 8px;           /* Espacio entre el texto y un posible icono */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Efecto visual cuando el usuario pasa el mouse por encima */
+.btn-whatsapp-fijo:hover {
+    background-color: #128C7E; /* Verde más oscuro */
+    transform: scale(1.05);    /* Se agranda un 5% */
+}
 
 @media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 500px) { .portada { padding: 64px 24px; } .seccion-productos, .seccion-nosotros { width: min(100% - 32px,1120px); padding: 55px 0; } .rejilla-productos { grid-template-columns: 1fr; } .caja-checkout { padding: 25px; } }
