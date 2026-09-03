@@ -15,17 +15,32 @@ unset($_SESSION['mensaje_compra']);
 <body>
 
     <!-- ─── ENCABEZADO ─────────────────────────────────────────────────────── -->
-    <!-- Cualquiera puede recorrer el catálogo sin iniciar sesión.              -->
     <header class="encabezado-principal">
         <a class="marca" href="<?= URL_BASE ?>/inicio">
             Vínculo <span>Bodas</span>
         </a>
 
-        <nav class="navegacion" aria-label="Navegación principal">
+        <nav class="navegacion" aria-label="Navegación principal" style="display: flex; align-items: center; gap: 20px;">
             <a href="#productos">Productos</a>
             <a href="#nosotros">Nosotros</a>
+            
             <?php if (Autenticacion::esAdministrador()): ?>
                 <a href="<?= URL_BASE ?>/admin">Panel</a>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['usuario'])): ?>
+                <!-- Si el usuario está logueado, ve su nombre y la opción de salir -->
+                <span style="color: var(--vino-oscuro); font-weight: 700;">
+                    👤 <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>
+                </span>
+                <a href="<?= URL_BASE ?>/login/salir" style="color: #e74c3c; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='#c0392b'" onmouseout="this.style.color='#e74c3c'">
+                    Cerrar sesión
+                </a>
+            <?php else: ?>
+                <!-- Si es invitado, ve la opción de ingresar (puedes enlazarlo a tu disparador de modal JS) -->
+                <a href="#" id="enlace-login-nav" style="color: var(--vino); font-weight: 700;">
+                    Iniciar sesión / Registrarse
+                </a>
             <?php endif; ?>
         </nav>
 
@@ -34,6 +49,7 @@ unset($_SESSION['mensaje_compra']);
             Carrito <span id="contador-carrito">0</span>
         </button>
     </header>
+
 
     <!-- ─── PORTADA ────────────────────────────────────────────────────────── -->
     <section class="portada">
@@ -273,10 +289,11 @@ unset($_SESSION['mensaje_compra']);
         <p class="mensaje-formulario" id="mensaje-administrador"></p>
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
-     <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20los%20productos%20de%20su%20tienda." target="_blank" class="boton-whatsapp-fijo">
-        <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" height="50" width="50">
+    <!-- Botón de WhatsApp Arrastrable -->
+    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20los%20productos%20de%20su%20tienda." target="_blank" class="boton-whatsapp-fijo" id="whatsapp-flotante">
+        <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" draggable="false" style="width: 50px; height: 50px; display: block;">
     </a>
+
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
         © <?= date('Y') ?> Vínculo Bodas · Diseñado para celebrar.

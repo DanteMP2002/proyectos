@@ -131,3 +131,111 @@ document.addEventListener("DOMContentLoaded", () => {
     filtroCategoria.addEventListener("change", filtrarProductos);
     ordenPrecio.addEventListener("change", ordenarProductos);
 });
+// ==========================================================================
+// BOTÓN FLOTANTE DE WHATSAPP COMPLETAMENTE ARRASTRABLE (DRAG & DROP)
+// ==========================================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const el = document.getElementById("whatsapp-flotante");
+    if (!el) return;
+
+    let isDragging = false;
+    let startX, startY, initialRight, initialBottom;
+    let hasMoved = false;
+
+    // Prevenir el comportamiento por defecto de arrastrar imágenes nativo del navegador
+    el.addEventListener('dragstart', (e) => e.preventDefault());
+
+    // Evento de inicio (Mouse y Touch)
+    function onStart(e) {
+        isDragging = true;
+        hasMoved = false;
+
+        // Detectar si es touch o mouse
+        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+        startX = clientX;
+        startY = clientY;
+
+        // Obtener las posiciones actuales calculadas por el navegador
+        const style = window.getComputedStyle(el);
+        initialRight = parseFloat(style.right);
+        initialBottom = parseFloat(style.bottom);
+
+        // Añadir clases o estilos de arrastre sutiles
+        el.style.transition = 'none'; 
+        el.style.cursor = 'grabbing';
+    }
+
+    // Evento de movimiento (Mouse y Touch)
+    function onMove(e) {
+        if (!isDragging) return;
+
+        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+        // Calcular la distancia recorrida
+        const deltaX = startX - clientX; // Invertido porque evaluamos desde la derecha
+        const deltaY = startY - clientY; // Invertido porque evaluamos desde abajo
+
+        // Si se mueve más de 5 píxeles, se considera un arrastre real y no un clic
+        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+            hasMoved = true;
+        }
+
+        // Asignar nuevas coordenadas respetando los márgenes de la pantalla
+        let newRight = initialRight + deltaX;
+        let newBottom = initialBottom + deltaY;
+
+        // Límites básicos para que no se salga de la pantalla visual
+        const maxRight = window.innerWidth - el.offsetWidth;
+        const maxBottom = window.innerHeight - el.offsetHeight;
+
+        el.style.right = `${Math.max(10, Math.min(newRight, maxRight))}px`;
+        el.style.bottom = `${Math.max(10, Math.min(newBottom, maxBottom))}px`;
+    }
+
+    // Evento de finalización (Mouse y Touch)
+    function onEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        el.style.cursor = 'pointer';
+
+        // Si el usuario arrastró el botón, bloqueamos el clic para que no abra WhatsApp inmediatamente
+        if (hasMoved) {
+            e.preventDefault();
+            // Truco para interceptar y anular el evento del enlace nativo
+            const clickHandler = (event) => {
+                event.preventDefault();
+                el.removeEventListener('click', clickHandler);
+            };
+            el.addEventListener('click', clickHandler);
+        }
+    }
+
+    // Oyentes para entornos de escritorio (Mouse)
+    el.addEventListener('mousedown', onStart);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+
+    // Oyentes para entornos móviles (Pantallas Táctiles)
+    el.addEventListener('touchstart', onStart, { passive: true });
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd);
+});
+
+// Enlazador opcional para abrir tu modal de login existente al pulsar el botón del header
+document.addEventListener("DOMContentLoaded", () => {
+    const botonLoginNav = document.getElementById("enlace-login-nav");
+    const modalAcceso = document.getElementById("modal-acceso");
+    const fondoModal = document.getElementById("fondo-modal");
+
+    if (botonLoginNav && modalAcceso && fondoModal) {
+        botonLoginNav.addEventListener("click", (e) => {
+            e.preventDefault();
+            modalAcceso.classList.add("visible");
+            fondoModal.classList.add("visible");
+            modalAcceso.setAttribute("aria-hidden", "false");
+        });
+    }
+});
