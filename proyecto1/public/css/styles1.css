@@ -107,7 +107,7 @@ th { color: var(--vino-oscuro); }
     text-decoration: none; border-radius: 5px; font-weight: bold; 
     display: inline-flex; align-items: center; font-family: Arial, sans-serif;
 }
-.btn-whatsapp-fijo {
+.boton-whatsapp-fijo {
     position: fixed;
     bottom: 20px;       /* Distancia desde abajo */
     right: 20px;        /* Distancia desde la derecha */
@@ -128,7 +128,7 @@ th { color: var(--vino-oscuro); }
 }
 
 /* Efecto visual cuando el usuario pasa el mouse por encima */
-.btn-whatsapp-fijo:hover {
+.boton-whatsapp-fijo:hover {
     background-color: #128C7E; /* Verde más oscuro */
     transform: scale(1.05);    /* Se agranda un 5% */
 }

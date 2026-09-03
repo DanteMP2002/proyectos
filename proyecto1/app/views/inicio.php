@@ -257,7 +257,7 @@ unset($_SESSION['mensaje_compra']);
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
      <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20este%20producto." target="_blank" class="boton-whatsapp boton-whatsapp-fijo">
+    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20este%20producto." target="_blank" class="boton-whatsapp-fijo">
         <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" height="50" width="50">
     </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
