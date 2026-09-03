@@ -139,7 +139,7 @@
             <div class="vaucher-cabecera">
                 <p class="etiqueta" style="margin: 0;">Resumen del Pedido</p>
                 <h1>Vínculo Bodas</h1>
-                <p class="vaucher-usuario">Novio(a): <strong><?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></strong></p>
+                <p class="vaucher-usuario">Cliente: <strong><?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></strong></p>
             </div>
 
             <!-- DETALLE DE PRODUCTOS ADQUIRIDOS -->
