@@ -101,37 +101,68 @@ table { width: 100%; border-collapse: collapse; text-align: left; }
 th, td { padding: 13px; border-bottom: 1px solid #ebd6ce; }
 th { color: var(--vino-oscuro); }
 
-/*boton de whatsapp*/
-.boton-whatsapp{
-    background-color: #25D366; color: white; padding: 10px 20px; 
-    text-decoration: none; border-radius: 5px; font-weight: bold; 
-    display: inline-flex; align-items: center; font-family: Arial, sans-serif;
+/* ==========================================================================
+   SECCIÓN WHATSAPP CORREGIDA
+   ========================================================================== */
+
+/* Botón Normal de Consulta en Productos (Con efecto Esmeralda al presionar) */
+.boton-whatsapp {
+    background-color: #25D366; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    font-weight: bold; 
+    display: inline-flex; 
+    align-items: center; 
+    font-family: Arial, sans-serif;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
+
+.boton-whatsapp:hover {
+    background-color: #128C7E; /* Verde oscuro estándar al pasar el mouse */
+}
+
+/* Efecto Esmeralda al hacer clic (Mantenido presionado) */
+.boton-whatsapp:active {
+    background-color: #50c878 !important; /* Color Esmeralda Puro */
+    transform: scale(0.97); /* Pequeña pulsación física */
+}
+
+
+/* Botón Fijo Flotante en Pantalla Completa (Corregido y Funcional) */
 .boton-whatsapp-fijo {
-    position: fixed;
-    bottom: 20px;       /* Distancia desde abajo */
-    right: 20px;        /* Distancia desde la derecha */
+    position: fixed !important; /* Fuerza la posición pase lo que pase */
+    bottom: 24px;       
+    right: 24px;        
     background-color: #25D366;
-    color: white;
+    color: white !important;
     text-decoration: none;
-    padding: 15px 20px;
-    border-radius: 50px; /* Bordes completamente redondeados */
+    padding: 15px 22px;
+    border-radius: 50px; 
     font-family: Arial, sans-serif;
     font-weight: bold;
     font-size: 14px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
-    z-index: 1000;      /* Se asegura de quedar por encima de cualquier otro elemento */
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.35); 
+    z-index: 99999 !important; /* Elevado sobre cualquier sección o modal */
     display: flex;
     align-items: center;
-    gap: 8px;           /* Espacio entre el texto y un posible icono */
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    gap: 8px;           
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto visual cuando el usuario pasa el mouse por encima */
+/* Efectos interactivos del botón fijo */
 .boton-whatsapp-fijo:hover {
-    background-color: #128C7E; /* Verde más oscuro */
-    transform: scale(1.05);    /* Se agranda un 5% */
+    background-color: #128C7E; 
+    transform: translateY(-4px) scale(1.03); /* Movimiento fluido hacia arriba */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.45);
 }
+
+.boton-whatsapp-fijo:active {
+    background-color: #50c878 !important; /* Color Esmeralda también en el flotante */
+    transform: translateY(-1px) scale(0.98);
+}
+
 
 @media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 500px) { .portada { padding: 64px 24px; } .seccion-productos, .seccion-nosotros { width: min(100% - 32px,1120px); padding: 55px 0; } .rejilla-productos { grid-template-columns: 1fr; } .caja-checkout { padding: 25px; } }
