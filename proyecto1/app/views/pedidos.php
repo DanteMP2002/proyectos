@@ -61,6 +61,7 @@
                         <th>Método de Pago</th>
                         <th>Total</th>
                         <th>Estado</th>
+                        <th>Detalles</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,11 +83,16 @@
                                         <span class="estado-pedido estado-cancelado">Cancelado</span>
                                     <?php endif; ?>
                                 </td>
+                                <td>
+                                    <a href="<?= URL_BASE ?>/pedido/detalle/<?= htmlspecialchars($pedido['id']) ?>" style="color: var(--vino); font-weight: 700;">
+                                        Ver detalles
+                                    </a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="5" style="text-align: center; padding: 40px; color: var(--suave);">
+                            <td colspan="6" style="text-align: center; padding: 40px; color: var(--suave);">
                                 Aún no has registrado ningún pedido. ¡Explora nuestro catálogo para comenzar!
                             </td>
                         </tr>
