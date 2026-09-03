@@ -81,7 +81,7 @@ unset($_SESSION['mensaje_compra']);
                             $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera saber mas informacion sobre este.";
                             
                             // 4. Codificamos el texto para la URL (convierte espacios en %20, comas, etc.)
-                            $enlace_dinamico = "https://wa.me" . $telefono . "?text=" . rawurlencode($mensaje);
+                            $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
                         ?>
 
                     <!-- Si el stock es cero, la tarjeta se conserva pero la compra se bloquea. -->
@@ -119,7 +119,7 @@ unset($_SESSION['mensaje_compra']);
                                     </button>
                                 <?php endif; ?>
                                 <a href="<?= $enlace_dinamico ?>" target="_blank">
-                                    <button class="boton-secundario boton-whatsapp">
+                                    <button class="boton-whatsapp">
                                         mas informacion
                                     </button>
                                 </a>

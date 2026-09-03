@@ -1,5 +1,8 @@
 /* Paleta principal de la tienda. */
-:root { --vino: #7a2847; --vino-oscuro: #4e1730; --rosa: #d99aae; --crema: #fff9f5; --arena: #f6e7df; --texto: #33252a; --suave: #745f65; --blanco: #fff; --sombra: 0 15px 36px rgba(83,35,53,.13); }
+:root {
+    --vino: #7a2847; --vino-oscuro: #4e1730; --rosa: #ffaacc;
+    --crema: #fff9f5; --arena: #f6e7df; --texto: #33252a;
+    --suave: #745f65; --blanco: #fff; --sombra: 0px 10px 10px 1px #7a284788; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; color: var(--texto); background: var(--crema); font-family: Arial, Helvetica, sans-serif; }
@@ -43,7 +46,10 @@ a { color: inherit; text-decoration: none; }
 /* Producto sin stock: la foto se atenúa y el sello comunica que no se puede comprar. */
 .producto-agotado .contenedor-imagen-producto::after { position: absolute; content: ''; inset: 0; background: rgba(35, 29, 31, .42); }
 .producto-agotado img { filter: grayscale(1); }
-.sello-agotado { position: absolute; z-index: 1; top: 50%; left: 50%; padding: 8px 14px; border: 2px solid #fff; color: #fff; background: #b62535; box-shadow: 0 3px 9px rgba(0,0,0,.3); font-size: .8rem; font-weight: 800; letter-spacing: .13em; transform: translate(-50%, -50%) rotate(-8deg); }
+.sello-agotado { position: absolute; z-index: 1; top: 50%; left: 50%; padding: 8px 14px; 
+    border: 2px solid #fff; color: #fff; background: #b62535;
+    box-shadow: 0 3px 9px rgba(0,0,0,.3); font-size: 1.25rem; font-weight: bold; 
+    letter-spacing: .25rem; transform: translate(-50%, -50%) rotate(-20deg); }
 .boton-deshabilitado, .boton-deshabilitado:hover { border-color: #b9acaf; color: #85777b; background: #eee7e8; cursor: not-allowed; transform: none; }
 .contenido-producto { padding: 20px; }
 .categoria-producto { font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
