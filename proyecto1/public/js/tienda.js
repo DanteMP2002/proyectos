@@ -210,11 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Listeners del mouse para Computadoras
-    el.addEventListener('mousedown', startDrag);
-    document.addEventListener('mousemove', doDrag, { passive: false });
-    document.addEventListener('mouseup', stopDrag);
-
     // Listeners táctiles para Celulares
     el.addEventListener('touchstart', startDrag, { passive: true });
     document.addEventListener('touchmove', doDrag, { passive: false });
