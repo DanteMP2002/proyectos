@@ -9,7 +9,7 @@ unset($_SESSION['mensaje_compra']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vínculo Bodas - Tienda</title>
+    <title>Vínculo Bodas | Tienda</title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
 </head>
 <body>
