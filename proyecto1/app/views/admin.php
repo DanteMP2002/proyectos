@@ -8,7 +8,7 @@ $token = Autenticacion::tokenFormulario();
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Panel Administrador | Vínculo Bodas</title>
+        <title>Pavnel Administrador | Vínculo Bodas</title>
         <!-- Tu CSS original se mantiene si es necesario, pero añadimos el nuevo exclusivo para el Admin -->
         <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
         <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/stylesAdmin.css">
