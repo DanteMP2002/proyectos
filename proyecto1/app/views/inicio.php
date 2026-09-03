@@ -35,7 +35,7 @@ unset($_SESSION['mensaje_compra']);
                 </span>
 
                 <!-- NUEVO ENLACE PARA EL CLIENTE -->
-                <a href="<?= URL_BASE ?>/pedidos" style="color: var(--vino); font-weight: 700; margin-left: 10px; text-decoration: underline;">
+                <a href="<?= URL_BASE ?>/pedido/mispedidos" style="color: var(--vino); font-weight: 700; margin-left: 10px; text-decoration: underline;">
                     Mis Pedidos
                 </a>
 
