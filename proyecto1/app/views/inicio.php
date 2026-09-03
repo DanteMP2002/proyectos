@@ -73,12 +73,13 @@ unset($_SESSION['mensaje_compra']);
                         <?php
                             // 1. Extraemos el nombre del producto actual
                             $nombre_producto = $producto['nombre']; 
-                            
+                            // Supongamos que en tu base de datos guardas la ruta de la imagen (ej: "imagenes/tele.jpg" o "https://tusitio.com")
+                            $url_imagen = URL_BASE . $producto['imagen'];
                             // 2. Definimos tu número de WhatsApp (código de país + número, sin + ni espacios)
                             $telefono = "51902021468"; // Reemplaza con tu número de WhatsApp
                             
                             // 3. Redactamos el mensaje insertando la variable del producto
-                            $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera saber mas informacion sobre este.";
+                            $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera saber mas informacion sobre este.\nProducto: " . $url_imagen;
                             
                             // 4. Codificamos el texto para la URL (convierte espacios en %20, comas, etc.)
                             $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
