@@ -69,3 +69,65 @@ $('#formulario-administrador').addEventListener('submit', (e) => { e.preventDefa
 document.addEventListener('keydown', (evento) => { if (evento.ctrlKey && evento.shiftKey && evento.key.toLowerCase() === 'a') abrir('modal-administrador'); });
 $('#fondo-modal').addEventListener('click', () => document.querySelectorAll('.visible').forEach((elemento) => elemento.classList.remove('visible')));
 actualizarResumen();
+
+// ==========================================================================
+// SISTEMA DE FILTRADO Y ORDENAMIENTO EN TIEMPO REAL (SIN RECARGAR PAGINA)
+// ==========================================================================
+document.addEventListener("DOMContentLoaded", () => {
+    const buscadorTexto = document.getElementById("buscador-texto");
+    const filtroCategoria = document.getElementById("filtro-categoria");
+    const ordenPrecio = document.getElementById("orden-precio");
+    const contenedorProductos = document.getElementById("contenedor-productos");
+    
+    // Obtenemos una lista estática original de todas las tarjetas de productos
+    const productosTarjetas = Array.from(contenedorProductos.querySelectorAll(".tarjeta-producto"));
+
+    // Función principal para filtrar por texto y categoría simultáneamente
+    function filtrarProductos() {
+        const textoBusqueda = buscadorTexto.value.toLowerCase().trim();
+        const categoriaSeleccionada = filtroCategoria.value;
+
+        productosTarjetas.forEach(tarjeta => {
+            const nombre = tarjeta.getAttribute("data-nombre");
+            const categoria = tarjeta.getAttribute("data-categoria");
+
+            // Validaciones combinadas (Buscador + Select)
+            const coincideTexto = nombre.includes(textoBusqueda);
+            const coincideCategoria = categoriaSeleccionada === "" || categoria === categoriaSeleccionada;
+
+            // Si pasa ambos filtros se muestra, si no, se oculta con CSS dinámico
+            if (coincideTexto && coincideCategoria) {
+                tarjeta.style.display = ""; 
+            } else {
+                tarjeta.style.display = "none";
+            }
+        });
+    }
+
+    // Función para reordenar las tarjetas por precio (Menor/Mayor)
+    function ordenarProductos() {
+        const tipoOrden = ordenPrecio.value;
+        
+        // Si no hay orden seleccionado, usamos el orden original de la base de datos
+        if (tipoOrden === "") {
+            productosTarjetas.forEach(tarjeta => contenedorProductos.appendChild(tarjeta));
+            return;
+        }
+
+        // Clonamos y ordenamos el array basado en el precio guardado en el data-attribute
+        const tarjetasOrdenadas = [...productosTarjetas].sort((a, b) => {
+            const precioA = parseFloat(a.getAttribute("data-precio"));
+            const precioB = parseFloat(b.getAttribute("data-precio"));
+
+            return tipoOrden === "menor-mayor" ? precioA - precioB : precioB - precioA;
+        });
+
+        // Reinyectamos los elementos ordenados en el contenedor sin recargar la página
+        tarjetasOrdenadas.forEach(tarjeta => contenedorProductos.appendChild(tarjeta));
+    }
+
+    // Escuchadores de eventos en tiempo real (Input y Selects)
+    buscadorTexto.addEventListener("input", filtrarProductos);
+    filtroCategoria.addEventListener("change", filtrarProductos);
+    ordenPrecio.addEventListener("change", ordenarProductos);
+});

@@ -49,7 +49,7 @@ unset($_SESSION['mensaje_compra']);
         <?php if ($mensajeCompra): ?>
             <p class="aviso-compra"><?= htmlspecialchars($mensajeCompra) ?></p>
         <?php endif; ?>
-
+  
         <!-- Catálogo obtenido de la tabla `productos`. -->
         <section class="seccion-productos" id="productos">
             <div class="titulo-seccion">
@@ -57,71 +57,88 @@ unset($_SESSION['mensaje_compra']);
                 <h2>Productos destacados</h2>
             </div>
 
-            <div class="filtro-productos">
-                <label>
-                    Filtrar por categoría
+            <!-- ─── NUEVA BARRA DE FILTROS COMBINADOS ─── -->
+            <div class="filtro-productos" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; background: #fffdfc; padding: 20px; border-radius: 8px; border: 1px solid #ebd6ce;">
+                
+                <!-- Buscador por Texto -->
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.85rem; color: #745f65;">Buscar producto</label>
+                    <input type="text" id="buscador-texto" placeholder="Escribe el nombre del producto...">
+                </div>
+
+                <!-- Filtro por Categoría -->
+                <div style="flex: 1; min-width: 180px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.85rem; color: #745f65;">Filtrar por categoría</label>
                     <select id="filtro-categoria">
-                        <option value="">Todas</option>
-                    <!--recorrer lista de categorias en base de datos -->
+                        <option value="">Todas las categorías</option>
+                        <?php 
+                        // Extraemos las categorías únicas que existen en tu array de productos actual de PHP
+                        $categorias_unicas = array_unique(array_column($productos, 'categoria'));
+                        foreach ($categorias_unicas as $cat): 
+                            if(!empty($cat)):
+                        ?>
+                            <option value="<?= htmlspecialchars($cat) ?>"><?= htmlspecialchars($cat) ?></option>
+                        <?php 
+                            endif;
+                        endforeach; 
+                        ?>
                     </select>
-                </label>
+                </div>
+
+                <!-- Ordenar por Precio -->
+                <div style="flex: 1; min-width: 180px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.85rem; color: #745f65;">Ordenar por precio</label>
+                    <select id="orden-precio">
+                        <option value="">Recomendados</option>
+                        <option value="menor-mayor">Precio: Menor a Mayor</option>
+                        <option value="mayor-menor">Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+
             </div>
 
-            <div class="rejilla-productos">
+            <!-- ─── REJILLA DE PRODUCTOS (Ajustada con data-attributes para JS) ─── -->
+            <div class="rejilla-productos" id="contenedor-productos">
                 <?php foreach ($productos as $producto): ?>
                     <?php $agotado = (int) $producto['stock'] < 1; ?>
-                        <?php
-                            // 1. Extraemos el nombre del producto actual
-                            $nombre_producto = $producto['nombre']; 
+                    <?php
+                    // Construimos el enlace dinámico de WhatsApp con el nombre del producto
+                        $nombre_producto = $producto['nombre']; 
+                        $telefono = "51902021468"; 
+                        $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera mas informacion.";
+                        $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
+                    ?>
 
-                            // 2. Definimos tu número de WhatsApp (código de país + número, sin + ni espacios)
-                            $telefono = "51902021468"; // Reemplaza con tu número de WhatsApp
-                            
-                            // 3. Redactamos el mensaje insertando la variable del producto
-                            $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera mas informacion.";
-                            
-                            // 4. Codificamos el texto para la URL (convierte espacios en %20, comas, etc.)
-                            $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
-                        ?>
-
-                    <!-- Si el stock es cero, la tarjeta se conserva pero la compra se bloquea. -->
-                    <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>">
+                    <!-- Agregamos data-categoria, data-nombre y data-precio para que JavaScript pueda leerlos -->
+                    <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>" 
+                             data-nombre="<?= htmlspecialchars(mb_strtolower($producto['nombre'])) ?>"
+                             data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
+                             data-precio="<?= (float)$producto['precio'] ?>">
 
                         <div class="contenedor-imagen-producto">
-                            <img
-                                src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>"
-                                alt="<?= htmlspecialchars($producto['nombre']) ?>"
-                            >
+                            <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
                             <?php if ($agotado): ?>
                                 <span class="sello-agotado">AGOTADO</span>
                             <?php endif; ?>
                         </div>
 
                         <div class="contenido-producto">
-                            <span class="categoria-producto">
-                                <?= htmlspecialchars($producto['categoria']) ?>
-                            </span>
+                            <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
                             <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
-                            <p class="descripcion-producto">
-                                <?= htmlspecialchars($producto['descripcion']) ?>
-                            </p>
+                            <p class="descripcion-producto"><?= htmlspecialchars($producto['descripcion']) ?></p>
 
                             <div class="pie-producto">
                                 <strong>S/ <?= number_format((float) $producto['precio'], 2) ?></strong>
 
                                 <?php if ($agotado): ?>
-                                    <button class="boton-secundario boton-deshabilitado" disabled>
-                                        Agotado
-                                    </button>
+                                    <button class="boton-secundario boton-deshabilitado" disabled>Agotado</button>
                                 <?php else: ?>
-                                    <button class="boton-secundario" data-agregar="<?= (int) $producto['id'] ?>">
-                                        Añadir
-                                    </button>
+                                    <button class="boton-secundario" data-agregar="<?= (int) $producto['id'] ?>">Añadir</button>
                                 <?php endif; ?>
-                                <a href="<?= $enlace_dinamico ?>" target="_blank">
-                                    <button class="boton-whatsapp">
-                                        mas informacion
-                                    </button>
+                                
+                                <!-- CORRECCIÓN: Botón directo sin anidar <button> dentro de <a> para evitar errores HTML -->
+                                <a href="<?= $enlace_dinamico ?>" target="_blank" class="boton-whatsapp">
+                                    Más información
                                 </a>
                             </div>
                         </div>
@@ -257,7 +274,7 @@ unset($_SESSION['mensaje_compra']);
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
      <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20este%20producto." target="_blank" class="boton-whatsapp-fijo">
+    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20los%20productos%20de%20su%20tienda." target="_blank" class="boton-whatsapp-fijo">
         <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" height="50" width="50">
     </a>
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
