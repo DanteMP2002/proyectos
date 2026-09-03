@@ -143,84 +143,84 @@ document.addEventListener("DOMContentLoaded", () => {
     let offsetY = 0;
     let hasMoved = false;
 
-    // Asegurar que el elemento tenga posición inicial calculada por coordenadas físicas fijas
+    // Inicializar el elemento de forma absoluta respetando la esquina inferior izquierda
     const rect = el.getBoundingClientRect();
     el.style.right = 'auto';
     el.style.bottom = 'auto';
     el.style.left = rect.left + 'px';
     el.style.top = rect.top + 'px';
 
-    // Función de inicio de arrastre (Mouse y Touch)
+    // Evento unificado para capturar coordenadas
+    function getCoords(e) {
+        return e.type.includes('touch') ? e.touches[0] : e;
+    }
+
+    // 1. INICIO DEL ARRASTRE: Solo cuando se mantiene presionado el click o el toque
     function startDrag(e) {
-        // Ignorar si se hace clic con el botón derecho del mouse
-        if (e.button && e.button !== 0) return;
+        if (e.button && e.button !== 0) return; // Ignorar clicks derechos
 
         isDragging = true;
         hasMoved = false;
 
-        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-
-        // Calcular la distancia entre el clic y la esquina superior izquierda del botón
-        offsetX = clientX - el.offsetLeft;
-        offsetY = clientY - el.offsetTop;
+        const coords = getCoords(e);
+        offsetX = coords.clientX - el.offsetLeft;
+        offsetY = coords.clientY - el.offsetTop;
 
         el.style.cursor = 'grabbing';
+        el.style.transition = 'none'; // Apagamos transiciones para que el movimiento sea instantáneo
     }
 
-    // Función de movimiento continuo
+    // 2. MOVIMIENTO CONTINUO: Se ejecuta solo si isDragging es verdadero
     function doDrag(e) {
         if (!isDragging) return;
 
-        // Prevenir scroll de fondo en móviles y selección de texto en PC
+        // Previene comportamientos nativos extraños (como scroll de página en móviles)
         if (e.cancelable) e.preventDefault();
 
-        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+        const coords = getCoords(e);
+        let newX = coords.clientX - offsetX;
+        let newY = coords.clientY - offsetY;
 
-        // Nuevas posiciones deseadas
-        let newX = clientX - offsetX;
-        let newY = clientY - offsetY;
-
-        // Controlar límites para que el botón no se salga de la pantalla
+        // Mantener dentro de las dimensiones visibles de la pantalla
         const maxUnX = window.innerWidth - el.offsetWidth;
         const maxUnY = window.innerHeight - el.offsetHeight;
 
-        newX = Math.max(0, Math.min(newX, maxUnX));
-        newY = Math.max(0, Math.min(newY, maxUnY));
+        newX = Math.max(10, Math.min(newX, maxUnX - 10));
+        newY = Math.max(10, Math.min(newY, maxUnY - 10));
 
         el.style.left = newX + 'px';
         el.style.top = newY + 'px';
         hasMoved = true;
     }
 
-    // Función de liberación del botón
+    // 3. FINALIZACIÓN: Al soltar el click o levantar el dedo, se apaga de inmediato
     function stopDrag(e) {
         if (!isDragging) return;
         isDragging = false;
         el.style.cursor = 'pointer';
 
-        // Si se desplazó de su lugar, anulamos la acción del enlace nativo temporalmente
+        // Si el usuario lo arrastró de lugar, bloqueamos que se ejecute el enlace wa.me por accidente
         if (hasMoved) {
             e.preventDefault();
-            const stopClick = (event) => {
+            const evitarClickFalso = (event) => {
                 event.preventDefault();
-                el.removeEventListener('click', stopClick, true);
+                el.removeEventListener('click', evitarClickFalso, true);
             };
-            el.addEventListener('click', stopClick, true);
+            el.addEventListener('click', evitarClickFalso, true);
         }
     }
 
-    // Eventos para Computadoras (Mouse)
+    // Listeners del mouse para Computadoras
     el.addEventListener('mousedown', startDrag);
     document.addEventListener('mousemove', doDrag, { passive: false });
     document.addEventListener('mouseup', stopDrag);
 
-    // Eventos para Celulares (Pantallas Táctiles)
+    // Listeners táctiles para Celulares
     el.addEventListener('touchstart', startDrag, { passive: true });
     document.addEventListener('touchmove', doDrag, { passive: false });
     document.addEventListener('touchend', stopDrag);
 });
+
 
 
 // Enlazador opcional para abrir tu modal de login existente al pulsar el botón del header

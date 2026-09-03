@@ -132,24 +132,26 @@ th { color: var(--vino-oscuro); }
 
 /* Botón Fijo Flotante en Pantalla Completa (Corregido y Funcional) */
 .boton-whatsapp-fijo {
-    position: fixed !important; /* Fuerza la posición pase lo que pase */
+    position: fixed !important; 
     bottom: 24px;       
-    right: 24px;        
+    left: 24px;         /* Cambiado de right a left para situarlo a la izquierda */
+    right: auto !important; /* Anula cualquier margen derecho previo */
     background-color: #25D366;
     color: white !important;
     text-decoration: none;
     padding: 15px 22px;
     border-radius: 50px; 
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.35); 
-    z-index: 99999 !important; /* Elevado sobre cualquier sección o modal */
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.25); 
+    z-index: 99999 !important; 
     display: flex;
     align-items: center;
     gap: 8px;           
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;    
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
+
 
 /* Efectos interactivos del botón fijo */
 .boton-whatsapp-fijo:hover {
