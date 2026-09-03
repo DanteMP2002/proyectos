@@ -35,4 +35,31 @@ class PedidoControlador {
         } catch (Throwable $error) { $_SESSION['mensaje_admin'] = $error->getMessage(); }
         header('Location: ' . URL_BASE . '/pedido/detalle/' . $id);
     }
+    // Esta función responderá a la URL: /pedido/mispedidos
+    public function mispedidos()
+    {
+        // 1. Protección de ruta: si no está logueado, va al inicio
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: ' . URL_BASE . '/inicio');
+            exit;
+        }
+
+        $usuario_id = $_SESSION['usuario']['id'];
+        $pedidosCliente = [];
+
+        try {
+            // 2. Consulta segura usando tu clase Conexion
+            $conexion = Conexion::obtener();
+            $stmt = $conexion->prepare("SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY creado_en DESC");
+            $stmt->execute([$usuario_id]);
+            $pedidosCliente = $stmt->fetchAll();
+            
+        } catch (PDOException $e) {
+            $pedidosCliente = [];
+        }
+
+        // 3. Cargamos la vista pública del cliente (ajusta la ruta según tus vistas)
+        // Normalmente las guardas en /app/views/ o similar.
+        require_once __DIR__ . '/../views/pedidos.php';
+    }
 }
