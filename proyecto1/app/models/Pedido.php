@@ -92,4 +92,15 @@ class Pedido {
             throw $error;
         }
     }
+
+        /**
+     * Devuelve el historial de pedidos de un cliente específico.
+     * Exclusivo para la interfaz del cliente final.
+     */
+    public function listarPorUsuario(int $usuarioId): array {
+        $stmt = $this->bd->prepare('SELECT id, codigo, total, metodo_pago, estado, creado_en FROM pedidos WHERE usuario_id = :usuario_id ORDER BY creado_en DESC');
+        $stmt->execute(['usuario_id' => $usuarioId]);
+        return $stmt->fetchAll();
+    }
+
 }
