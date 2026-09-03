@@ -162,6 +162,19 @@ th { color: var(--vino-oscuro); }
     background-color: #50c878 !important; /* Color Esmeralda también en el flotante */
     transform: translateY(-1px) scale(0.98);
 }
+/* Bloqueo de selección nativa para evitar el texto fantasma */
+.boton-whatsapp-fijo {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; /* Evita que el navegador seleccione letras al arrastrar */
+    touch-action: none;    /* Crucial: Evita que el celular haga scroll de la página al arrastrar el botón */
+}
+
+.boton-whatsapp-fijo img {
+    pointer-events: none;  /* Evita que el navegador intente "guardar o arrastrar" la imagen suelta */
+    -webkit-user-drag: none;
+}
 
 
 @media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }

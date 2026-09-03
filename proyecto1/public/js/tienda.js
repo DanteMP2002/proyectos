@@ -139,90 +139,89 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!el) return;
 
     let isDragging = false;
-    let startX, startY, initialRight, initialBottom;
+    let offsetX = 0;
+    let offsetY = 0;
     let hasMoved = false;
 
-    // Prevenir el comportamiento por defecto de arrastrar imágenes nativo del navegador
-    el.addEventListener('dragstart', (e) => e.preventDefault());
+    // Asegurar que el elemento tenga posición inicial calculada por coordenadas físicas fijas
+    const rect = el.getBoundingClientRect();
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.left = rect.left + 'px';
+    el.style.top = rect.top + 'px';
 
-    // Evento de inicio (Mouse y Touch)
-    function onStart(e) {
+    // Función de inicio de arrastre (Mouse y Touch)
+    function startDrag(e) {
+        // Ignorar si se hace clic con el botón derecho del mouse
+        if (e.button && e.button !== 0) return;
+
         isDragging = true;
         hasMoved = false;
 
-        // Detectar si es touch o mouse
         const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
         const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
 
-        startX = clientX;
-        startY = clientY;
+        // Calcular la distancia entre el clic y la esquina superior izquierda del botón
+        offsetX = clientX - el.offsetLeft;
+        offsetY = clientY - el.offsetTop;
 
-        // Obtener las posiciones actuales calculadas por el navegador
-        const style = window.getComputedStyle(el);
-        initialRight = parseFloat(style.right);
-        initialBottom = parseFloat(style.bottom);
-
-        // Añadir clases o estilos de arrastre sutiles
-        el.style.transition = 'none'; 
         el.style.cursor = 'grabbing';
     }
 
-    // Evento de movimiento (Mouse y Touch)
-    function onMove(e) {
+    // Función de movimiento continuo
+    function doDrag(e) {
         if (!isDragging) return;
+
+        // Prevenir scroll de fondo en móviles y selección de texto en PC
+        if (e.cancelable) e.preventDefault();
 
         const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
         const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
 
-        // Calcular la distancia recorrida
-        const deltaX = startX - clientX; // Invertido porque evaluamos desde la derecha
-        const deltaY = startY - clientY; // Invertido porque evaluamos desde abajo
+        // Nuevas posiciones deseadas
+        let newX = clientX - offsetX;
+        let newY = clientY - offsetY;
 
-        // Si se mueve más de 5 píxeles, se considera un arrastre real y no un clic
-        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
-            hasMoved = true;
-        }
+        // Controlar límites para que el botón no se salga de la pantalla
+        const maxUnX = window.innerWidth - el.offsetWidth;
+        const maxUnY = window.innerHeight - el.offsetHeight;
 
-        // Asignar nuevas coordenadas respetando los márgenes de la pantalla
-        let newRight = initialRight + deltaX;
-        let newBottom = initialBottom + deltaY;
+        newX = Math.max(0, Math.min(newX, maxUnX));
+        newY = Math.max(0, Math.min(newY, maxUnY));
 
-        // Límites básicos para que no se salga de la pantalla visual
-        const maxRight = window.innerWidth - el.offsetWidth;
-        const maxBottom = window.innerHeight - el.offsetHeight;
-
-        el.style.right = `${Math.max(10, Math.min(newRight, maxRight))}px`;
-        el.style.bottom = `${Math.max(10, Math.min(newBottom, maxBottom))}px`;
+        el.style.left = newX + 'px';
+        el.style.top = newY + 'px';
+        hasMoved = true;
     }
 
-    // Evento de finalización (Mouse y Touch)
-    function onEnd(e) {
+    // Función de liberación del botón
+    function stopDrag(e) {
         if (!isDragging) return;
         isDragging = false;
         el.style.cursor = 'pointer';
 
-        // Si el usuario arrastró el botón, bloqueamos el clic para que no abra WhatsApp inmediatamente
+        // Si se desplazó de su lugar, anulamos la acción del enlace nativo temporalmente
         if (hasMoved) {
             e.preventDefault();
-            // Truco para interceptar y anular el evento del enlace nativo
-            const clickHandler = (event) => {
+            const stopClick = (event) => {
                 event.preventDefault();
-                el.removeEventListener('click', clickHandler);
+                el.removeEventListener('click', stopClick, true);
             };
-            el.addEventListener('click', clickHandler);
+            el.addEventListener('click', stopClick, true);
         }
     }
 
-    // Oyentes para entornos de escritorio (Mouse)
-    el.addEventListener('mousedown', onStart);
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onEnd);
+    // Eventos para Computadoras (Mouse)
+    el.addEventListener('mousedown', startDrag);
+    document.addEventListener('mousemove', doDrag, { passive: false });
+    document.addEventListener('mouseup', stopDrag);
 
-    // Oyentes para entornos móviles (Pantallas Táctiles)
-    el.addEventListener('touchstart', onStart, { passive: true });
-    document.addEventListener('touchmove', onMove, { passive: false });
-    document.addEventListener('touchend', onEnd);
+    // Eventos para Celulares (Pantallas Táctiles)
+    el.addEventListener('touchstart', startDrag, { passive: true });
+    document.addEventListener('touchmove', doDrag, { passive: false });
+    document.addEventListener('touchend', stopDrag);
 });
+
 
 // Enlazador opcional para abrir tu modal de login existente al pulsar el botón del header
 document.addEventListener("DOMContentLoaded", () => {
