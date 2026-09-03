@@ -44,9 +44,9 @@ unset($_SESSION['mensaje_compra']);
                 </a>
             <?php else: ?>
                 <!-- Si es invitado, ve la opción de ingresar (puedes enlazarlo a tu disparador de modal JS) -->
-                <a href="#" id="enlace-login-nav" style="color: var(--vino); font-weight: 700;">
+                <button data-mostrar-ingreso id="enlace-login-nav" style="color: var(--vino); font-weight: 700;">
                     Iniciar sesión / Registrarse
-                </a>
+                </button>
             <?php endif; ?>
         </nav>
 
