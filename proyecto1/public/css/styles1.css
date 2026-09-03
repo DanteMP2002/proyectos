@@ -95,5 +95,12 @@ table { width: 100%; border-collapse: collapse; text-align: left; }
 th, td { padding: 13px; border-bottom: 1px solid #ebd6ce; }
 th { color: var(--vino-oscuro); }
 
+/*boton de whatsapp*/
+.boton-whatsapp{
+    background-color: #25D366; color: white; padding: 10px 20px; 
+    text-decoration: none; border-radius: 5px; font-weight: bold; 
+    display: inline-flex; align-items: center; font-family: Arial, sans-serif;
+}
+
 @media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 500px) { .portada { padding: 64px 24px; } .seccion-productos, .seccion-nosotros { width: min(100% - 32px,1120px); padding: 55px 0; } .rejilla-productos { grid-template-columns: 1fr; } .caja-checkout { padding: 25px; } }
