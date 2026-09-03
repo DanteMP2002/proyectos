@@ -22,11 +22,32 @@ class PedidoControlador {
     }
 
     public function detalle(int $id): void {
-        Autenticacion::exigirAdministrador(); // PROTEGIDO
+        // 1. Protección de inicio de sesión básica
+        if (!isset($_SESSION['usuario'])) {
+            header('Location: ' . URL_BASE . '/inicio');
+            exit;
+        }
+
+        // 2. Obtenemos el detalle del pedido desde el modelo
         $detalle = $this->pedidos->detalleAdministracion($id);
-        if (!$detalle) { header('Location: ' . URL_BASE . '/pedido'); exit; }
+        if (!$detalle) { 
+            header('Location: ' . URL_BASE . '/inicio'); 
+            exit; 
+        }
+
+        // 3. EXCEPCIÓN DE SEGURIDAD: Si NO es administrador, comprobamos que sea SU propio pedido
+        if (!Autenticacion::esAdministrador()) {
+            if ((int)$detalle['pedido']['usuario_id'] !== (int)$_SESSION['usuario']['id']) {
+                // Si intenta espiar el id de pedido de otra persona, lo expulsamos
+                header('Location: ' . URL_BASE . '/pedido/mispedidos');
+                exit;
+            }
+        }
+
+        // 4. Despachamos la vista (La vista ahora sabrá qué estilos renderizar usando la sesión)
         require __DIR__ . '/../views/detalle_pedido_admin.php';
     }
+
 
     public function estado(int $id): void {
         Autenticacion::exigirAdministrador(); // PROTEGIDO
