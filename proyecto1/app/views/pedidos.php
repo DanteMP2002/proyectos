@@ -1,35 +1,3 @@
-<?php
-// 1. INICIALIZACIÓN Y SEGURIDAD
-require_once __DIR__ . '/helpers/Autenticacion.php'; 
-require_once __DIR__ . '/../../config/conexion.php';
-
-// Si no hay sesión iniciada, el usuario no tiene nada que hacer aquí. Lo mandamos al inicio.
-if (!isset($_SESSION['usuario'])) {
-    header('Location: ' . URL_BASE . '/inicio');
-    exit;
-}
-
-// 2. CONEXIÓN A LA BASE DE DATOS Y CONSULTA SEGURA
-// Importamos tu clase de conexión (Ajusta la ruta según la ubicación de este archivo)
-
-$usuario_id = $_SESSION['usuario']['id']; 
-$pedidosCliente = [];
-
-try {
-    // Invocamos tu conexión estática mediantePDO
-    $conexion = Conexion::obtener();
-    
-    // Ejecutamos la consulta filtrando por el ID del usuario logueado
-    $stmt = $conexion->prepare("SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY creado_en DESC");
-    $stmt->execute([$usuario_id]);
-    $pedidosCliente = $stmt->fetchAll();
-    
-} catch (PDOException $e) {
-    // Si necesitas depurar en desarrollo puedes descomentar la siguiente línea:
-    // echo "Error: " . $e->getMessage();
-    $pedidosCliente = [];
-}
-?>
 <!doctype html>
 <html lang="es">
 <head>
