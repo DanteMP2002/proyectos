@@ -33,6 +33,12 @@ unset($_SESSION['mensaje_compra']);
                 <span style="color: var(--vino-oscuro); font-weight: 700;">
                     👤 <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>
                 </span>
+
+                <!-- NUEVO ENLACE PARA EL CLIENTE -->
+                <a href="<?= URL_BASE ?>/pedidos" style="color: var(--vino); font-weight: 700; margin-left: 10px; text-decoration: underline;">
+                    Mis Pedidos
+                </a>
+
                 <a href="<?= URL_BASE ?>/login/salir" style="color: #e74c3c; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='#c0392b'" onmouseout="this.style.color='#e74c3c'">
                     Cerrar sesión
                 </a>
