@@ -360,3 +360,7 @@ body.body-admin {
         flex-wrap: wrap;
     }
 }
+/* Colores específicos para los estados de pedidos de la tabla */
+.badge-estado.pendiente { background: rgba(243, 156, 18, 0.15); color: var(--naranja-pendiente); border: 1px solid rgba(243, 156, 18, 0.3); }
+.badge-estado.pagado { background: rgba(46, 204, 113, 0.15); color: var(--verde-exito); border: 1px solid rgba(46, 204, 113, 0.3); }
+.badge-estado.cancelado { background: rgba(231, 76, 60, 0.15); color: var(--rojo-error); border: 1px solid rgba(231, 76, 60, 0.3); }
