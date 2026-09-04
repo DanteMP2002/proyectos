@@ -153,45 +153,6 @@ unset($_SESSION['mensaje_compra']);
                         </div>
                         
                         <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
-
-                        <div class="contenido-producto" style="display: flex; flex-direction: column; min-height: 250px;">
-                            <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
-                            <h3 style="margin: 6px 0 8px; min-height: 52px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
-                                <?= htmlspecialchars($producto['nombre']) ?>
-                            </h3>
-                            <p class="descripcion-producto" style="flex: 1; margin-bottom: 15px;">
-                                <?= htmlspecialchars($producto['descripcion']) ?>
-                            </p>
-
-                            <!-- CONTENEDOR DE PRECIO Y ACCIONES -->
-                            <div style="display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #efd9d1; padding-top: 12px;">
-                                
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
-                                    <!-- El inline-block y nowrap garantizan que jamás se separe el S/ del número -->
-                                    <strong style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
-                                        S/ <?= number_format((float) $producto['precio'], 2) ?>
-                                    </strong>
-                                </div>
-
-                                <!-- BOTÓN DE ACCIÓN COMERCIAL PRINCIPAL -->
-                                <?php if ($agotado): ?>
-                                    <button class="boton-secundario boton-deshabilitado" disabled style="width: 100%; text-align: center; padding: 11px;">
-                                        Producto Agotado
-                                    </button>
-                                <?php else: ?>
-                                    <button class="boton-principal" data-agregar="<?= (int) $producto['id'] ?>" style="width: 100%; text-align: center; padding: 11px;">
-                                        Añadir al Carrito
-                                    </button>
-                                <?php endif; ?>
-                                
-                                <!-- ENLACE DE WHATSAPP DIRECTO DEL PRODUCTO -->
-                                <a href="<?= $enlace_dinamico ?>" target="_blank" class="boton-whatsapp" style="width: 100%; justify-content: center; padding: 11px; font-size: 0.95rem; border-radius: 4px;">
-                                    Consultar por WhatsApp
-                                </a>
-                            </div>
-                        </div>
-
                     </article>
 
                 <?php endforeach; ?>
