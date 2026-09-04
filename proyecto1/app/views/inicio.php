@@ -162,7 +162,7 @@ unset($_SESSION['mensaje_compra']);
 <!-- Modal reutilizable -->
 <div style="display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #efd9d1; padding-top: 12px;"
     id="modal-producto" class="modal" >
-    <div style="display: flex; justify-content: space-between; align-items: center;"
+    <div style="display: grid; justify-content: space-between; align-items: center;"
         class="modal-contenido">
                 <span class="cerrar" onclick="cerrarModal()">&times;</span>
                 <h2 id="modal-nombre"></h2>
