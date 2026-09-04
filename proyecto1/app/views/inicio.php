@@ -137,11 +137,10 @@ unset($_SESSION['mensaje_compra']);
                     <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>" 
                         data-nombre="<?= htmlspecialchars(mb_strtolower($producto['nombre'])) ?>"
                         data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
-                        data-precio="<?= (float)$producto['precio'] ?>"
-                        onclick="abrirModal(this)">
+                        data-precio="<?= (float)$producto['precio'] ?>">
                             
-                        <div class="contenedor-imagen-producto">
-                            <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
+                        <div class="contenedor-imagen-producto" onclick="abrirModal(this)">
+                            <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>" onclick="abrirModal(this)">
                             <?php if ($agotado): ?>
                                 <span class="sello-agotado">AGOTADO</span>
                             <?php endif; ?>
