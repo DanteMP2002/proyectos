@@ -162,7 +162,7 @@ unset($_SESSION['mensaje_compra']);
 <!-- Modal reutilizable -->
 <div style="display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #efd9d1; padding-top: 12px;"
     id="modal-producto" class="modal" >
-    <div style="display: grid; justify-content: space-between; align-items: center;"
+    <div style="display: flex; justify-content: space-between; align-items: center;"
         class="modal-contenido">
                 <span class="cerrar" onclick="cerrarModal()">&times;</span>
                 <h2 id="modal-nombre"></h2>
@@ -172,7 +172,9 @@ unset($_SESSION['mensaje_compra']);
                 <strong style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
                     S/ <strong id="modal-precio"></strong>
                 </strong>
-        
+                <button class="boton-principal" data-agregar="<?= (int) $producto['id'] ?>" style="width: 100%; text-align: center; padding: 11px;">
+                    Añadir Producto
+                </button>
                 <a id="modal-whatsapp" target="_blank" class="boton-whatsapp">Consultar por WhatsApp</a>
     </div>
 </div>
