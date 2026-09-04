@@ -135,17 +135,20 @@ unset($_SESSION['mensaje_compra']);
                      <!-- Si el stock es cero, la tarjeta se conserva pero la compra se bloquea. -->
                       
                     <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>" 
-                             data-nombre="<?= htmlspecialchars(mb_strtolower($producto['nombre'])) ?>"
-                             data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
-                             data-precio="<?= (float)$producto['precio'] ?>">
-
+                        data-nombre="<?= htmlspecialchars(mb_strtolower($producto['nombre'])) ?>"
+                        data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
+                        data-precio="<?= (float)$producto['precio'] ?>"
+                        onclick="abrirModal(this)">
+                            
                         <div class="contenedor-imagen-producto">
                             <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" alt="<?= htmlspecialchars($producto['nombre']) ?>">
                             <?php if ($agotado): ?>
                                 <span class="sello-agotado">AGOTADO</span>
                             <?php endif; ?>
                         </div>
-                    
+                        
+                        <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
+
                         <div class="contenido-producto" style="display: flex; flex-direction: column; min-height: 250px;">
                             <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
                             <h3 style="margin: 6px 0 8px; min-height: 52px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
@@ -189,6 +192,17 @@ unset($_SESSION['mensaje_compra']);
                 <?php endforeach; ?>
             </div>
         </section>
+
+<!-- Modal reutilizable -->
+<div id="modal-producto" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <h2 id="modal-nombre"></h2>
+        <p id="modal-descripcion"></p>
+        <strong id="modal-precio"></strong>
+        <a id="modal-whatsapp" target="_blank" class="boton-whatsapp">Consultar por WhatsApp</a>
+    </div>
+</div>
 
         <!-- Bloque informativo de la tienda. -->
         <section class="seccion-nosotros" id="nosotros">

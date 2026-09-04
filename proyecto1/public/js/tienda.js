@@ -233,3 +233,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+//MODAL REUTILIZABLE
+function abrirModal(element) {
+    document.getElementById("modal-nombre").innerText = element.dataset.nombre;
+    document.getElementById("modal-descripcion").innerText = element.dataset.descripcion;
+    document.getElementById("modal-precio").innerText = element.dataset.precio;
+    document.getElementById("modal-whatsapp").href = element.dataset.whatsapp;
+
+    document.getElementById("modal-producto").style.display = "flex";
+}
+
+function cerrarModal() {
+    document.getElementById("modal-producto").style.display = "none";
+}
+

@@ -178,6 +178,31 @@ th { color: var(--vino-oscuro); }
     -webkit-user-drag: none;
 }
 
+/*css para el modal*/
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.modal-contenido {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 90%;
+}
+.cerrar {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
 
 @media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 500px) { .portada { padding: 64px 24px; } .seccion-productos, .seccion-nosotros { width: min(100% - 32px,1120px); padding: 55px 0; } .rejilla-productos { grid-template-columns: 1fr; } .caja-checkout { padding: 25px; } }
