@@ -160,19 +160,20 @@ unset($_SESSION['mensaje_compra']);
         </section>
 
 <!-- Modal reutilizable -->
-<div id="modal-producto" class="modal">
-    <div class="modal-contenido">
-        <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <h2 id="modal-nombre"></h2>
-        <p id="modal-descripcion"></p>
-        <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
-        <!-- El inline-block y nowrap garantizan que jamás se separe el S/ del número -->
-        <strong id="modal-precio"
-        style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
-        S/ 
-        </strong>
-        <strong id="modal-precio"></strong>
-        <a id="modal-whatsapp" target="_blank" class="boton-whatsapp">Consultar por WhatsApp</a>
+<div style="display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #efd9d1; padding-top: 12px;"
+    id="modal-producto" class="modal" >
+    <div style="display: flex; justify-content: space-between; align-items: center;"
+        class="modal-contenido">
+                <span class="cerrar" onclick="cerrarModal()">&times;</span>
+                <h2 id="modal-nombre"></h2>
+                <p id="modal-descripcion"></p>
+                <!-- PRECIO -->                       
+                <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
+                <strong style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
+                    S/ <strong id="modal-precio"></strong>
+                </strong>
+        
+                <a id="modal-whatsapp" target="_blank" class="boton-whatsapp">Consultar por WhatsApp</a>
     </div>
 </div>
 
