@@ -165,6 +165,12 @@ unset($_SESSION['mensaje_compra']);
         <span class="cerrar" onclick="cerrarModal()">&times;</span>
         <h2 id="modal-nombre"></h2>
         <p id="modal-descripcion"></p>
+        <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
+        <!-- El inline-block y nowrap garantizan que jamás se separe el S/ del número -->
+        <strong id="modal-precio"
+        style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
+        S/ 
+        </strong>
         <strong id="modal-precio"></strong>
         <a id="modal-whatsapp" target="_blank" class="boton-whatsapp">Consultar por WhatsApp</a>
     </div>
