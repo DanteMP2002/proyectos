@@ -126,7 +126,7 @@ unset($_SESSION['mensaje_compra']);
                     <?php
                     // Construimos el enlace dinámico de WhatsApp con el nombre del producto
                         $nombre_producto = $producto['nombre']; 
-                        $telefono = "51902021468"; 
+                        $telefono = "51920134856"; 
                         $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera mas informacion.";
                         $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
                     ?>
@@ -316,7 +316,7 @@ unset($_SESSION['mensaje_compra']);
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
     <!-- Botón de WhatsApp Arrastrable -->
-    <a href="https://wa.me/51902021468?text=buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20los%20productos%20de%20su%20tienda." target="_blank" class="boton-whatsapp-fijo" id="whatsapp-flotante">
+    <a href="https://wa.me/51920134856?text=Buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20los%20productos%20de%20su%20tienda." target="_blank" class="boton-whatsapp-fijo" id="whatsapp-flotante">
         <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" draggable="false" style="width: 50px; height: 50px; display: block;">
     </a>
 
