@@ -164,18 +164,21 @@ unset($_SESSION['mensaje_compra']);
     id="modal-producto" class="modal" >
     <div style="display: flex; justify-content: space-between; align-items: center;"
         class="modal-contenido">
-                <span class="cerrar" onclick="cerrarModal()">&times;</span>
-                <h2 id="modal-nombre"></h2>
-                <p id="modal-descripcion"></p>
-                <!-- PRECIO -->                       
-                <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
-                <strong style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
-                    S/ <strong id="modal-precio"></strong>
-                </strong>
-                <button class="boton-principal" data-agregar="<?= (int) $producto['id'] ?>" style="width: 100%; text-align: center; padding: 11px;">
-                    Añadir Producto
-                </button>
-                <a id="modal-whatsapp" target="_blank" class="boton-whatsapp">Consultar por WhatsApp</a>
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <h2 id="modal-nombre"></h2>
+        <p id="modal-descripcion"></p>
+        <!-- PRECIO -->                       
+        <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
+        <strong style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
+            S/ <strong id="modal-precio"></strong>
+        </strong>
+        <button class="boton-principal" data-agregar="<?= (int) $producto['id'] ?>" style="width: 100%; text-align: center; padding: 11px;">
+            Añadir Producto
+        </button>
+        <a id="modal-whatsapp" target="_blank" class="boton-whatsapp" 
+            style="width: 100%; justify-content: center; padding: 11px; font-size: 0.95rem; border-radius: 4px;">
+            Consultar por WhatsApp
+        </a>
     </div>
 </div>
 
