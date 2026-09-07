@@ -128,6 +128,16 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                 <?php foreach ($productos as $producto): ?>
                     <?php $agotado = (int) $producto['stock'] < 1; ?>
                     <?php
+                    $imagenesCatalogo = array_map(
+                        static fn(array $imagen): string => URL_BASE . '/' . ltrim($imagen['ruta_imagen'], '/'),
+                        $producto['imagenes'] ?? []
+                    );
+                    if (!$imagenesCatalogo && !empty($producto['imagen'])) {
+                        $imagenesCatalogo[] = URL_BASE . '/' . ltrim($producto['imagen'], '/');
+                    }
+                    $imagenesJson = htmlspecialchars(json_encode($imagenesCatalogo, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8');
+                    ?>
+                    <?php
                     // Construimos el enlace dinámico de WhatsApp con el nombre del producto
                         $nombre_producto = $producto['nombre']; 
                         $telefono = "51920134856"; 
@@ -144,6 +154,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
                         data-precio="<?= (float)$producto['precio'] ?>"
                         data-imagen="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/banner2.png') ?>"
+                        data-imagenes="<?= $imagenesJson ?>"
                     >
                         <button class="boton-ver-detalle" type="button" data-ver-producto aria-label="Ver detalle de <?= htmlspecialchars($producto['nombre']) ?>">
                             <span class="contenedor-imagen-producto">
@@ -172,6 +183,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                 <div class="modal-imagen-visor">
                     <img id="modal-imagen" src="" alt="">
                 </div>
+                <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto"></div>
                 <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
                 <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
             </div>

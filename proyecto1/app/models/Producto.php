@@ -22,12 +22,42 @@ class Producto
 
     public function listarDisponibles(): array
     {
-        return $this->bd->query($this->consultaConPortada() . ' WHERE p.activo = 1 ORDER BY p.id DESC')->fetchAll();
+        $productos = $this->bd->query($this->consultaConPortada() . ' WHERE p.activo = 1 ORDER BY p.id DESC')->fetchAll();
+        return $this->adjuntarImagenes($productos);
     }
 
     public function listarTodos(): array
     {
-        return $this->bd->query($this->consultaConPortada() . ' ORDER BY p.id DESC')->fetchAll();
+        $productos = $this->bd->query($this->consultaConPortada() . ' ORDER BY p.id DESC')->fetchAll();
+        return $this->adjuntarImagenes($productos);
+    }
+
+    /** Añade todas las rutas de galería para las tarjetas y el modal del catálogo. */
+    private function adjuntarImagenes(array $productos): array
+    {
+        if (!$productos) {
+            return $productos;
+        }
+
+        $ids = array_map(static fn(array $producto): int => (int) $producto['id'], $productos);
+        $marcadores = implode(',', array_fill(0, count($ids), '?'));
+        $consulta = $this->bd->prepare("SELECT producto_id, ruta_imagen, es_principal FROM imagenes_producto WHERE producto_id IN ($marcadores) ORDER BY es_principal DESC, id ASC");
+        $consulta->execute($ids);
+
+        $imagenesPorProducto = [];
+        foreach ($consulta->fetchAll() as $imagen) {
+            $imagenesPorProducto[(int) $imagen['producto_id']][] = [
+                'ruta_imagen' => $imagen['ruta_imagen'],
+                'es_principal' => (int) $imagen['es_principal'] === 1,
+            ];
+        }
+
+        foreach ($productos as &$producto) {
+            $producto['imagenes'] = $imagenesPorProducto[(int) $producto['id']] ?? [];
+        }
+        unset($producto);
+
+        return $productos;
     }
 
     public function buscar(int $id): array|false
