@@ -36,7 +36,10 @@ $token = Autenticacion::tokenFormulario();
                 <nav class="navegacion-sidebar" aria-label="Navegación principal">
                     <a href="<?= URL_BASE ?>/inicio" class="nav-link"><span>🏪</span> Ver tienda</a>
                     <a href="<?= URL_BASE ?>/pedido" class="nav-link"><span>📦</span> Pedidos</a>
-                    <a href="<?= URL_BASE ?>/login/salir" class="nav-link salir"><span>🚪</span> Cerrar sesión</a>
+                    <form action="<?= URL_BASE ?>/login/salir" method="post" class="formulario-salir">
+                        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+                        <button class="nav-link salir" type="submit"><span>🚪</span> Cerrar sesión</button>
+                    </form>
                 </nav>
             </aside>
 

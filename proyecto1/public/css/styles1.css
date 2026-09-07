@@ -197,3 +197,30 @@ a { color: inherit; text-decoration: none; }
     display: block;
 }
 .fondo-modal.visible { display: block; }
+
+/* Ventanas de inicio de sesión, registro y acceso administrativo. */
+.modal-acceso {
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    display: none;
+    width: min(440px, calc(100% - 32px));
+    padding: 32px;
+    border-radius: 12px;
+    color: var(--texto-tienda);
+    background: var(--blanco-puro);
+    box-shadow: var(--sombra-modal);
+    transform: translate(-50%, -50%);
+}
+.modal-acceso.visible { display: block; }
+.modal-acceso .boton-cerrar { position: absolute; top: 12px; right: 12px; border: 0; background: transparent; color: var(--vino-principal); font-size: 1.5rem; }
+.modal-acceso form { display: grid; gap: 14px; margin-top: 18px; }
+.modal-acceso label { display: grid; gap: 6px; color: var(--vino-oscuro); font-weight: 700; }
+.modal-acceso input { width: 100%; padding: 10px; border: 1px solid var(--arena-detalle); border-radius: 4px; }
+.mensaje-formulario { min-height: 1.25rem; color: #b33333; }
+.cambio-formulario button { border: 0; color: var(--vino-principal); background: transparent; font-weight: 700; text-decoration: underline; }
+.formulario-salir { margin: 0; }
+.formulario-salir button { font: inherit; cursor: pointer; }
+.navegacion .formulario-salir .enlace-salir { border: 0; color: var(--texto-suave); background: transparent; font-weight: 700; }
+.navegacion .formulario-salir .enlace-salir:hover { color: var(--vino-principal); }

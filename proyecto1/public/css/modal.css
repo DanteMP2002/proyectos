@@ -1,18 +1,18 @@
 @import url('variables.css');
 
+/* Capa que cubre toda la pantalla al abrir el detalle de un producto. */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    z-index: 100;
-    background: rgba(33, 10, 20, 0.70);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 1100;
+    display: grid;
     padding: 20px;
+    place-items: center;
+    background: rgba(33, 10, 20, .70);
+    backdrop-filter: blur(4px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
+    transition: opacity .25s ease, visibility .25s ease;
 }
 
 .modal-overlay.visible {
@@ -20,123 +20,33 @@
     visibility: visible;
 }
 
+/* Caja interna: hacer clic aquí no cierra el modal. */
 .modal-caja {
     position: relative;
-    background: var(--blanco-puro);
-    border-radius: 16px;
     width: min(540px, 100%);
     max-height: 90vh;
     overflow-y: auto;
+    border-radius: 16px;
+    background: var(--blanco-puro);
     box-shadow: var(--sombra-modal);
-    transform: translateY(24px) scale(0.97);
-    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(24px) scale(.97);
+    transition: transform .25s ease;
 }
 
-.modal-overlay.visible .modal-caja {
-    transform: translateY(0) scale(1);
-}
+.modal-overlay.visible .modal-caja { transform: translateY(0) scale(1); }
+.modal-imagen-envoltorio { position: relative; }
+.modal-imagen-envoltorio img { display: block; width: 100%; max-height: 300px; object-fit: cover; }
+.modal-cuerpo { padding: 24px; }
+.modal-cerrar { position: absolute; top: 12px; right: 12px; z-index: 1; width: 36px; height: 36px; border: 0; border-radius: 50%; color: var(--vino-oscuro); background: var(--blanco-puro); font-size: 1.5rem; }
+.modal-nombre { margin: 0; color: var(--vino-oscuro); font-family: var(--fuente-titulos); font-size: 1.55rem; }
+.modal-descripcion { color: var(--texto-suave); line-height: 1.6; }
+.modal-etiqueta-categoria { position: absolute; bottom: 12px; left: 12px; padding: 5px 10px; border-radius: 99px; color: var(--blanco-puro); background: var(--vino-principal); font-size: .82rem; font-weight: 700; }
+.modal-fila-precio { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.modal-precio-valor { color: var(--vino-principal); font-family: var(--fuente-titulos); font-size: 1.8rem; }
+.modal-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.modal-boton-carrito, .modal-boton-whatsapp { padding: 12px; border: 0; border-radius: 4px; text-align: center; font-weight: 700; }
+.modal-boton-carrito { color: var(--blanco-puro); background: var(--vino-principal); }
+.modal-boton-whatsapp { color: var(--blanco-puro); background: var(--estado-whatsapp); }
+.modal-boton-carrito.agotado { cursor: not-allowed; opacity: .65; }
 
-.modal-nombre {
-    font-family: var(--fuente-titulos);
-    font-size: 1.55rem;
-    color: var(--vino-oscuro);
-}
-
-.modal-precio-valor {
-    font-size: 1.9rem;
-    font-family: var(--fuente-titulos);
-    color: var(--vino-principal);
-    font-weight: 700;
-}
-
-.modal-boton-carrito {
-    background: var(--vino-principal);
-    color: var(--blanco-puro);
-}
-
-.modal-boton-carrito:hover {
-    background: var(--vino-oscuro);
-}
-
-.modal-boton-whatsapp {
-    background: var(--estado-whatsapp);
-    color: var(--blanco-puro);
-}
-
-.modal-boton-whatsapp:hover {
-    background: var(--estado-whatsapp-hover);
-}
-/* Ventana modal centrada */
-.modal-overlay,
-.modal-producto {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    background: #ffffff;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    z-index: 1001;
-    width: 90%;
-    max-width: 500px;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-    opacity: 0;
-}
-
-/* Estado.visible del modal */
-.modal-overlay.visible,
-.modal-producto.visible {
-    display: block;
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-}
-
-/* Cursor inte.visible en las tarjetas de producto */
-.tarjeta-producto {
-    cursor: pointer;
-}
-/* Estado visible del modal */
-#fondo-modal.visible {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-}
-/* Asegura que el scroll del body vuelva a funcionar cuando no tenga la clase activa */
-body {
-    overflow-x: hidden;
-}
-
-/* Contenedor/Overlay del modal centrado y fijo */
-#modal-producto {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 550px;
-    max-height: 85vh; /* Evita que sobrepase la altura de la pantalla */
-    overflow-y: auto;  /* Agrega scroll interno si el contenido es muy largo */
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    z-index: 1001;
-}
-
-/* Control para imágenes que se desbordan */
-#modal-producto img,
-#modal-imagen {
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 15px auto;
-}
-
-/* Estado visible */
-#modal-producto.visible {
-    display: block;
-}
+@media (max-width: 520px) { .modal-acciones { grid-template-columns: 1fr; } }

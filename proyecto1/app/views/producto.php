@@ -3,6 +3,7 @@ require_once __DIR__ . '/../helpers/Autenticacion.php';
 
 $mensajeCompra = $_SESSION['mensaje_compra'] ?? '';
 unset($_SESSION['mensaje_compra']);
+$tokenFormulario = Autenticacion::tokenFormulario();
 ?>
 <!doctype html>
 <html lang="es">
@@ -40,9 +41,10 @@ unset($_SESSION['mensaje_compra']);
                     Mis Pedidos
                 </a>
 
-                <a href="<?= URL_BASE ?>/login/salir" style="color: #e74c3c; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='#c0392b'" onmouseout="this.style.color='#e74c3c'">
-                    Cerrar sesión
-                </a>
+                <form action="<?= URL_BASE ?>/login/salir" method="post" class="formulario-salir">
+                    <input type="hidden" name="token" value="<?= htmlspecialchars($tokenFormulario) ?>">
+                    <button type="submit" style="color: #e74c3c; font-weight: 700; transition: color 0.2s;">Cerrar sesión</button>
+                </form>
             <?php else: ?>
                 <!-- Si es invitado, ve la opción de ingresar (puedes enlazarlo a tu disparador de modal JS) -->
                 <button data-mostrar-ingreso id="enlace-login-nav" style="color: var(--vino); font-weight: 700;">

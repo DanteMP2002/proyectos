@@ -101,6 +101,12 @@ class LoginControlador
 
     public function salir(): void
     {
+        // Cerrar sesión también es una acción sensible: no se permite por enlace GET.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !Autenticacion::validarToken($_POST['token'] ?? null)) {
+            http_response_code(403);
+            exit('Solicitud no válida.');
+        }
+
         unset($_SESSION['usuario']);
         header('Location: ' . URL_BASE . '/inicio');
         exit;

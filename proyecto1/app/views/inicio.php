@@ -42,9 +42,10 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     Mis Pedidos
                 </a>
 
-                <a class="enlace-salir" href="<?= URL_BASE ?>/login/salir">
-                    Cerrar sesión
-                </a>
+                <form action="<?= URL_BASE ?>/login/salir" method="post" class="formulario-salir">
+                    <input type="hidden" name="token" value="<?= htmlspecialchars($tokenFormulario) ?>">
+                    <button class="enlace-salir" type="submit">Cerrar sesión</button>
+                </form>
             <?php else: ?>
                 <!-- Si es invitado, ve la opción de ingresar (puedes enlazarlo a tu disparador de modal JS) -->
                 <button class="enlace-ingreso" data-mostrar-ingreso id="enlace-login-nav" type="button">
