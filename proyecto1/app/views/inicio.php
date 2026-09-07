@@ -19,7 +19,7 @@ unset($_SESSION['mensaje_compra']);
     <!-- ─── ENCABEZADO ─────────────────────────────────────────────────────── -->
     <header class="encabezado-principal">
         <a class="marca" href="<?= URL_BASE ?>/inicio">
-            Vínculo <span>Bodas</span>
+            MUNDO NOVIAS <span>& QUINCE</span>
         </a>
 
         <nav class="navegacion" aria-label="Navegación principal">
