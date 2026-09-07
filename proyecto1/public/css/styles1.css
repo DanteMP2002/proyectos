@@ -228,20 +228,44 @@ a { color: inherit; text-decoration: none; }
 .ver-detalle { color: var(--vino-principal); font-weight: 700; }
 /* Panel lateral del carrito */
 .panel-carrito {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     right: 0;
     width: 380px;
     max-width: 100%;
     height: 100vh;
-    background-color: #ffffff;
-    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+    border-left: 1px solid var(--arena-detalle);
+    background: var(--crema-fondo);
+    box-shadow: -12px 0 32px rgba(78, 23, 48, .16);
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     z-index: 1000;
 }
 
 .panel-carrito.visible { transform: translateX(0); }
+.cabecera-panel { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 22px 18px; border-bottom: 1px solid var(--arena-detalle); background: var(--blanco-puro); }
+.cabecera-panel h2 { margin: 0; color: var(--vino-oscuro); font-family: var(--fuente-titulos); font-size: 1.7rem; }
+.cabecera-panel .boton-cerrar { display: grid; width: 34px; height: 34px; padding: 0; place-items: center; border: 1px solid var(--arena-detalle); border-radius: 50%; color: var(--vino-principal); background: var(--crema-fondo); font-size: 1.35rem; line-height: 1; }
+.cabecera-panel .boton-cerrar:hover { color: var(--blanco-puro); background: var(--vino-principal); }
+.contenido-carrito { flex: 1; min-height: 0; overflow-y: auto; padding: 18px; }
+.linea-carrito { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 12px; margin-bottom: 12px; padding: 15px; border: 1px solid var(--arena-detalle); border-radius: 10px; background: var(--blanco-puro); box-shadow: 0 4px 12px rgba(78, 23, 48, .05); }
+.linea-carrito > div:first-child { display: grid; align-content: start; gap: 5px; min-width: 0; }
+.linea-carrito > div:first-child strong { overflow: hidden; color: var(--vino-oscuro); font-family: var(--fuente-titulos); font-size: 1rem; text-overflow: ellipsis; white-space: nowrap; }
+.linea-carrito > div:first-child span { color: var(--texto-suave); font-size: .82rem; }
+.linea-carrito > strong { align-self: start; color: var(--vino-principal); font-size: .95rem; white-space: nowrap; }
+.controles-cantidad { display: flex; grid-column: 1 / -1; align-items: center; gap: 7px; }
+.controles-cantidad button { display: inline-grid; min-width: 30px; height: 30px; padding: 0 8px; place-items: center; border: 1px solid var(--arena-detalle); border-radius: 5px; color: var(--vino-principal); background: var(--crema-fondo); font-weight: 700; }
+.controles-cantidad button:hover { border-color: var(--vino-principal); color: var(--blanco-puro); background: var(--vino-principal); }
+.controles-cantidad b { min-width: 24px; color: var(--texto-tienda); text-align: center; }
+.controles-cantidad .enlace-eliminar { margin-left: auto; border: 0; color: #b33333; background: transparent; font-size: .8rem; }
+.controles-cantidad .enlace-eliminar:hover { color: #7d2020; background: transparent; text-decoration: underline; }
+.carrito-vacio { margin: 30px 0; padding: 28px 18px; border: 1px dashed #d8b6c2; border-radius: 10px; color: var(--texto-suave); background: var(--rosa-suave); text-align: center; }
+.pie-carrito { padding: 18px 22px 22px; border-top: 1px solid var(--arena-detalle); background: var(--blanco-puro); box-shadow: 0 -5px 16px rgba(78, 23, 48, .05); }
+.pie-carrito p { display: flex; align-items: center; justify-content: space-between; margin: 0 0 14px; color: var(--texto-suave); font-weight: 700; }
+.pie-carrito p strong { color: var(--vino-principal); font-family: var(--fuente-titulos); font-size: 1.4rem; }
+.ancho-completo { width: 100%; text-align: center; }
 
 /* Fondo oscuro superpuesto */
 .fondo-modal {
