@@ -90,6 +90,13 @@ document.addEventListener('click', async (evento) => {
     if (evento.target.closest('#boton-carrito')) return abrirCapa('panel-carrito');
     if (botonCerrar) return cerrarCapa(botonCerrar.dataset.cerrar);
 
+    // El enlace del encabezado abre el modal en la vista de inicio de sesión.
+    if (evento.target.closest('#enlace-login-nav')) {
+        buscarElemento('#vista-ingreso').hidden = false;
+        buscarElemento('#vista-registro').hidden = true;
+        return abrirCapa('modal-acceso');
+    }
+
     if (evento.target.closest('[data-mostrar-registro]')) {
         buscarElemento('#vista-ingreso').hidden = true;
         buscarElemento('#vista-registro').hidden = false;

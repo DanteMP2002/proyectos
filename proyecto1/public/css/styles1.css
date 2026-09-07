@@ -176,6 +176,7 @@ a { color: inherit; text-decoration: none; }
 .panel-carrito.activo {
     transform: translateX(0);
 }
+.mensaje-sin-resultados { margin: 8px 0 0; color: var(--texto-suave); text-align: center; }
 
 /* Estado único usado por tienda.js para mostrar capas de la interfaz. */
 .panel-carrito.visible { transform: translateX(0); }
