@@ -1,5 +1,3 @@
-@import url('variables.css');
-
 body.body-admin {
     margin: 0;
     padding: 0;
@@ -87,19 +85,37 @@ body.body-admin {
 .enlace-volver-admin { display: inline-block; margin-bottom: 16px; color: var(--admin-oro-rosa); font-weight: 700; }
 .cabecera-formulario-admin { padding-bottom: 18px; border-bottom: 1px solid var(--admin-lineas); }
 .cabecera-formulario-admin h1 { margin: 5px 0 8px; color: var(--admin-texto-blanco); font-family: var(--fuente-titulos); }
-.cabecera-formulario-admin p:last-child { margin: 0; color: var(--texto-gris); }
+.cabecera-formulario-admin p:last-child { margin: 0; color: var(--admin-texto-gris); }
 .formulario-admin { display: grid; gap: 18px; margin-top: 24px; }
 .formulario-admin label { display: grid; gap: 7px; color: var(--admin-oro-rosa); font-weight: 700; }
 .formulario-admin input, .formulario-admin select, .formulario-admin textarea { width: 100%; padding: 11px; border: 1px solid var(--admin-lineas); border-radius: 4px; color: var(--admin-texto-blanco); background: var(--admin-bg-oscuro); }
-.formulario-admin small { color: var(--texto-gris); font-weight: 400; }
+.formulario-admin small { color: var(--admin-texto-gris); font-weight: 400; }
 .fila-campos-admin { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .campo-checkbox { display: flex !important; align-items: center; gap: 10px; color: var(--admin-texto-blanco) !important; }
 .campo-checkbox input { width: auto; }
 .vista-previa-imagen { margin: 0; padding: 12px; border: 1px solid var(--admin-lineas); border-radius: 6px; text-align: center; }
-.vista-previa-imagen figcaption { margin-bottom: 10px; color: var(--texto-gris); font-size: .85rem; }
+.vista-previa-imagen figcaption { margin-bottom: 10px; color: var(--admin-texto-gris); font-size: .85rem; }
 .vista-previa-imagen img { max-height: 160px; max-width: 100%; border-radius: 4px; object-fit: cover; }
 .grupo-imagenes-admin { display: grid; gap: 16px; margin: 0; padding: 16px; border: 1px solid var(--admin-lineas); border-radius: 6px; }
 .grupo-imagenes-admin legend { padding: 0 6px; color: var(--admin-oro-metalico); font-weight: 700; }
 .galeria-imagenes-admin h2 { margin: 0 0 12px; color: var(--admin-texto-blanco); font-size: 1rem; }
 .galeria-imagenes-admin > div { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+.cuerpo-detalle-pedido-admin { display: grid; min-height: 100vh; padding: 20px; place-items: center; }
+.detalle-pedido-admin { width: 100%; max-width: 700px; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); }
+.detalle-pedido-admin .detalle-cabecera-enlaces { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 20px; }
+.detalle-pedido-admin .enlace-volver-admin { margin-bottom: 0; }
+.detalle-pedido-admin .detalle-encabezado { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--admin-lineas); }
+.detalle-titulo-admin { margin: 5px 0 0; color: var(--admin-texto-blanco); font-family: var(--fuente-titulos); }
+.detalle-pedido-admin .detalle-meta-pedido { color: var(--admin-texto-gris); }
+.detalle-pedido-admin .detalle-producto-nombre { font-weight: 700; }
+.detalle-pedido-admin .detalle-precio { font-family: monospace; }
+.detalle-pedido-admin .detalle-subtotal { font-weight: 700; }
+.detalle-pedido-admin .detalle-total { display: flex; align-items: center; justify-content: space-between; margin: 25px 0; padding-top: 15px; }
+.detalle-pedido-admin .detalle-total > span { color: var(--admin-texto-gris); font-weight: 700; }
+.detalle-total-admin { color: var(--admin-oro-metalico); font-family: var(--fuente-titulos); font-size: 1.6rem; }
+.formulario-estado-admin { display: grid; gap: 15px; padding: 20px; border: 1px solid var(--admin-lineas); border-radius: 8px; background: rgba(255, 255, 255, .02); }
+.formulario-estado-admin label { display: grid; gap: 8px; color: var(--admin-oro-rosa); font-weight: 700; }
+.formulario-estado-admin select { padding: 10px; border: 1px solid var(--admin-lineas); border-radius: 4px; outline: none; color: var(--admin-texto-blanco); background: var(--admin-bg-oscuro); }
+.boton-actualizar-estado { border: 0; padding: 12px; cursor: pointer; }
+.texto-secundario-admin { color: var(--admin-texto-gris); }
 @media (max-width: 560px) { .fila-campos-admin { grid-template-columns: 1fr; } }

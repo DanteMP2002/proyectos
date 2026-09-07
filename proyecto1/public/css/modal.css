@@ -1,5 +1,3 @@
-@import url('variables.css');
-
 /* Capa que cubre toda la pantalla al abrir el detalle de un producto. */
 .modal-overlay {
     position: fixed;

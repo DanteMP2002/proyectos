@@ -52,11 +52,11 @@
                                 <tr>
                                     <td class="col-nombre-producto">
                                         <?= htmlspecialchars($pedido['codigo']) ?>
-                                        <br><small style="color: var(--texto-gris);"><?= htmlspecialchars($pedido['creado_en']) ?></small>
+                                        <br><small class="texto-secundario-admin"><?= htmlspecialchars($pedido['creado_en']) ?></small>
                                     </td>
                                     <td>
                                         <?= htmlspecialchars($pedido['cliente']) ?>
-                                        <br><small style="color: var(--texto-gris);"><?= htmlspecialchars($pedido['correo']) ?></small>
+                                        <br><small class="texto-secundario-admin"><?= htmlspecialchars($pedido['correo']) ?></small>
                                     </td>
                                     <td class="col-precio">S/ <?= number_format((float)$pedido['total'], 2) ?></td>
                                     <td><span class="badge-categoria"><?= htmlspecialchars(ucfirst($pedido['metodo_pago'])) ?></span></td>

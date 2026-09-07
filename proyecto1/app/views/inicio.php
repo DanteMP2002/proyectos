@@ -316,7 +316,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
     <!-- Boton de WhatsApp para comunicacion -->
     <!-- Botón de WhatsApp Arrastrable -->
     <a href="https://wa.me/51920134856?text=Buen%20dia,%20quiero%20%20mas%20informacion%20sobre%20los%20productos%20de%20su%20tienda." target="_blank" class="boton-whatsapp-fijo" id="whatsapp-flotante">
-        <img src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" draggable="false" style="width: 50px; height: 50px; display: block;">
+        <img class="imagen-whatsapp-fijo" src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" draggable="false">
     </a>
 
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
