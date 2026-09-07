@@ -46,8 +46,12 @@ $esCreacion = empty($producto['id']);
             <fieldset class="grupo-imagenes-admin">
                 <legend>Imágenes del producto</legend>
                 <label>Imagen principal (portada)
-                    <input name="imagen_principal" type="file" accept="image/jpeg,image/png,image/webp" <?= $esCreacion ? 'required' : '' ?>>
-                    <small><?= $esCreacion ? 'Obligatoria para crear el producto.' : 'Opcional. Si eliges una nueva, reemplazará la portada actual.' ?></small>
+                    <?php if ($esCreacion): ?>
+                        <input name="imagen_principal" type="file" accept="image/jpeg,image/png,image/webp" required>
+                        <small>Obligatoria para crear el producto.</small>
+                    <?php else: ?>
+                        <small>Para editar una foto existente, selecciónala en la galería inferior y elige un archivo de reemplazo.</small>
+                    <?php endif; ?>
                 </label>
                 <label>Imágenes adicionales
                     <input name="imagenes_adicionales[]" type="file" accept="image/jpeg,image/png,image/webp" multiple>
@@ -63,9 +67,17 @@ $esCreacion = empty($producto['id']);
                             <figure class="vista-previa-imagen">
                                 <img src="<?= URL_BASE ?>/<?= htmlspecialchars($imagen['ruta_imagen']) ?>" alt="Imagen del producto">
                                 <figcaption><?= (int) $imagen['es_principal'] === 1 ? 'Portada actual' : 'Imagen adicional' ?></figcaption>
+                                <label class="selector-imagen-existente">
+                                    <input type="radio" name="imagen_id_reemplazar" value="<?= (int) $imagen['id'] ?>">
+                                    Seleccionar para reemplazar
+                                </label>
                             </figure>
                         <?php endforeach; ?>
                     </div>
+                    <label class="reemplazo-imagen-admin">Archivo de reemplazo
+                        <input name="imagen_reemplazo" type="file" accept="image/jpeg,image/png,image/webp">
+                        <small>Solo se reemplaza la imagen seleccionada. Las demás se conservan.</small>
+                    </label>
                 </section>
             <?php endif; ?>
             <label class="campo-checkbox"><input name="activo" type="checkbox" <?= $producto['activo'] ? 'checked' : '' ?>><span>Mostrar este producto en la tienda</span></label>

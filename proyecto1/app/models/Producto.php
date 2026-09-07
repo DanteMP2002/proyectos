@@ -80,6 +80,21 @@ class Producto
         }
     }
 
+    /** Reemplaza una imagen concreta y confirma que pertenece al producto editado. */
+    public function reemplazarImagen(int $productoId, int $imagenId, string $ruta): string|false
+    {
+        $consulta = $this->bd->prepare('SELECT ruta_imagen FROM imagenes_producto WHERE id = :imagen AND producto_id = :producto LIMIT 1');
+        $consulta->execute(['imagen' => $imagenId, 'producto' => $productoId]);
+        $imagenAnterior = $consulta->fetchColumn();
+        if ($imagenAnterior === false) {
+            return false;
+        }
+
+        $actualizacion = $this->bd->prepare('UPDATE imagenes_producto SET ruta_imagen = :ruta WHERE id = :imagen AND producto_id = :producto');
+        $actualizacion->execute(['ruta' => $ruta, 'imagen' => $imagenId, 'producto' => $productoId]);
+        return (string) $imagenAnterior;
+    }
+
     private function insertarImagen(int $productoId, string $ruta, ?int $esPrincipal): void
     {
         $consulta = $this->bd->prepare('INSERT INTO imagenes_producto (producto_id, ruta_imagen, es_principal) VALUES (:producto, :ruta, :principal)');

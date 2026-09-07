@@ -115,6 +115,17 @@ class ProductoControlador
         return $rutas;
     }
 
+    /** Guarda el archivo seleccionado para reemplazar una imagen existente. */
+    private function guardarImagenReemplazo(): ?string
+    {
+        $archivo = $_FILES['imagen_reemplazo'] ?? null;
+        if (!$archivo || ($archivo['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            return null;
+        }
+
+        return $this->guardarArchivo($archivo);
+    }
+
     public function crear(): void
     {
         $producto = ['nombre' => '', 'categoria' => '', 'descripcion' => '', 'precio' => '', 'stock' => 0, 'activo' => 1];
@@ -160,10 +171,31 @@ class ProductoControlador
         }
 
         try {
-            $portada = $this->guardarPortada(false);
+            $imagenId = (int) ($_POST['imagen_id_reemplazar'] ?? 0);
+            $archivoReemplazo = $_FILES['imagen_reemplazo'] ?? null;
+            $hayReemplazo = $archivoReemplazo && ($archivoReemplazo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE;
+            if ($hayReemplazo) {
+                $imagenesActuales = $this->productos->listarImagenes($id);
+                $idsImagenes = array_map('intval', array_column($imagenesActuales, 'id'));
+                if ($imagenId < 1 || !in_array($imagenId, $idsImagenes, true)) {
+                    throw new RuntimeException('Selecciona en la galería qué imagen deseas reemplazar.');
+                }
+            }
+
+            $imagenReemplazo = $this->guardarImagenReemplazo();
             $adicionales = $this->guardarImagenesAdicionales();
             $this->productos->actualizar($id, $this->obtenerDatosFormulario());
-            $this->productos->guardarImagenes($id, $portada, $adicionales);
+            if ($imagenReemplazo !== null) {
+                $imagenAnterior = $this->productos->reemplazarImagen($id, $imagenId, $imagenReemplazo);
+                if ($imagenAnterior === false) {
+                    throw new RuntimeException('La imagen seleccionada no pertenece a este producto.');
+                }
+                $rutaAnterior = __DIR__ . '/../../' . ltrim($imagenAnterior, '/');
+                if (is_file($rutaAnterior)) {
+                    unlink($rutaAnterior);
+                }
+            }
+            $this->productos->guardarImagenes($id, null, $adicionales);
             $this->volverAlPanel('Producto actualizado correctamente.');
         } catch (Throwable $error) {
             $this->volverAlPanel($error->getMessage());

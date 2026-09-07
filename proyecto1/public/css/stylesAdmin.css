@@ -93,9 +93,16 @@ body.body-admin {
 .fila-campos-admin { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
 .campo-checkbox { display: flex !important; align-items: center; gap: 10px; color: var(--admin-texto-blanco) !important; }
 .campo-checkbox input { width: auto; }
-.vista-previa-imagen { margin: 0; padding: 12px; border: 1px solid var(--admin-lineas); border-radius: 6px; text-align: center; }
+.vista-previa-imagen { position: relative; display: grid; gap: 10px; margin: 0; padding: 12px; border: 1px solid var(--admin-lineas); border-radius: 6px; text-align: center; }
 .vista-previa-imagen figcaption { margin-bottom: 10px; color: var(--admin-texto-gris); font-size: .85rem; }
-.vista-previa-imagen img { max-height: 160px; max-width: 100%; border-radius: 4px; object-fit: cover; }
+.vista-previa-imagen img { width: 100%; height: 160px; border-radius: 4px; object-fit: cover; }
+.selector-imagen-existente { display: flex; align-items: center; justify-content: center; gap: 7px; color: var(--admin-oro-rosa); font-size: .85rem; font-weight: 700; }
+.selector-imagen-existente input { width: auto; }
+.selector-imagen-existente:has(input:checked) { outline: 2px solid var(--admin-oro-metalico); outline-offset: 4px; }
+.reemplazo-imagen-admin { display: grid; gap: 8px; padding-top: 4px; }
+.reemplazo-imagen-admin small { color: var(--admin-texto-gris); font-weight: 400; }
+.galeria-imagenes-admin { display: grid; gap: 12px; }
+.galeria-imagenes-admin > div { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
 .grupo-imagenes-admin { display: grid; gap: 16px; margin: 0; padding: 16px; border: 1px solid var(--admin-lineas); border-radius: 6px; }
 .grupo-imagenes-admin legend { padding: 0 6px; color: var(--admin-oro-metalico); font-weight: 700; }
 .galeria-imagenes-admin h2 { margin: 0 0 12px; color: var(--admin-texto-blanco); font-size: 1rem; }
