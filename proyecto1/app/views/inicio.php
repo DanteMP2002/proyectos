@@ -3,6 +3,7 @@ require_once __DIR__ . '/../helpers/Autenticacion.php';
 
 $mensajeCompra = $_SESSION['mensaje_compra'] ?? '';
 unset($_SESSION['mensaje_compra']);
+$tokenFormulario = Autenticacion::tokenFormulario();
 ?>
 <!doctype html>
 <html lang="es">
@@ -233,6 +234,7 @@ unset($_SESSION['mensaje_compra']);
             <p>Tu carrito se mantendrá guardado.</p>
 
             <form id="formulario-ingreso">
+                <input type="hidden" name="token" value="<?= htmlspecialchars($tokenFormulario) ?>">
                 <label>
                     Correo
                     <input name="correo" type="email" required>
@@ -256,6 +258,7 @@ unset($_SESSION['mensaje_compra']);
             <h2>Regístrate para continuar</h2>
 
             <form id="formulario-registro">
+                <input type="hidden" name="token" value="<?= htmlspecialchars($tokenFormulario) ?>">
                 <label>
                     Nombre
                     <input name="nombre" required>
@@ -295,6 +298,7 @@ unset($_SESSION['mensaje_compra']);
         <h2 id="titulo-administrador">Administración</h2>
 
         <form id="formulario-administrador">
+            <input type="hidden" name="token" value="<?= htmlspecialchars($tokenFormulario) ?>">
             <label>
                 Correo administrador
                 <input name="correo" type="email" required>

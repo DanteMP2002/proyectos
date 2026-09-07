@@ -1,10 +1,19 @@
 <?php
 require_once __DIR__ . '/../models/Producto.php';
 
-// Página pública: no pide sesión para navegar ni añadir al carrito.
-class InicioControlador {
-    public function index(): void {
-        $productos = (new Producto())->listarDisponibles();
+/** Carga el catálogo público de productos visibles. */
+class InicioControlador
+{
+    private Producto $productos;
+
+    public function __construct()
+    {
+        $this->productos = new Producto();
+    }
+
+    public function index(): void
+    {
+        $productos = $this->productos->listarDisponibles();
         require __DIR__ . '/../views/inicio.php';
     }
 }

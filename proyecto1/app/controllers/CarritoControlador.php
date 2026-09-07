@@ -26,7 +26,7 @@ class CarritoControlador {
 
     public function agregar(int $id): void {
         $producto = $this->productos->buscar($id);
-        if (!$producto || !$producto['activo'] || $producto['stock'] < 1) $this->responder(['ok' => false, 'mensaje' => 'Este producto no está disponible.'], 422);
+        if (!$this->productos->estaDisponible($producto)) $this->responder(['ok' => false, 'mensaje' => 'Este producto no está disponible.'], 422);
         $actual = $_SESSION['carrito'][$id]['cantidad'] ?? 0;
         if ($actual >= $producto['stock']) $this->responder(['ok' => false, 'mensaje' => 'Alcanzaste el stock disponible.'], 422);
         $cantidad = $actual + 1;

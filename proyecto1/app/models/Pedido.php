@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../config/conexion.php';
 // Registra compras y descuenta el stock de forma atómica.
 class Pedido {
     private PDO $bd;
+    private const ESTADOS_VALIDOS = ['pendiente', 'pagado', 'cancelado'];
 
     public function __construct() { $this->bd = Conexion::obtener(); }
 
@@ -61,7 +62,7 @@ class Pedido {
 
     // Cancelar devuelve unidades al stock; reactivar las vuelve a descontar tras comprobar disponibilidad.
     public function actualizarEstado(int $id, string $nuevoEstado): bool {
-        if (!in_array($nuevoEstado, ['pendiente', 'pagado', 'cancelado'], true)) return false;
+        if (!in_array($nuevoEstado, self::ESTADOS_VALIDOS, true)) return false;
         $this->bd->beginTransaction();
         try {
             $buscar = $this->bd->prepare('SELECT estado FROM pedidos WHERE id = :id FOR UPDATE');

@@ -10,9 +10,15 @@ class Usuario {
     }
 
     public function buscarPorCorreo(string $correo): array|false {
-        $consulta = $this->bd->prepare('SELECT * FROM usuarios WHERE correo = :correo LIMIT 1');
+        // Incluye la clave porque este método se usa exclusivamente al autenticar.
+        $consulta = $this->bd->prepare('SELECT id, nombre, correo, clave, rol, creado_en FROM usuarios WHERE correo = :correo LIMIT 1');
         $consulta->execute(['correo' => $correo]);
         return $consulta->fetch();
+    }
+
+    /** Indica si el correo ya pertenece a una cuenta registrada. */
+    public function correoExiste(string $correo): bool {
+        return $this->buscarPorCorreo($correo) !== false;
     }
 
     public function registrarCliente(string $nombre, string $correo, string $clave): bool {

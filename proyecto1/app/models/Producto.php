@@ -24,6 +24,13 @@ class Producto {
         return $consulta->fetch();
     }
 
+    /** Centraliza la regla de disponibilidad usada por el carrito. */
+    public function estaDisponible(array|false $producto): bool {
+        return $producto !== false
+            && (int) $producto['activo'] === 1
+            && (int) $producto['stock'] > 0;
+    }
+
     // Crea un producto desde el panel de administración.
     public function crear(array $datos): int {
         $consulta = $this->bd->prepare('INSERT INTO productos (nombre, categoria, descripcion, precio, stock, imagen, activo) VALUES (:nombre, :categoria, :descripcion, :precio, :stock, :imagen, :activo)');

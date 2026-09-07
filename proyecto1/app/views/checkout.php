@@ -1,4 +1,7 @@
-<?php require_once __DIR__ . '/../helpers/Autenticacion.php'; ?>
+<?php
+require_once __DIR__ . '/../helpers/Autenticacion.php';
+$tokenFormulario = Autenticacion::tokenFormulario();
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -179,6 +182,7 @@
 
             <!-- FORMULARIO DE ACCIÓN simulado -->
             <form action="<?= URL_BASE ?>/checkout/confirmar" method="post" class="form-pago">
+                <input type="hidden" name="token" value="<?= htmlspecialchars($tokenFormulario) ?>">
                 <label>
                     Selecciona tu método de pago
                     <select name="metodo_pago" required>
