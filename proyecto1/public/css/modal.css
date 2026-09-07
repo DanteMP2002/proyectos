@@ -32,8 +32,9 @@
 }
 
 .modal-overlay.visible .modal-caja { transform: translateY(0) scale(1); }
-.modal-imagen-envoltorio { position: relative; }
-.modal-imagen-envoltorio img { display: block; width: 100%; max-height: 300px; object-fit: cover; }
+.modal-imagen-envoltorio { position: relative; padding: 12px; background: var(--arena-detalle); }
+.modal-imagen-visor { width: 100%; height: min(52vh, 520px); overflow: auto; overscroll-behavior: contain; scrollbar-color: var(--vino-principal) var(--arena-detalle); scrollbar-width: thin; }
+.modal-imagen-visor img { display: block; width: auto; min-width: 100%; height: auto; min-height: 100%; object-fit: contain; object-position: center; }
 .modal-cuerpo { padding: 24px; }
 .modal-cerrar { position: absolute; top: 12px; right: 12px; z-index: 1; width: 36px; height: 36px; border: 0; border-radius: 50%; color: var(--vino-oscuro); background: var(--blanco-puro); font-size: 1.5rem; }
 .modal-nombre { margin: 0; color: var(--vino-oscuro); font-family: var(--fuente-titulos); font-size: 1.55rem; }

@@ -169,7 +169,9 @@ $tokenFormulario = Autenticacion::tokenFormulario();
     <section id="modal-producto" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-nombre" aria-hidden="true">
         <div class="modal-caja">
             <div class="modal-imagen-envoltorio">
-                <img id="modal-imagen" src="" alt="">
+                <div class="modal-imagen-visor">
+                    <img id="modal-imagen" src="" alt="">
+                </div>
                 <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
                 <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
             </div>

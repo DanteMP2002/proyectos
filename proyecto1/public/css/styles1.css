@@ -188,7 +188,7 @@ a { color: inherit; text-decoration: none; }
 .contenedor-imagen-producto {
     position: relative;
     width: 100%;
-    aspect-ratio: 4/3;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
     background-color: var(--arena-detalle);
 }
@@ -201,6 +201,8 @@ a { color: inherit; text-decoration: none; }
 .tarjeta-producto:hover .contenedor-imagen-producto img {
     transform: scale(1.05);
 }
+.boton-ver-detalle { display: block; width: 100%; height: 100%; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; }
+.contenido-producto { display: block; padding: 16px; }
 .contenido-producto > strong { 
     display: block; 
     margin: 8px 0; 
