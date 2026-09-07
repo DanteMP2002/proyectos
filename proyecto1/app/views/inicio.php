@@ -21,7 +21,7 @@ unset($_SESSION['mensaje_compra']);
             Vínculo <span>Bodas</span>
         </a>
 
-        <nav class="navegacion" aria-label="Navegación principal" style="display: flex; align-items: center; gap: 20px;">
+        <nav class="navegacion" aria-label="Navegación principal">
             <a href="#productos">Productos</a>
             <a href="#nosotros">Nosotros</a>
             
@@ -31,21 +31,21 @@ unset($_SESSION['mensaje_compra']);
 
             <?php if (isset($_SESSION['usuario'])): ?>
                 <!-- Si el usuario está logueado, ve su nombre y la opción de salir -->
-                <span style="color: var(--vino-oscuro); font-weight: 700;">
+                <span class="usuario-conectado">
                     👤 <?= htmlspecialchars($_SESSION['usuario']['nombre']) ?>
                 </span>
 
                 <!-- NUEVO ENLACE PARA EL CLIENTE -->
-                <a href="<?= URL_BASE ?>/pedido/mispedidos" style="color: var(--vino); font-weight: 700; margin-left: 10px; text-decoration: underline;">
+                <a class="enlace-pedidos" href="<?= URL_BASE ?>/pedido/mispedidos">
                     Mis Pedidos
                 </a>
 
-                <a href="<?= URL_BASE ?>/login/salir" style="color: #e74c3c; font-weight: 700; transition: color 0.2s;" onmouseover="this.style.color='#c0392b'" onmouseout="this.style.color='#e74c3c'">
+                <a class="enlace-salir" href="<?= URL_BASE ?>/login/salir">
                     Cerrar sesión
                 </a>
             <?php else: ?>
                 <!-- Si es invitado, ve la opción de ingresar (puedes enlazarlo a tu disparador de modal JS) -->
-                <button data-mostrar-ingreso id="enlace-login-nav" style="color: var(--vino); font-weight: 700;">
+                <button class="enlace-ingreso" data-mostrar-ingreso id="enlace-login-nav" type="button">
                     Iniciar sesión / Registrarse
                 </button>
             <?php endif; ?>
@@ -81,17 +81,17 @@ unset($_SESSION['mensaje_compra']);
             </div>
 
             <!-- ─── NUEVA BARRA DE FILTROS COMBINADOS ─── -->
-            <div class="filtro-productos" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 30px; background: #fffdfc; padding: 20px; border-radius: 8px; border: 1px solid #ebd6ce;">
+            <div class="filtro-productos">
                 
                 <!-- Buscador por Texto -->
-                <div style="flex: 1; min-width: 200px;">
-                    <label style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.85rem; color: #745f65;">Buscar producto</label>
+                <div class="campo-filtro">
+                    <label for="buscador-texto">Buscar producto</label>
                     <input type="text" id="buscador-texto" placeholder="Escribe el nombre del producto...">
                 </div>
 
                 <!-- Filtro por Categoría -->
-                <div style="flex: 1; min-width: 180px;">
-                    <label style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.85rem; color: #745f65;">Filtrar por categoría</label>
+                <div class="campo-filtro">
+                    <label for="filtro-categoria">Filtrar por categoría</label>
                     <select id="filtro-categoria">
                         <option value="">Todas las categorías</option>
                         <?php 
@@ -109,8 +109,8 @@ unset($_SESSION['mensaje_compra']);
                 </div>
 
                 <!-- Ordenar por Precio -->
-                <div style="flex: 1; min-width: 180px;">
-                    <label style="display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.85rem; color: #745f65;">Ordenar por precio</label>
+                <div class="campo-filtro">
+                    <label for="orden-precio">Ordenar por precio</label>
                     <select id="orden-precio">
                         <option value="">Recomendados</option>
                         <option value="menor-mayor">Precio: Menor a Mayor</option>
@@ -132,56 +132,56 @@ unset($_SESSION['mensaje_compra']);
                         $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
                     ?>
 
-                    <!-- Agregamos data-categoria, data-nombre y data-precio para que JavaScript pueda leerlos -->
-                     <!-- Si el stock es cero, la tarjeta se conserva pero la compra se bloquea. -->
-                      
+                    <!-- Los atributos data-* permiten abrir el detalle sin consultar otra vez al servidor. -->
                     <article class="tarjeta-producto<?= $agotado ? ' producto-agotado' : '' ?>" 
-                        data-nombre="<?= htmlspecialchars(mb_strtolower($producto['nombre'])) ?>"
+                        data-id="<?= (int) $producto['id'] ?>"
+                        data-nombre="<?= htmlspecialchars($producto['nombre']) ?>"
                         data-descripcion="<?= htmlspecialchars($producto['descripcion']) ?>"
                         data-whatsapp="<?= $enlace_dinamico ?>"
                         data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
                         data-precio="<?= (float)$producto['precio'] ?>"
                         data-imagen="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/banner2.png') ?>"
-                        onclick="abrirModal(this)"
                     >
-                            
-                        <div class="contenedor-imagen-producto" onclick="abrirModal(this)">
+                        <button class="boton-ver-detalle" type="button" data-ver-producto aria-label="Ver detalle de <?= htmlspecialchars($producto['nombre']) ?>">
+                            <span class="contenedor-imagen-producto">
                             <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" 
-                                alt="<?= htmlspecialchars($producto['nombre']) ?>" onclick="abrirModal(this)">
+                                alt="<?= htmlspecialchars($producto['nombre']) ?>">
                             <?php if ($agotado): ?>
                                 <span class="sello-agotado">AGOTADO</span>
                             <?php endif; ?>
-                        </div>
-                        
-                        <h3><?= htmlspecialchars($producto['nombre']) ?></h3>
+                            </span>
+                            <span class="contenido-producto">
+                                <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
+                                <strong><?= htmlspecialchars($producto['nombre']) ?></strong>
+                                <span class="ver-detalle">Ver detalle</span>
+                            </span>
+                        </button>
                     </article>
 
                 <?php endforeach; ?>
             </div>
         </section>
 
-<!-- Modal reutilizable -->
-<div style="display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #efd9d1; padding-top: 12px;"
-    id="modal-producto" class="modal" >
-    <div style="display: flex; justify-content: space-between; align-items: center;"
-        class="modal-contenido">
-        <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <h2 id="modal-nombre"></h2>
-        <p id="modal-descripcion"></p>
-        <!-- PRECIO -->                       
-        <span style="color: var(--suave); font-size: 0.85rem; font-weight: bold;">Precio:</span>
-        <strong style="font-size: 1.3rem; color: var(--vino); white-space: nowrap; display: inline-block;">
-            S/ <strong id="modal-precio"></strong>
-        </strong>
-        <button class="boton-principal" data-agregar="<?= (int) $producto['id'] ?>" style="width: 100%; text-align: center; padding: 11px;">
-            Añadir Producto
-        </button>
-        <a id="modal-whatsapp" target="_blank" class="boton-whatsapp" 
-            style="width: 100%; justify-content: center; padding: 11px; font-size: 0.95rem; border-radius: 4px;">
-            Consultar por WhatsApp
-        </a>
-    </div>
-</div>
+    <!-- Un solo modal reutilizable. JavaScript llena sus datos al pulsar una tarjeta. -->
+    <section id="modal-producto" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-nombre" aria-hidden="true">
+        <div class="modal-caja">
+            <div class="modal-imagen-envoltorio">
+                <img id="modal-imagen" src="" alt="">
+                <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
+                <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
+            </div>
+            <div class="modal-cuerpo">
+                <h2 id="modal-nombre" class="modal-nombre"></h2>
+                <p id="modal-descripcion" class="modal-descripcion"></p>
+                <hr class="modal-separador">
+                <div class="modal-fila-precio"><span class="modal-etiqueta-precio">Precio</span><strong id="modal-precio" class="modal-precio-valor"></strong></div>
+                <div class="modal-acciones">
+                    <button id="modal-btn-carrito" class="modal-boton-carrito" type="button">Añadir al carrito</button>
+                    <a id="modal-whatsapp" class="modal-boton-whatsapp" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
         <!-- Bloque informativo de la tienda. -->
         <section class="seccion-nosotros" id="nosotros">
@@ -320,6 +320,7 @@ unset($_SESSION['mensaje_compra']);
 
     <script>window.URL_BASE = '<?= URL_BASE ?>';</script>
     <script src="<?= URL_BASE ?>/public/js/tienda.js"></script>
+    <script src="<?= URL_BASE ?>/public/js/catalogo.js"></script>
     <script src="<?= URL_BASE ?>/public/js/modal.js"></script>
 
 </body>

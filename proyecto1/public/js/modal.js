@@ -78,6 +78,7 @@ function abrirModal(tarjeta) {
 
     // Mostrar el modal añadiendo la clase CSS "activo"
     modalOverlay.classList.add('activo');
+    modalOverlay.setAttribute('aria-hidden', 'false');
 
     // Bloquear el scroll del body para que no se desplace la página detrás
     document.body.style.overflow = 'hidden';
@@ -90,6 +91,7 @@ function abrirModal(tarjeta) {
  */
 function cerrarModal() {
     modalOverlay.classList.remove('activo');
+    modalOverlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
 }
 
@@ -107,6 +109,19 @@ modalOverlay.addEventListener('click', function(evento) {
 // Cerrar al presionar la tecla Escape (accesibilidad)
 document.addEventListener('keydown', function(evento) {
     if (evento.key === 'Escape' && modalOverlay.classList.contains('activo')) {
+        cerrarModal();
+    }
+});
+
+// Una sola escucha para todas las tarjetas: evita usar onclick dentro del HTML.
+document.addEventListener('click', (evento) => {
+    const botonDetalle = evento.target.closest('[data-ver-producto]');
+    if (botonDetalle) {
+        abrirModal(botonDetalle.closest('.tarjeta-producto'));
+        return;
+    }
+
+    if (evento.target.closest('[data-cerrar-producto]')) {
         cerrarModal();
     }
 });
