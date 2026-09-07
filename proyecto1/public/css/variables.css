@@ -1,0 +1,39 @@
+/* ==========================================================================
+   VARIABLES GLOBALES (DESIGN TOKENS) — Vínculo Bodas
+   ========================================================================== */
+
+:root {
+    /* ─── 1. PALETA TIENDA / CLIENTES (Pasteles, Vino & Rosa Bodas) ─── */
+    --vino-principal: #7a2847;
+    --vino-oscuro: #4e1730;
+    --rosa-pastel: #ffaacc;
+    --rosa-suave: #f8e3ea;
+    --crema-fondo: #fff9f5;
+    --arena-detalle: #f6e7df;
+    --texto-tienda: #33252a;
+    --texto-suave: #745f65;
+    --blanco-puro: #ffffff;
+    
+    /* ─── 2. PALETA ADMINISTRATIVA (Ejecutivo, Oscuro & Dorado) ─── */
+    --admin-bg-oscuro: #121212;
+    --admin-bg-sidebar: #1a1a1a;
+    --admin-bg-tarjeta: #222222;
+    --admin-oro-metalico: #d4af37;
+    --admin-oro-rosa: #e5a9a9;
+    --admin-texto-blanco: #ffffff;
+    --admin-texto-gris: #a0a0a0;
+    --admin-lineas: rgba(255, 255, 255, 0.12);
+
+    /* ─── 3. ESTADOS Y ALERTAS ─── */
+    --estado-exito: #2ecc71;
+    --estado-error: #e74c3c;
+    --estado-pendiente: #f39c12;
+    --estado-whatsapp: #25d366;
+    --estado-whatsapp-hover: #128c7e;
+
+    /* ─── 4. TIPOGRAFÍA Y ELEVACIÓN ─── */
+    --fuente-titulos: Georgia, serif;
+    --fuente-cuerpo: Arial, Helvetica, sans-serif;
+    --sombra-elegante: 0px 10px 20px rgba(122, 40, 71, 0.15);
+    --sombra-modal: 0px 30px 60px rgba(78, 23, 48, 0.3);
+}

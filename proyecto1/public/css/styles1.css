@@ -1,226 +1,137 @@
-/* Paleta principal de la tienda. */
-:root {
-    --vino: #7a2847; --vino-oscuro: #4e1730; --rosa: #ffaacc;
-    --crema: #fff9f5; --arena: #f6e7df; --texto: #33252a;
-    --suave: #745f65; --blanco: #fff; --sombra: 0px 10px 10px 1px #7a284788; }
+@import url('variables.css');
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; color: var(--texto); background: var(--crema); font-family: Arial, Helvetica, sans-serif; }
+body { 
+    margin: 0; 
+    color: var(--texto-tienda); 
+    background: var(--crema-fondo); 
+    font-family: var(--fuente-cuerpo); 
+}
+
 button, input, select { font: inherit; }
 button { cursor: pointer; }
 a { color: inherit; text-decoration: none; }
 
-/* Barra superior fija con navegación y acceso rápido al carrito. */
-.encabezado-principal { display: flex; position: sticky; z-index: 10; top: 0; align-items: center; justify-content: space-between; gap: 24px; padding: 18px max(5%,32px); background: rgba(255,255,255,.96); box-shadow: 0 2px 12px rgba(72,32,46,.08); backdrop-filter: blur(8px); }
-.marca { color: var(--vino); font-family: Georgia, serif; font-size: clamp(1.35rem,3vw,1.8rem); font-weight: 700; }
-.marca span, .etiqueta, .categoria-producto { color: var(--rosa); }
-.navegacion { display: flex; gap: 22px; color: var(--suave); font-weight: 700; }
-.navegacion a:hover { color: var(--vino); }
-.boton-carrito, .boton-secundario { padding: 10px 15px; border: 1px solid var(--vino); border-radius: 4px; color: var(--vino); background: transparent; font-weight: 700; transition: .2s; }
-.boton-carrito:hover, .boton-secundario:hover { color: var(--blanco); background: var(--vino); transform: translateY(-2px); }
-.boton-carrito span { display: inline-grid; width: 22px; height: 22px; margin-left: 4px; border-radius: 50%; place-items: center; color: var(--blanco); background: var(--vino); font-size: .8rem; }
-
-/* Hero con la imagen del proyecto y una capa de color para conservar legibilidad. */
-.portada { display: grid; min-height: 500px; padding: 90px max(8%,32px); align-content: center; color: var(--blanco); background: linear-gradient(90deg,rgba(78,23,48,.93),rgba(122,40,71,.65),rgba(122,40,71,.16)),url('../img/banner1.png') center/cover,var(--vino); }
-.portada > * { max-width: 690px; }
-.etiqueta { margin: 0 0 10px; font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-.portada h1, .titulo-seccion h2, .seccion-nosotros h2, .caja-checkout h1 { margin: 0; font-family: Georgia, serif; letter-spacing: -.04em; }
-.portada h1 { font-size: clamp(2.8rem,7vw,5.2rem); line-height: 1.02; }
-.portada h1 em { color: #ffdce6; }
-.portada > p:not(.etiqueta) { max-width: 520px; margin: 24px 0 30px; font-size: 1.1rem; line-height: 1.65; }
-.boton-principal { display: inline-block; width: fit-content; padding: 13px 22px; border: 0; border-radius: 4px; color: var(--blanco); background: var(--vino); box-shadow: 0 8px 18px rgba(57,16,35,.23); font-weight: 700; transition: .2s; }
-.portada .boton-principal { color: var(--vino-oscuro); background: var(--blanco); }
-.boton-principal:hover { transform: translateY(-3px); background: var(--vino-oscuro); }
-.portada .boton-principal:hover { color: var(--blanco); background: var(--vino); }
-.ancho-completo { width: 100%; }
-
-/* Catálogo: cada tarjeta se alimenta desde la base de datos. */
-.seccion-productos, .seccion-nosotros { width: min(1120px,calc(100% - 40px)); margin: auto; padding: 80px 0; }
-.titulo-seccion { text-align: center; }
-.titulo-seccion h2, .seccion-nosotros h2, .caja-checkout h1 { color: var(--vino-oscuro); font-size: clamp(2rem,4vw,2.8rem); }
-.rejilla-productos { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px; margin-top: 35px; }
-.tarjeta-producto { overflow: hidden; border: 1px solid #efd9d1; border-radius: 12px; background: var(--blanco); box-shadow: var(--sombra); transition: .25s; }
-.tarjeta-producto:hover { box-shadow: 0 20px 40px rgba(83,35,53,.2); transform: translateY(-6px); }
-.contenedor-imagen-producto { position: relative; overflow: hidden; }
-.tarjeta-producto img { display: block; width: 100%; height: 220px; object-fit: cover; background: var(--arena); }
-/* Producto sin stock: la foto se atenúa y el sello comunica que no se puede comprar. */
-.producto-agotado .contenedor-imagen-producto::after { position: absolute; content: ''; inset: 0; background: rgba(35, 29, 31, .42); }
-.producto-agotado img { filter: grayscale(1); }
-.sello-agotado { position: absolute; z-index: 1; top: 50%; left: 50%; padding: 8px 14px; 
-    border: 2px solid #fff; color: #fff; background: #b62535;
-    box-shadow: 0 3px 9px rgba(0,0,0,.3); font-size: 1.25rem; font-weight: bold; 
-    letter-spacing: .25rem; transform: translate(-50%, -50%) rotate(-20deg); }
-.boton-deshabilitado, .boton-deshabilitado:hover { border-color: #b9acaf; color: #85777b; background: #eee7e8; cursor: not-allowed; transform: none; }
-.contenido-producto { padding: 20px; }
-.categoria-producto { font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-.contenido-producto h3 { margin: 10px 0 8px; color: var(--vino-oscuro); font-family: Georgia,serif; font-size: 1.35rem; }
-.descripcion-producto { min-height: 45px; margin: 0; color: var(--suave); line-height: 1.5; }
-.pie-producto { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; color: var(--vino); }
-.seccion-nosotros { max-width: 760px; padding-top: 15px; text-align: center; }
-.seccion-nosotros > p:last-child { color: var(--suave); font-size: 1.08rem; line-height: 1.7; }
-.aviso-compra { width: min(600px,calc(100% - 40px)); margin: 30px auto -30px; padding: 14px; border-left: 4px solid var(--vino); color: var(--vino-oscuro); background: #f8e3ea; }
-.pie-pagina { padding: 27px; color: #f9e9ee; text-align: center; background: var(--vino-oscuro); }
-
-/* Clases del catálogo: sustituyen los estilos inline de inicio.php. */
-.tarjeta-producto[hidden] { display: none; }
-.boton-ver-detalle { display: block; width: 100%; padding: 0; border: 0; color: inherit; background: transparent; text-align: left; cursor: pointer; }
-.boton-ver-detalle:focus-visible { outline: 3px solid var(--rosa); outline-offset: -3px; }
-.contenido-producto > strong { display: block; margin: 8px 0; color: var(--vino-oscuro); font-family: Georgia, serif; font-size: 1.35rem; }
-.ver-detalle { display: inline-flex; margin-top: 7px; color: var(--vino); font-size: .9rem; font-weight: 700; }
-.boton-ver-detalle:hover .ver-detalle { text-decoration: underline; }
-.filtro-productos { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; padding: 20px; border: 1px solid #ebd6ce; border-radius: 8px; background: #fffdfc; }
-.campo-filtro { flex: 1; min-width: 180px; }
-.campo-filtro:first-child { min-width: 200px; }
-.campo-filtro label { display: block; margin-bottom: 5px; color: var(--suave); font-size: .85rem; font-weight: 700; }
-.usuario-conectado { color: var(--vino-oscuro); font-weight: 700; }
-.enlace-pedidos, .enlace-ingreso { color: var(--vino); font-weight: 700; }
-.enlace-pedidos { margin-left: 10px; text-decoration: underline; }
-.enlace-salir { color: #e74c3c; font-weight: 700; transition: color .2s; }
-.enlace-salir:hover { color: #c0392b; }
-.enlace-ingreso { padding: 0; border: 0; background: transparent; }
-
-/* Fondo y panel lateral del carrito. */
-.fondo-modal { visibility: hidden; position: fixed; z-index: 20; inset: 0; opacity: 0; background: rgba(38,16,26,.48); transition: .2s; }
-.fondo-modal.visible { visibility: visible; opacity: 1; }
-.panel-carrito { display: flex; visibility: hidden; position: fixed; z-index: 30; top: 0; right: 0; width: min(430px,100%); height: 100vh; flex-direction: column; padding: 24px; opacity: 0; background: var(--crema); box-shadow: -12px 0 40px rgba(52,20,35,.2); transform: translateX(100%); transition: .25s; }
-.panel-carrito.visible { visibility: visible; opacity: 1; transform: translateX(0); }
-.cabecera-panel { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #ebd6ce; }
-.cabecera-panel h2 { color: var(--vino-oscuro); font-family: Georgia,serif; }
-.boton-cerrar { border: 0; color: var(--vino); background: none; font-size: 2rem; line-height: 1; }
-.contenido-carrito { overflow: auto; flex: 1; padding: 10px 0; }
-.linea-carrito { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 18px 0; border-bottom: 1px solid #ebd6ce; }
-.linea-carrito span { display: block; margin-top: 4px; color: var(--suave); font-size: .85rem; }
-.controles-cantidad { grid-column: 1/-1; display: flex; align-items: center; gap: 10px; }
-.controles-cantidad button { width: 28px; height: 28px; border: 1px solid var(--rosa); border-radius: 50%; color: var(--vino); background: var(--blanco); }
-.controles-cantidad .enlace-eliminar { width: auto; margin-left: auto; border: 0; border-radius: 0; background: none; text-decoration: underline; }
-.pie-carrito { padding-top: 14px; border-top: 1px solid #ebd6ce; }
-.pie-carrito p { display: flex; justify-content: space-between; font-size: 1.15rem; }
-
-/* Modales de login, registro y validación administrativa. */
-.modal-acceso { visibility: hidden; position: fixed; z-index: 31; top: 50%; left: 50%; width: min(460px,calc(100% - 32px)); padding: 30px; border-radius: 12px; opacity: 0; background: var(--blanco); box-shadow: var(--sombra); transform: translate(-50%,-45%); transition: .2s; }
-.modal-acceso.visible { visibility: visible; opacity: 1; transform: translate(-50%,-50%); }
-.modal-acceso > .boton-cerrar { position: absolute; top: 16px; right: 16px; }
-.modal-acceso h2 { margin-top: 0; color: var(--vino-oscuro); font-family: Georgia,serif; }
-form { display: grid; gap: 15px; margin-top: 22px; }
-label { display: grid; gap: 7px; color: var(--suave); font-size: .9rem; font-weight: 700; }
-input, select { width: 100%; padding: 11px; border: 1px solid #dbc2bb; border-radius: 4px; color: var(--texto); background: #fffdfc; }
-input:focus, select:focus { outline: 2px solid var(--rosa); border-color: var(--rosa); }
-.cambio-formulario { color: var(--suave); font-size: .9rem; text-align: center; }
-.cambio-formulario button { border: 0; color: var(--vino); background: none; font-weight: 700; text-decoration: underline; }
-.mensaje-formulario { min-height: 20px; margin: 15px 0 0; color: var(--vino); text-align: center; }
-
-/* Páginas sencillas para checkout y panel de administrador. */
-.pagina-simple { display: grid; min-height: 100vh; padding: 32px 16px; place-items: center; }
-.caja-checkout { width: min(760px,100%); padding: 36px; border-radius: 12px; background: var(--blanco); box-shadow: var(--sombra); }
-.caja-checkout > a { color: var(--vino); font-weight: 700; }
-.caja-checkout .etiqueta { margin-top: 30px; }
-.tabla-responsive { overflow: auto; margin: 25px 0; }
-table { width: 100%; border-collapse: collapse; text-align: left; }
-th, td { padding: 13px; border-bottom: 1px solid #ebd6ce; }
-th { color: var(--vino-oscuro); }
-
-/* ==========================================================================
-   SECCIÓN WHATSAPP CORREGIDA
-   ========================================================================== */
-
-/* Botón Normal de Consulta en Productos (Con efecto Esmeralda al presionar) */
-.boton-whatsapp {
-    background-color: #25D366; 
-    color: white; 
-    padding: 10px 20px; 
-    text-decoration: none; 
-    border-radius: 5px; 
-    font-weight: bold; 
-    display: inline-flex; 
+/* ─── BARRA SUPERIOR ─── */
+.encabezado-principal { 
+    display: flex; 
+    position: sticky; 
+    z-index: 10; 
+    top: 0; 
     align-items: center; 
-    font-family: Arial, sans-serif;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    justify-content: space-between; 
+    gap: 24px; 
+    padding: 18px max(5%, 32px); 
+    background: rgba(255, 255, 255, 0.96); 
+    box-shadow: 0 2px 12px rgba(72, 32, 46, 0.08); 
+    backdrop-filter: blur(8px); 
+}
+.marca { 
+    color: var(--vino-principal); 
+    font-family: var(--fuente-titulos); 
+    font-size: clamp(1.35rem, 3vw, 1.8rem); 
+    font-weight: 700; 
+}
+.marca span, .etiqueta, .categoria-producto { color: var(--rosa-pastel); }
+.navegacion { display: flex; gap: 22px; color: var(--texto-suave); font-weight: 700; }
+.navegacion a:hover { color: var(--vino-principal); }
+
+.boton-carrito, .boton-secundario { 
+    padding: 10px 15px; 
+    border: 1px solid var(--vino-principal); 
+    border-radius: 4px; 
+    color: var(--vino-principal); 
+    background: transparent; 
+    font-weight: 700; 
+    transition: .2s; 
+}
+.boton-carrito:hover, .boton-secundario:hover { 
+    color: var(--blanco-puro); 
+    background: var(--vino-principal); 
+    transform: translateY(-2px); 
+}
+.boton-carrito span { 
+    display: inline-grid; 
+    width: 22px; 
+    height: 22px; 
+    margin-left: 4px; 
+    border-radius: 50%; 
+    place-items: center; 
+    color: var(--blanco-puro); 
+    background: var(--vino-principal); 
+    font-size: .8rem; 
 }
 
-.boton-whatsapp:hover {
-    background-color: #128C7E; /* Verde oscuro estándar al pasar el mouse */
+/* ─── HERO PORTADA ─── */
+.portada { 
+    display: grid; 
+    min-height: 500px; 
+    padding: 90px max(8%, 32px); 
+    align-content: center; 
+    color: var(--blanco-puro); 
+    background: linear-gradient(90deg, rgba(78, 23, 48, 0.93), rgba(122, 40, 71, 0.65), rgba(122, 40, 71, 0.16)), url('../img/banner1.png') center/cover, var(--vino-principal); 
 }
+.portada > * { max-width: 690px; }
+.portada h1 { font-family: var(--fuente-titulos); font-size: clamp(2.8rem, 7vw, 5.2rem); line-height: 1.02; }
+.portada h1 em { color: #ffdce6; }
 
-/* Efecto Esmeralda al hacer clic (Mantenido presionado) */
-.boton-whatsapp:active {
-    background-color: #50c878 !important; /* Color Esmeralda Puro */
-    transform: scale(0.97); /* Pequeña pulsación física */
+.boton-principal { 
+    display: inline-block; 
+    width: fit-content; 
+    padding: 13px 22px; 
+    border: 0; 
+    border-radius: 4px; 
+    color: var(--blanco-puro); 
+    background: var(--vino-principal); 
+    box-shadow: 0 8px 18px rgba(57, 16, 35, 0.23); 
+    font-weight: 700; 
+    transition: .2s; 
 }
+.boton-principal:hover { transform: translateY(-3px); background: var(--vino-oscuro); }
 
-
-/* Botón Fijo Flotante en Pantalla Completa (Corregido y Funcional) */
-.boton-whatsapp-fijo {
-    position: fixed !important; 
-    bottom: 24px;       
-    left: 24px;         /* Cambiado de right a left para situarlo a la izquierda */
-    right: auto !important; /* Anula cualquier margen derecho previo */
-    background-color: #25D366;
-    color: white !important;
-    text-decoration: none;
-    padding: 15px 22px;
-    border-radius: 50px; 
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.25); 
-    z-index: 99999 !important; 
+/* ─── TARJETAS DE PRODUCTOS (VESTIDOS) ─── */
+.rejilla-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    padding: 20px 0;
+}
+.tarjeta-producto {
+    background: var(--blanco-puro);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--arena-detalle);
     display: flex;
-    align-items: center;
-    gap: 8px;           
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: none;    
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    flex-direction: column;
 }
-
-
-/* Efectos interactivos del botón fijo */
-.boton-whatsapp-fijo:hover {
-    background-color: #128C7E; 
-    transform: translateY(-4px) scale(1.03); /* Movimiento fluido hacia arriba */
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.45);
+.tarjeta-producto:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-elegante);
 }
-
-.boton-whatsapp-fijo:active {
-    background-color: #50c878 !important; /* Color Esmeralda también en el flotante */
-    transform: translateY(-1px) scale(0.98);
+.contenedor-imagen-producto {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background-color: var(--arena-detalle);
 }
-/* Bloqueo de selección nativa para evitar el texto fantasma */
-.boton-whatsapp-fijo {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none; /* Evita que el navegador seleccione letras al arrastrar */
-    touch-action: none;    /* Crucial: Evita que el celular haga scroll de la página al arrastrar el botón */
+.contenedor-imagen-producto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
-
-.boton-whatsapp-fijo img {
-    pointer-events: none;  /* Evita que el navegador intente "guardar o arrastrar" la imagen suelta */
-    -webkit-user-drag: none;
+.tarjeta-producto:hover .contenedor-imagen-producto img {
+    transform: scale(1.05);
 }
-
-/*css para el modal*/
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+.contenido-producto > strong { 
+    display: block; 
+    margin: 8px 0; 
+    color: var(--vino-oscuro); 
+    font-family: var(--fuente-titulos); 
+    font-size: 1.35rem; 
 }
-.modal-contenido {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
-}
-.cerrar {
-    float: right;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-
-
-@media (max-width: 760px) { .encabezado-principal { flex-wrap: wrap; gap: 14px; padding: 16px; } .navegacion { order: 3; width: 100%; justify-content: center; gap: 15px; font-size: .9rem; } .portada { min-height: 420px; padding: 70px 32px; } .rejilla-productos { grid-template-columns: repeat(2,minmax(0,1fr)); } }
-@media (max-width: 500px) { .portada { padding: 64px 24px; } .seccion-productos, .seccion-nosotros { width: min(100% - 32px,1120px); padding: 55px 0; } .rejilla-productos { grid-template-columns: 1fr; } .caja-checkout { padding: 25px; } }
+.ver-detalle { color: var(--vino-principal); font-weight: 700; }

@@ -1,260 +1,68 @@
-/* ==========================================================================
-   MODAL DE PRODUCTO — Vínculo Bodas
-   Propósito: Muestra el detalle de un producto al hacer clic en su tarjeta.
-   Depende de: styles1.css (variables CSS como --vino, --crema, etc.)
-   ========================================================================== */
+@import url('variables.css');
 
-
-/* ------------------------------------------------------------------
-   FONDO OSCURO QUE CUBRE TODA LA PANTALLA CUANDO EL MODAL ESTÁ ABIERTO
-   Se activa añadiendo la clase .activo con JavaScript.
-   ------------------------------------------------------------------ */
 .modal-overlay {
-    /* Ocupa toda la ventana, por encima de todo el contenido */
     position: fixed;
-    inset: 0;                           /* equivale a top/right/bottom/left: 0 */
+    inset: 0;
     z-index: 100;
-
-    /* Fondo oscuro semitransparente */
     background: rgba(33, 10, 20, 0.70);
-    backdrop-filter: blur(3px);
-
-    /* Por defecto está oculto */
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-/* Cuando el modal está activo, se hace visible */
-.modal-overlay.activo {
+.modal-overlay.visible {
     opacity: 1;
     visibility: visible;
 }
 
-
-/* ------------------------------------------------------------------
-   CAJA INTERIOR DEL MODAL (el "papel" blanco con el contenido)
-   ------------------------------------------------------------------ */
 .modal-caja {
     position: relative;
-    background: var(--blanco);
+    background: var(--blanco-puro);
     border-radius: 16px;
     width: min(540px, 100%);
     max-height: 90vh;
     overflow-y: auto;
-
-    /* Sombra dramática para que "flote" sobre el fondo oscuro */
-    box-shadow:
-        0 30px 60px rgba(78, 23, 48, 0.25),
-        0  4px 16px rgba(78, 23, 48, 0.12);
-
-    /* Animación de entrada: aparece desde abajo */
+    box-shadow: var(--sombra-modal);
     transform: translateY(24px) scale(0.97);
     transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.modal-overlay.activo .modal-caja {
+.modal-overlay.visible .modal-caja {
     transform: translateY(0) scale(1);
 }
 
-
-/* ------------------------------------------------------------------
-   IMAGEN DEL PRODUCTO — ocupa el ancho completo en la parte superior
-   ------------------------------------------------------------------ */
-.modal-imagen-envoltorio {
-    position: relative;
-    width: 100%;
-    height: 260px;
-    border-radius: 16px 16px 0 0;
-    overflow: hidden;
-    background: var(--arena);
-}
-
-.modal-imagen-envoltorio img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Etiqueta de categoría flotante sobre la imagen */
-.modal-etiqueta-categoria {
-    position: absolute;
-    top: 14px;
-    left: 14px;
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--vino);
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 5px 10px;
-    border-radius: 50px;
-}
-
-/* Botón × para cerrar, flotando sobre la imagen */
-.modal-cerrar {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.90);
-    color: var(--vino-oscuro);
-    font-size: 1.3rem;
-    line-height: 1;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    transition: background 0.15s, transform 0.15s;
-}
-
-.modal-cerrar:hover {
-    background: var(--blanco);
-    transform: scale(1.1);
-}
-
-
-/* ------------------------------------------------------------------
-   CUERPO DE TEXTO — debajo de la imagen
-   ------------------------------------------------------------------ */
-.modal-cuerpo {
-    padding: 24px 28px 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
 .modal-nombre {
-    margin: 0;
-    font-family: Georgia, serif;
+    font-family: var(--fuente-titulos);
     font-size: 1.55rem;
     color: var(--vino-oscuro);
-    line-height: 1.25;
-}
-
-.modal-descripcion {
-    margin: 0;
-    color: var(--suave);
-    font-size: 0.97rem;
-    line-height: 1.65;
-}
-
-/* Línea divisoria sutil antes del precio */
-.modal-separador {
-    border: none;
-    border-top: 1px solid var(--arena);
-    margin: 4px 0;
-}
-
-/* Fila de precio */
-.modal-fila-precio {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-}
-
-.modal-etiqueta-precio {
-    font-size: 0.8rem;
-    color: var(--suave);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
 }
 
 .modal-precio-valor {
     font-size: 1.9rem;
-    font-family: Georgia, serif;
-    color: var(--vino);
+    font-family: var(--fuente-titulos);
+    color: var(--vino-principal);
     font-weight: 700;
 }
 
-
-/* ------------------------------------------------------------------
-   BOTONES DE ACCIÓN — en la parte inferior del modal
-   ------------------------------------------------------------------ */
-.modal-acciones {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 6px;
-}
-
-/* Botón principal: "Añadir al carrito" */
 .modal-boton-carrito {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 6px;
-    background: var(--vino);
-    color: var(--blanco);
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    text-align: center;
+    background: var(--vino-principal);
+    color: var(--blanco-puro);
 }
 
 .modal-boton-carrito:hover {
     background: var(--vino-oscuro);
-    transform: translateY(-2px);
 }
 
-/* Botón agotado: no es interactivo */
-.modal-boton-carrito.agotado {
-    background: #e0d4d8;
-    color: #9e8a8f;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Botón de WhatsApp */
 .modal-boton-whatsapp {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
-    background: #25D366;
-    color: var(--blanco);
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
+    background: var(--estado-whatsapp);
+    color: var(--blanco-puro);
 }
 
 .modal-boton-whatsapp:hover {
-    background: #1ebe5a;
-    transform: translateY(-2px);
-}
-
-.modal-boton-whatsapp:active {
-    background: #128C7E;
-}
-
-
-/* ------------------------------------------------------------------
-   RESPONSIVE — en pantallas pequeñas la imagen es más baja
-   ------------------------------------------------------------------ */
-@media (max-width: 500px) {
-    .modal-imagen-envoltorio {
-        height: 200px;
-    }
-
-    .modal-cuerpo {
-        padding: 18px 20px 24px;
-    }
-
-    .modal-nombre {
-        font-size: 1.3rem;
-    }
+    background: var(--estado-whatsapp-hover);
 }
