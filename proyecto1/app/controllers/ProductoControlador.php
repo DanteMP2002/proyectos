@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../helpers/Autenticacion.php';
 require_once __DIR__ . '/../models/Producto.php';
 
-/** Gestiona el catálogo. Todas las rutas requieren rol administrador. */
+/** Gestiona productos, portada y galería de imágenes. */
 class ProductoControlador
 {
     private Producto $productos;
@@ -15,7 +15,6 @@ class ProductoControlador
         $this->carpetaImagenes = __DIR__ . '/../../public/img/productos/';
     }
 
-    /** Guarda un mensaje temporal y vuelve al panel. */
     private function volverAlPanel(string $mensaje): never
     {
         $_SESSION['mensaje_admin'] = $mensaje;
@@ -23,7 +22,6 @@ class ProductoControlador
         exit;
     }
 
-    /** Permite únicamente formularios POST con token válido. */
     private function exigirFormularioSeguro(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !Autenticacion::validarToken($_POST['token'] ?? null)) {
@@ -32,8 +30,8 @@ class ProductoControlador
         }
     }
 
-    /** Convierte los campos recibidos en el formato esperado por Producto. */
-    private function obtenerDatosFormulario(string $imagen): array
+    /** Obtiene los campos que pertenecen exclusivamente a la tabla productos. */
+    private function obtenerDatosFormulario(): array
     {
         $nombre = trim($_POST['nombre'] ?? '');
         $categoria = trim($_POST['categoria'] ?? '');
@@ -49,21 +47,15 @@ class ProductoControlador
             'descripcion' => $descripcion,
             'precio' => max(0, (float) ($_POST['precio'] ?? 0)),
             'stock' => max(0, (int) ($_POST['stock'] ?? 0)),
-            'imagen' => $imagen,
             'activo' => isset($_POST['activo']) ? 1 : 0,
         ];
     }
 
-    /** Valida y almacena una imagen nueva. Si no llega archivo conserva la actual. */
-    private function guardarImagen(?string $imagenActual = null): string
+    /** Guarda un archivo de imagen y devuelve la ruta pública que va a la base de datos. */
+    private function guardarArchivo(array $archivo): string
     {
-        $archivo = $_FILES['imagen'] ?? null;
-        if (!$archivo || ($archivo['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
-            return $imagenActual ?? '';
-        }
-
-        if ($archivo['error'] !== UPLOAD_ERR_OK || $archivo['size'] > 5 * 1024 * 1024) {
-            throw new RuntimeException('La imagen debe pesar como máximo 5 MB.');
+        if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || ($archivo['size'] ?? 0) > 5 * 1024 * 1024) {
+            throw new RuntimeException('Cada imagen debe pesar como máximo 5 MB.');
         }
 
         $tipo = (new finfo(FILEINFO_MIME_TYPE))->file($archivo['tmp_name']);
@@ -84,9 +76,49 @@ class ProductoControlador
         return 'public/img/productos/' . $nombreArchivo;
     }
 
+    /** La portada es obligatoria al crear y opcional al editar. */
+    private function guardarPortada(bool $esObligatoria): ?string
+    {
+        $archivo = $_FILES['imagen_principal'] ?? null;
+        $sinArchivo = !$archivo || ($archivo['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE;
+
+        if ($sinArchivo && $esObligatoria) {
+            throw new RuntimeException('Debes seleccionar una imagen principal para el producto.');
+        }
+
+        return $sinArchivo ? null : $this->guardarArchivo($archivo);
+    }
+
+    /** Recorre el campo multiple y guarda únicamente archivos seleccionados. */
+    private function guardarImagenesAdicionales(): array
+    {
+        $archivos = $_FILES['imagenes_adicionales'] ?? null;
+        if (!$archivos || !is_array($archivos['name'])) {
+            return [];
+        }
+
+        $rutas = [];
+        foreach ($archivos['name'] as $indice => $nombre) {
+            if ($nombre === '' || $archivos['error'][$indice] === UPLOAD_ERR_NO_FILE) {
+                continue;
+            }
+
+            $rutas[] = $this->guardarArchivo([
+                'name' => $nombre,
+                'type' => $archivos['type'][$indice],
+                'tmp_name' => $archivos['tmp_name'][$indice],
+                'error' => $archivos['error'][$indice],
+                'size' => $archivos['size'][$indice],
+            ]);
+        }
+
+        return $rutas;
+    }
+
     public function crear(): void
     {
-        $producto = ['nombre' => '', 'categoria' => '', 'descripcion' => '', 'precio' => '', 'stock' => 0, 'imagen' => '', 'activo' => 1];
+        $producto = ['nombre' => '', 'categoria' => '', 'descripcion' => '', 'precio' => '', 'stock' => 0, 'activo' => 1];
+        $imagenes = [];
         $titulo = 'Agregar producto';
         $accion = URL_BASE . '/producto/guardar';
         require __DIR__ . '/../views/formulario_producto.php';
@@ -97,7 +129,10 @@ class ProductoControlador
         $this->exigirFormularioSeguro();
 
         try {
-            $this->productos->crear($this->obtenerDatosFormulario($this->guardarImagen()));
+            $portada = $this->guardarPortada(true);
+            $adicionales = $this->guardarImagenesAdicionales();
+            $productoId = $this->productos->crear($this->obtenerDatosFormulario());
+            $this->productos->guardarImagenes($productoId, $portada, $adicionales);
             $this->volverAlPanel('Producto creado correctamente.');
         } catch (Throwable $error) {
             $this->volverAlPanel($error->getMessage());
@@ -111,6 +146,7 @@ class ProductoControlador
             $this->volverAlPanel('Producto no encontrado.');
         }
 
+        $imagenes = $this->productos->listarImagenes($id);
         $titulo = 'Editar producto';
         $accion = URL_BASE . '/producto/actualizar/' . $id;
         require __DIR__ . '/../views/formulario_producto.php';
@@ -119,15 +155,15 @@ class ProductoControlador
     public function actualizar(int $id): void
     {
         $this->exigirFormularioSeguro();
-        $productoActual = $this->productos->buscar($id);
-
-        if (!$productoActual) {
+        if (!$this->productos->buscar($id)) {
             $this->volverAlPanel('Producto no encontrado.');
         }
 
         try {
-            $datos = $this->obtenerDatosFormulario($this->guardarImagen($productoActual['imagen']));
-            $this->productos->actualizar($id, $datos);
+            $portada = $this->guardarPortada(false);
+            $adicionales = $this->guardarImagenesAdicionales();
+            $this->productos->actualizar($id, $this->obtenerDatosFormulario());
+            $this->productos->guardarImagenes($id, $portada, $adicionales);
             $this->volverAlPanel('Producto actualizado correctamente.');
         } catch (Throwable $error) {
             $this->volverAlPanel($error->getMessage());

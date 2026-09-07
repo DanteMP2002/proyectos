@@ -98,4 +98,8 @@ body.body-admin {
 .vista-previa-imagen { margin: 0; padding: 12px; border: 1px solid var(--admin-lineas); border-radius: 6px; text-align: center; }
 .vista-previa-imagen figcaption { margin-bottom: 10px; color: var(--texto-gris); font-size: .85rem; }
 .vista-previa-imagen img { max-height: 160px; max-width: 100%; border-radius: 4px; object-fit: cover; }
+.grupo-imagenes-admin { display: grid; gap: 16px; margin: 0; padding: 16px; border: 1px solid var(--admin-lineas); border-radius: 6px; }
+.grupo-imagenes-admin legend { padding: 0 6px; color: var(--admin-oro-metalico); font-weight: 700; }
+.galeria-imagenes-admin h2 { margin: 0 0 12px; color: var(--admin-texto-blanco); font-size: 1rem; }
+.galeria-imagenes-admin > div { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
 @media (max-width: 560px) { .fila-campos-admin { grid-template-columns: 1fr; } }

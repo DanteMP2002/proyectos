@@ -1,4 +1,7 @@
-<?php $token = Autenticacion::tokenFormulario(); ?>
+<?php
+$token = Autenticacion::tokenFormulario();
+$esCreacion = empty($producto['id']);
+?>
 <!doctype html>
 <html lang="es">
 <head>
@@ -39,8 +42,32 @@
             </label>
             <label>Descripción<textarea name="descripcion" rows="4" required><?= htmlspecialchars($producto['descripcion']) ?></textarea></label>
             <div class="fila-campos-admin"><label>Precio (S/)<input name="precio" type="number" min="0" step="0.01" value="<?= htmlspecialchars((string) $producto['precio']) ?>" required></label><label>Stock disponible<input name="stock" type="number" min="0" step="1" value="<?= (int) $producto['stock'] ?>" required></label></div>
-            <label>Imagen del producto<input name="imagen" type="file" accept="image/jpeg,image/png,image/webp"><small>JPG, PNG o WEBP. Máximo 5 MB.</small></label>
-            <?php if ($producto['imagen']): ?><figure class="vista-previa-imagen"><figcaption>Imagen actual</figcaption><img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen']) ?>" alt="Imagen actual del producto"></figure><?php endif; ?>
+            <!-- La portada se marca con es_principal = 1; las demás fotos son opcionales. -->
+            <fieldset class="grupo-imagenes-admin">
+                <legend>Imágenes del producto</legend>
+                <label>Imagen principal (portada)
+                    <input name="imagen_principal" type="file" accept="image/jpeg,image/png,image/webp" <?= $esCreacion ? 'required' : '' ?>>
+                    <small><?= $esCreacion ? 'Obligatoria para crear el producto.' : 'Opcional. Si eliges una nueva, reemplazará la portada actual.' ?></small>
+                </label>
+                <label>Imágenes adicionales
+                    <input name="imagenes_adicionales[]" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                    <small>Opcional. Puedes seleccionar varias fotos con Ctrl o Shift.</small>
+                </label>
+            </fieldset>
+
+            <?php if ($imagenes): ?>
+                <section class="galeria-imagenes-admin" aria-labelledby="titulo-imagenes-actuales">
+                    <h2 id="titulo-imagenes-actuales">Imágenes actuales</h2>
+                    <div>
+                        <?php foreach ($imagenes as $imagen): ?>
+                            <figure class="vista-previa-imagen">
+                                <img src="<?= URL_BASE ?>/<?= htmlspecialchars($imagen['ruta_imagen']) ?>" alt="Imagen del producto">
+                                <figcaption><?= (int) $imagen['es_principal'] === 1 ? 'Portada actual' : 'Imagen adicional' ?></figcaption>
+                            </figure>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            <?php endif; ?>
             <label class="campo-checkbox"><input name="activo" type="checkbox" <?= $producto['activo'] ? 'checked' : '' ?>><span>Mostrar este producto en la tienda</span></label>
             <button class="boton-admin-principal" type="submit">Guardar producto</button>
         </form>
