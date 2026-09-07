@@ -1,0 +1,12 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^php -l \"app/views/detalle_pedido_admin\\.php\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^php -l \"app/views/checkout\\.php\"; php -l \"app/views/detalle_pedido_admin\\.php\"; php -l \"app/views/admin\\.php\"; php -l \"app/views/pedidos_admin\\.php\"; php -l \"app/views/inicio\\.php\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
