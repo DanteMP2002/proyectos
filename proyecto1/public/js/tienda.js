@@ -1,325 +1,161 @@
 /**
- * tienda.js — Vínculo Bodas
- * ============================================================
- * Maneja toda la interactividad de la página principal:
- *   - Carrito de compras (abrir, cerrar, añadir, quitar, cambiar cantidad)
- *   - Modales de login y registro (abrir/cerrar)
- *   - Modal de administrador (atajo Ctrl+Shift+A)
- *   - Filtros de productos (por texto, categoría y precio)
- *   - Botón flotante de WhatsApp (arrastrable)
- *   - Botón de "Iniciar sesión" en el header
- *
- * DEPENDENCIAS:
- *   - modal.js  (debe cargarse antes que este archivo)
- *   - La variable global window.URL_BASE definida en el PHP
- * ============================================================
+ * Interacciones de la tienda: carrito y formularios de acceso.
+ * Cada función conserva una tarea concreta para facilitar futuras modificaciones.
  */
-// ─── UTILIDADES GENERALES ─────────────────────────────────────────────────
-/**
- * Atajo para document.querySelector (como el $ de jQuery, pero nativo).
- * Ejemplo: $('#boton-carrito') en vez de document.querySelector('#boton-carrito')
- */
-/* Interacciones públicas: carrito de invitado, modales y acceso protegido. */
-const $ = (selector) => document.querySelector(selector);
-/**
- * Formatea un número como precio en soles peruanos.
- * Ejemplo: dinero(12.5) → "S/ 12.50"
- */
-const dinero = (valor) => `S/ ${Number(valor).toFixed(2)}`;
-/**
- * Escapa caracteres especiales de HTML para evitar inyección de código.
- * IMPORTANTE: nunca pongas texto del usuario directo en innerHTML sin escapar.
- * Ejemplo: escaparHtml('<script>') → '&lt;script&gt;'
- */
-const escaparHtml = (texto) =>
-    String(texto).replace(/[&<>"']/g, (simbolo) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;',
-        '"': '&quot;', "'": '&#039;'
-    })[simbolo]);
- 
-// ─── COMUNICACIÓN CON EL SERVIDOR (AJAX / FETCH) ──────────────────────────
- 
-/**
- * Función reutilizable para hacer peticiones al servidor y recibir JSON.
- * Es async porque espera la respuesta antes de continuar (no bloquea la UI).
- *
- * @param {string} ruta    - La ruta relativa, ej: '/carrito/agregar/3'
- * @param {object} opciones - Opciones de fetch (method, body, etc.)
- * @returns {Promise<object>} - Los datos JSON que devuelve el servidor
- * @throws {object} - Si el servidor devuelve error (status ≥ 400), lanza el JSON
- */
+const buscarElemento = (selector) => document.querySelector(selector);
+
+function escaparHtml(texto) {
+    return String(texto).replace(/[&<>"']/g, (caracter) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+    })[caracter]);
+}
+
+function formatearDinero(valor) {
+    return `S/ ${Number(valor).toFixed(2)}`;
+}
+
+// Centraliza las peticiones JSON para no repetir el manejo de errores.
 async function solicitar(ruta, opciones = {}) {
     const respuesta = await fetch(`${window.URL_BASE}${ruta}`, opciones);
     const datos = await respuesta.json();
-    // Si el servidor respondió con error HTTP, lo lanzamos como excepción
-    if (!respuesta.ok) throw datos;
+
+    if (!respuesta.ok) {
+        throw datos;
+    }
+
     return datos;
 }
-// ─── CONTROL DE CAPAS Y MODALES DE ACCESO ─────────────────────────────────
- 
-/**
- * Abre una capa (panel o modal) añadiendo la clase CSS "visible".
- * También muestra el fondo oscuro semitransparente.
- * @ param {string} idCapa - El id del elemento HTML, sin el #
- */
-function abrir(idCapa) {
-    $(`#${idCapa}`).classList.add('visible');
-    $('#fondo-modal').classList.add('visible');
+
+function abrirCapa(idCapa) {
+    buscarElemento(`#${idCapa}`)?.classList.add('visible');
+    buscarElemento('#fondo-modal')?.classList.add('visible');
 }
-/**
- * Cierra una capa (panel o modal) quitando la clase CSS "visible".
- * Si no quedan otras capas abiertas, oculta el fondo oscuro también.
- * @ param {string} idCapa - El id del elemento HTML, sin el #
- */
-function cerrar(idCapa) {
-    $(`#${idCapa}`).classList.remove('visible');
-    // Solo ocultamos el fondo si no hay otras capas abiertas
-    if (!document.querySelector('.modal-acceso.visible, .panel-carrito.visible')) {
-        $('#fondo-modal').classList.remove('visible');
+
+function cerrarCapa(idCapa) {
+    buscarElemento(`#${idCapa}`)?.classList.remove('visible');
+
+    if (!document.querySelector('.modal-acceso.visible, .panel-carrito.visible, #modal-producto.visible')) {
+        buscarElemento('#fondo-modal')?.classList.remove('visible');
     }
 }
 
-// ─── RENDERIZADO DEL CARRITO ───────────────────────────────────────────────
- 
-/**
- * Dibuja el contenido del panel lateral del carrito.
- * Se llama cada vez que el carrito cambia (al agregar, quitar o cambiar cantidad).
- *
- * @param {object} carrito - Objeto con { items: [], total: 0, cantidad: 0 }
- *                           que devuelve el servidor
- */
+// Dibuja el carrito usando únicamente datos recibidos del servidor.
 function pintarCarrito(carrito) {
-    // Actualizar el contador de ítems en el botón del header
-    $('#contador-carrito').textContent = carrito.cantidad;
- 
-    // Actualizar el total visible en el pie del panel
-    $('#total-carrito').textContent = dinero(carrito.total);
- 
-    // Reconstruir la lista de productos en el panel
-    $('#contenido-carrito').innerHTML = carrito.items.length
+    const contador = buscarElemento('#contador-carrito');
+    const total = buscarElemento('#total-carrito');
+    const contenido = buscarElemento('#contenido-carrito');
+
+    if (!contador || !total || !contenido) return;
+
+    contador.textContent = carrito.cantidad;
+    total.textContent = formatearDinero(carrito.total);
+    contenido.innerHTML = carrito.items.length
         ? carrito.items.map((item) => `
             <article class="linea-carrito">
-                <div>
-                    <strong>${escaparHtml(item.nombre)}</strong>
-                    <span>${dinero(item.precio)} c/u</span>
-                </div>
+                <div><strong>${escaparHtml(item.nombre)}</strong><span>${formatearDinero(item.precio)} c/u</span></div>
                 <div class="controles-cantidad">
-                    <!-- data-cambiar y data-cantidad son leídos por el listener de clicks abajo -->
-                    <button data-cambiar="${item.id}" data-cantidad="${item.cantidad - 1}">−</button>
+                    <button type="button" data-cambiar="${item.id}" data-cantidad="${item.cantidad - 1}" aria-label="Reducir cantidad">−</button>
                     <b>${item.cantidad}</b>
-                    <button data-cambiar="${item.id}" data-cantidad="${item.cantidad + 1}">+</button>
-                    <button class="enlace-eliminar" data-quitar="${item.id}">Quitar</button>
+                    <button type="button" data-cambiar="${item.id}" data-cantidad="${item.cantidad + 1}" aria-label="Aumentar cantidad">+</button>
+                    <button type="button" class="enlace-eliminar" data-quitar="${item.id}">Quitar</button>
                 </div>
-                <strong>${dinero(item.subtotal)}</strong>
-            </article>`)
-            .join('')
+                <strong>${formatearDinero(item.subtotal)}</strong>
+            </article>`).join('')
         : '<p class="carrito-vacio">Tu carrito está vacío.</p>';
 }
-/**
- * Pide al servidor el estado actual del carrito y lo dibuja.
- * Se llama al cargar la página para restaurar el carrito de sesión.
- */
-async function actualizarResumen() {
-    pintarCarrito((await solicitar('/carrito/resumen')).carrito);
+
+async function actualizarResumenCarrito() {
+    try {
+        pintarCarrito((await solicitar('/carrito/resumen')).carrito);
+    } catch (error) {
+        console.error('No se pudo cargar el carrito.', error);
+    }
 }
 
-// ─── LISTENER PRINCIPAL DE CLICKS ─────────────────────────────────────────
-/**
- * En vez de poner un event listener en cada botón individualmente,
- * escuchamos TODOS los clicks en el documento y preguntamos si
- * el elemento clickeado (o su padre) es el que nos interesa.
- * Esto se llama "event delegation" y es más eficiente.
- */
-document.addEventListener('click', async (evento) => {
-    // Buscamos si el elemento clickeado o algún ancestro coincide con cada caso
-    const agregar = evento.target.closest('[data-agregar]');
-    const cambiar  = evento.target.closest('[data-cambiar]');
-    const quitar   = evento.target.closest('[data-quitar]');
- 
-    // — Abrir el panel del carrito —
-    if (evento.target.closest('#boton-carrito')) {
-        return abrir('panel-carrito');
-    }
- 
-    // — Cerrar cualquier capa (el atributo data-cerrar lleva el id a cerrar) —
-    if (evento.target.closest('[data-cerrar]')) {
-        return cerrar(evento.target.closest('[data-cerrar]').dataset.cerrar);
-    }
- 
-    // — Añadir un producto al carrito —
-    if (agregar) {
-        try {
-            const datos = await solicitar(
-                `/carrito/agregar/${agregar.dataset.agregar}`,
-                { method: 'POST' }
-            );
-            pintarCarrito(datos.carrito);
-            abrir('panel-carrito'); // abrimos el panel para que el usuario vea lo que añadió
-        } catch (error) {
-            alert(error.mensaje); // mostramos el mensaje de error del servidor
-        }
-        return;
-    }
- 
-    // — Cambiar la cantidad de un producto en el carrito —
-    if (cambiar) {
-        const formData = new FormData();
-        formData.append('cantidad', cambiar.dataset.cantidad);
-        const datos = await solicitar(
-            `/carrito/cambiar/${cambiar.dataset.cambiar}`,
-            { method: 'POST', body: formData }
-        );
-        pintarCarrito(datos.carrito);
-        return;
-    }
- 
-    // — Quitar un producto del carrito —
-    if (quitar) {
-        const datos = await solicitar(
-            `/carrito/quitar/${quitar.dataset.quitar}`,
-            { method: 'POST' }
-        );
-        pintarCarrito(datos.carrito);
-        return;
-    }
- 
-    // — Cambiar de "login" a "registro" dentro del modal de acceso —
-    if (evento.target.matches('[data-mostrar-registro]')) {
-        $('#vista-ingreso').hidden = true;
-        $('#vista-registro').hidden = false;
-    }
- 
-    // — Cambiar de "registro" a "login" dentro del modal de acceso —
-    if (evento.target.matches('[data-mostrar-ingreso]')) {
-        $('#vista-ingreso').hidden = false;
-        $('#vista-registro').hidden = true;
-    }
-});
-
-// ─── BOTÓN "CONTINUAR CON LA COMPRA" ──────────────────────────────────────
-/**
- * Al hacer clic, le pregunta al servidor si el usuario está logueado.
- * - Si SÍ está logueado → redirige al formulario de checkout
- * - Si NO está logueado → abre el modal de acceso (login/registro)
- */
-$('#boton-comprar').addEventListener('click', async () => {
+async function enviarFormulario(formulario, ruta, mensaje) {
     try {
-        const datos = await solicitar('/checkout/iniciar', { method: 'POST' });
-        window.location.href = datos.redirigir; // redirige al checkout
-    } catch (error) {
-        // El servidor devuelve requiere_acceso: true si no hay sesión
-        if (error.requiere_acceso) abrir('modal-acceso');
-    }
-});
-// ─── ENVÍO DE FORMULARIOS DE ACCESO ───────────────────────────────────────
- 
-/**
- * Envía un formulario al servidor de forma asíncrona (sin recargar la página)
- * y muestra el mensaje de respuesta o redirige si el servidor lo indica.
- *
- * @param {HTMLFormElement} formulario - El formulario que se envía
- * @param {string} ruta               - La ruta del endpoint PHP
- * @param {HTMLElement} mensajeEl     - Elemento donde mostrar mensajes de error/éxito
- */
-async function enviarFormulario(formulario, ruta, mensajeEl) {
-    try {
-        const datos = await solicitar(ruta, {
-            method: 'POST',
-            body: new FormData(formulario) // envía los campos del formulario
-        });
-        mensajeEl.textContent = datos.mensaje || 'Acceso validado.';
-        // Si el servidor indica una URL de redirección, vamos ahí
+        const datos = await solicitar(ruta, { method: 'POST', body: new FormData(formulario) });
         window.location.href = datos.redirigir || `${window.URL_BASE}/checkout/formulario`;
     } catch (error) {
-        mensajeEl.textContent = error.mensaje || 'No se pudo completar la acción.';
+        mensaje.textContent = error.mensaje || 'No se pudo completar la acción.';
     }
 }
 
-// Conectar los 3 formularios de acceso con su endpoint correspondiente
-$('#formulario-ingreso').addEventListener('submit', (e) => {
-    e.preventDefault(); // evitar el envío tradicional (con recarga)
-    enviarFormulario(e.currentTarget, '/login/autenticar', $('#mensaje-acceso'));
+document.addEventListener('click', async (evento) => {
+    const botonCerrar = evento.target.closest('[data-cerrar]');
+    const botonAgregar = evento.target.closest('[data-agregar]');
+    const botonCambiar = evento.target.closest('[data-cambiar]');
+    const botonQuitar = evento.target.closest('[data-quitar]');
+
+    if (evento.target.closest('#boton-carrito')) return abrirCapa('panel-carrito');
+    if (botonCerrar) return cerrarCapa(botonCerrar.dataset.cerrar);
+
+    if (evento.target.closest('[data-mostrar-registro]')) {
+        buscarElemento('#vista-ingreso').hidden = true;
+        buscarElemento('#vista-registro').hidden = false;
+        return;
+    }
+
+    if (evento.target.closest('[data-mostrar-ingreso]')) {
+        buscarElemento('#vista-ingreso').hidden = false;
+        buscarElemento('#vista-registro').hidden = true;
+        return;
+    }
+
+    try {
+        if (botonAgregar) {
+            const datos = await solicitar(`/carrito/agregar/${botonAgregar.dataset.agregar}`, { method: 'POST' });
+            pintarCarrito(datos.carrito);
+            abrirCapa('panel-carrito');
+        }
+
+        if (botonCambiar) {
+            const datosFormulario = new FormData();
+            datosFormulario.append('cantidad', botonCambiar.dataset.cantidad);
+            const datos = await solicitar(`/carrito/cambiar/${botonCambiar.dataset.cambiar}`, { method: 'POST', body: datosFormulario });
+            pintarCarrito(datos.carrito);
+        }
+
+        if (botonQuitar) {
+            const datos = await solicitar(`/carrito/quitar/${botonQuitar.dataset.quitar}`, { method: 'POST' });
+            pintarCarrito(datos.carrito);
+        }
+    } catch (error) {
+        alert(error.mensaje || 'No se pudo actualizar el carrito.');
+    }
 });
- 
-$('#formulario-registro').addEventListener('submit', (e) => {
-    e.preventDefault();
-    enviarFormulario(e.currentTarget, '/login/registrar', $('#mensaje-acceso'));
+
+buscarElemento('#boton-comprar')?.addEventListener('click', async () => {
+    try {
+        const datos = await solicitar('/checkout/iniciar', { method: 'POST' });
+        window.location.href = datos.redirigir;
+    } catch (error) {
+        if (error.requiere_acceso) abrirCapa('modal-acceso');
+    }
 });
- 
-$('#formulario-administrador').addEventListener('submit', (e) => {
-    e.preventDefault();
-    enviarFormulario(e.currentTarget, '/login/administrador', $('#mensaje-administrador'));
+
+buscarElemento('#formulario-ingreso')?.addEventListener('submit', (evento) => {
+    evento.preventDefault();
+    enviarFormulario(evento.currentTarget, '/login/autenticar', buscarElemento('#mensaje-acceso'));
 });
-// ─── ATAJO DE TECLADO PARA ADMINISTRADOR ──────────────────────────────────
-/**
- * Ctrl + Shift + A abre el modal de login de administrador.
- * NOTA: esto es solo un atajo de conveniencia para el desarrollo.
- * La seguridad real está en el servidor (PHP comprueba el rol).
- */
+
+buscarElemento('#formulario-registro')?.addEventListener('submit', (evento) => {
+    evento.preventDefault();
+    enviarFormulario(evento.currentTarget, '/login/registrar', buscarElemento('#mensaje-acceso'));
+});
+
+buscarElemento('#formulario-administrador')?.addEventListener('submit', (evento) => {
+    evento.preventDefault();
+    enviarFormulario(evento.currentTarget, '/login/administrador', buscarElemento('#mensaje-administrador'));
+});
+
 document.addEventListener('keydown', (evento) => {
-    if (evento.ctrlKey && evento.shiftKey && evento.key.toLowerCase() === 'a') {
-        abrir('modal-administrador');
-    }
-});
- 
-// Cerrar cualquier capa visible al hacer clic en el fondo oscuro
-$('#fondo-modal').addEventListener('click', () => {
-    document.querySelectorAll('.visible').forEach((el) => el.classList.remove('visible'));
+    if (evento.ctrlKey && evento.shiftKey && evento.key.toLowerCase() === 'a') abrirCapa('modal-administrador');
+    if (evento.key === 'Escape') document.querySelectorAll('.modal-acceso.visible, .panel-carrito.visible').forEach((capa) => cerrarCapa(capa.id));
 });
 
-// ─── BOTÓN "INICIAR SESIÓN" EN EL HEADER ──────────────────────────────────
-/**
- * El botón del header que abre el modal de login.
- * Solo existe si el usuario NO está logueado (PHP no lo renderiza si hay sesión).
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const botonCarrito = document.getElementById('boton-carrito');
-    const panelCarrito = document.getElementById('panel-carrito');
-    const fondoModal = document.getElementById('fondo-modal');
-    const botonesCerrar = document.querySelectorAll('[data-cerrar]');
-
-    // Abrir el carrito
-    if (botonCarrito && panelCarrito) {
-        botonCarrito.addEventListener('click', (e) => {
-            e.preventDefault();
-            panelCarrito.classList.add('activo');
-            panelCarrito.setAttribute('aria-hidden', 'false');
-            if (fondoModal) fondoModal.classList.add('activo');
-        });
-    }
-    // Abrir el modal de login desde el header
-    const botonLoginNav = document.getElementById('enlace-login-nav');
-    if (botonLoginNav) {
-        botonLoginNav.addEventListener('click', (e) => {
-            e.preventDefault();
-            abrir('modal-acceso');
-        });
-    }
-    // Cerrar con botones que tengan data-cerrar
-    botonesCerrar.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const objetivoId = boton.getAttribute('data-cerrar');
-            const elemento = document.getElementById(objetivoId);
-            if (elemento) {
-                elemento.classList.remove('activo');
-                elemento.setAttribute('aria-hidden', 'true');
-            }
-            if (fondoModal) fondoModal.classList.remove('activo');
-        });
-    });
-
-    // Cerrar al hacer clic en el fondo oscuro
-    if (fondoModal) {
-        fondoModal.addEventListener('click', () => {
-            if (panelCarrito) {
-                panelCarrito.classList.remove('activo');
-                panelCarrito.setAttribute('aria-hidden', 'true');
-            }
-            fondoModal.classList.remove('activo');
-        });
-    }
+buscarElemento('#fondo-modal')?.addEventListener('click', () => {
+    document.querySelectorAll('.modal-acceso.visible, .panel-carrito.visible').forEach((capa) => cerrarCapa(capa.id));
 });
-// ─── INICIALIZACIÓN ────────────────────────────────────────────────────────
-// Al cargar la página, recuperamos el carrito guardado en la sesión PHP.
-actualizarResumen();
 
+actualizarResumenCarrito();

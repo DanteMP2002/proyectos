@@ -9,6 +9,28 @@ body {
     font-family: var(--fuente-cuerpo); 
 }
 
+/* Componentes compartidos por las páginas internas del cliente. */
+.pagina-cliente { min-height: 100vh; background: var(--crema-fondo); }
+.contenedor-pagina { width: min(1100px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0; }
+.cabecera-pagina { display: flex; justify-content: space-between; align-items: start; gap: 24px; margin-bottom: 28px; }
+.cabecera-pagina h1 { margin: 4px 0 10px; color: var(--vino-oscuro); font-family: var(--fuente-titulos); }
+.texto-ayuda { max-width: 640px; margin: 0; color: var(--texto-suave); }
+.tarjeta-contenido { overflow: hidden; border: 1px solid var(--arena-detalle); border-radius: 12px; background: var(--blanco-puro); box-shadow: 0 8px 24px rgba(72, 32, 46, .07); }
+.tabla-responsive { overflow-x: auto; }
+.tabla-pedidos { width: 100%; border-collapse: collapse; text-align: left; }
+.tabla-pedidos th, .tabla-pedidos td { padding: 16px; border-bottom: 1px solid var(--arena-detalle); }
+.tabla-pedidos th { color: var(--vino-oscuro); font-size: .8rem; letter-spacing: .03em; text-transform: uppercase; }
+.estado-pedido { display: inline-block; padding: 5px 10px; border-radius: 99px; font-size: .82rem; font-weight: 700; }
+.estado-pendiente { color: #a66a00; background: #fff4d8; }
+.estado-pagado { color: #147548; background: #e4f6eb; }
+.estado-cancelado { color: #b33333; background: #fde8e8; }
+.enlace-accion { color: var(--vino-principal); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.estado-vacio { padding: 56px 24px; text-align: center; color: var(--texto-suave); }
+.estado-vacio h2 { color: var(--vino-oscuro); font-family: var(--fuente-titulos); }
+.visualmente-oculto { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (max-width: 680px) { .contenedor-pagina { padding: 28px 0; } .cabecera-pagina { align-items: stretch; flex-direction: column; } .cabecera-pagina .boton-secundario { text-align: center; } .tabla-pedidos th, .tabla-pedidos td { padding: 12px; } }
+
 button, input, select { font: inherit; }
 button { cursor: pointer; }
 a { color: inherit; text-decoration: none; }
@@ -155,6 +177,9 @@ a { color: inherit; text-decoration: none; }
     transform: translateX(0);
 }
 
+/* Estado único usado por tienda.js para mostrar capas de la interfaz. */
+.panel-carrito.visible { transform: translateX(0); }
+
 /* Fondo oscuro superpuesto */
 .fondo-modal {
     display: none;
@@ -170,3 +195,4 @@ a { color: inherit; text-decoration: none; }
 .fondo-modal.activo {
     display: block;
 }
+.fondo-modal.visible { display: block; }

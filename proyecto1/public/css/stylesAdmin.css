@@ -80,3 +80,22 @@ body.body-admin {
     padding: 16px;
     border-bottom: 1px solid var(--admin-lineas);
 }
+
+/* Formulario de crear y editar producto: evita estilos en línea dentro de la vista. */
+.pagina-admin-centro { display: grid; min-height: 100vh; padding: 40px 20px; place-items: center; }
+.formulario-admin-contenedor { width: min(640px, 100%); box-shadow: 0 10px 40px rgba(0, 0, 0, .5); }
+.enlace-volver-admin { display: inline-block; margin-bottom: 16px; color: var(--admin-oro-rosa); font-weight: 700; }
+.cabecera-formulario-admin { padding-bottom: 18px; border-bottom: 1px solid var(--admin-lineas); }
+.cabecera-formulario-admin h1 { margin: 5px 0 8px; color: var(--admin-texto-blanco); font-family: var(--fuente-titulos); }
+.cabecera-formulario-admin p:last-child { margin: 0; color: var(--texto-gris); }
+.formulario-admin { display: grid; gap: 18px; margin-top: 24px; }
+.formulario-admin label { display: grid; gap: 7px; color: var(--admin-oro-rosa); font-weight: 700; }
+.formulario-admin input, .formulario-admin select, .formulario-admin textarea { width: 100%; padding: 11px; border: 1px solid var(--admin-lineas); border-radius: 4px; color: var(--admin-texto-blanco); background: var(--admin-bg-oscuro); }
+.formulario-admin small { color: var(--texto-gris); font-weight: 400; }
+.fila-campos-admin { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.campo-checkbox { display: flex !important; align-items: center; gap: 10px; color: var(--admin-texto-blanco) !important; }
+.campo-checkbox input { width: auto; }
+.vista-previa-imagen { margin: 0; padding: 12px; border: 1px solid var(--admin-lineas); border-radius: 6px; text-align: center; }
+.vista-previa-imagen figcaption { margin-bottom: 10px; color: var(--texto-gris); font-size: .85rem; }
+.vista-previa-imagen img { max-height: 160px; max-width: 100%; border-radius: 4px; object-fit: cover; }
+@media (max-width: 560px) { .fila-campos-admin { grid-template-columns: 1fr; } }

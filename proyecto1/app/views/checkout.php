@@ -146,10 +146,9 @@
             <!-- DETALLE DE PRODUCTOS ADQUIRIDOS -->
             <div class="vaucher-lista">
                 <?php 
-                // Asumimos que los artículos del carrito vienen en un array $itemsCarrito.
-                // Si aún no tienes esa variable estructurada, puedes simularla temporalmente o iterar tu variable de sesión.
-                if (isset($itemsCarrito) && is_array($itemsCarrito)): 
-                    foreach ($itemsCarrito as $item): 
+                // El controlador entrega el carrito preparado para mostrar el resumen.
+                if (isset($carrito) && is_array($carrito)):
+                    foreach ($carrito as $item):
                 ?>
                     <div class="vaucher-item">
                         <div class="vaucher-item-detalles">

@@ -3,105 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Pedidos | Vínculo Bodas</title>
+    <title>Mis pedidos | Vínculo Bodas</title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
-    <style>
-        .seccion-mis-pedidos {
-            width: min(1000px, calc(100% - 40px));
-            margin: 40px auto;
-            padding: 20px;
-        }
-        .cabecera-pedidos {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #ebd6ce;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-        .cabecera-pedidos h1 {
-            font-family: Georgia, serif;
-            color: var(--vino-oscuro);
-            margin: 0;
-        }
-        .estado-pedido {
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-        /* Estados del cliente alineados a la paleta romántica */
-        .estado-pendiente { background-color: #fef9e7; color: #f39c12; border: 1px solid #f9e79f; }
-        .estado-pagado { background-color: #eafaf1; color: #2ecc71; border: 1px solid #d4efdf; }
-        .estado-cancelado { background-color: #fceae9; color: #e74c3c; border: 1px solid #fadbd8; }
-    </style>
 </head>
-<body>
-
-    <main class="seccion-mis-pedidos">
-        
-        <div class="cabecera-pedidos">
+<body class="pagina-cliente">
+    <!-- Historial disponible únicamente para el usuario que inició sesión. -->
+    <main class="contenedor-pagina contenedor-pedidos">
+        <header class="cabecera-pagina">
             <div>
                 <p class="etiqueta">Tu cuenta</p>
-                <h1>Mis Pedidos</h1>
+                <h1>Mis pedidos</h1>
+                <p class="texto-ayuda">Hola, <strong><?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></strong>. Aquí puedes revisar el estado de cada compra.</p>
             </div>
             <a href="<?= URL_BASE ?>/inicio" class="boton-secundario">Volver a la tienda</a>
-        </div>
+        </header>
 
-        <p style="color: var(--suave);">Hola, <strong><?= htmlspecialchars($_SESSION['usuario']['nombre']) ?></strong>. Aquí puedes hacer el seguimiento de tus solicitudes para el gran día.</p>
-
-        <!-- 3. RENDERIZADO DE xLA TABLA -->
-        <div class="tabla-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Fecha</th>
-                        <th>Método de Pago</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Detalles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($pedidosCliente)): ?>
-                        <?php foreach ($pedidosCliente as $pedido): ?>
-                            <tr>
-                                <td><strong>#<?= htmlspecialchars($pedido['codigo'] ?? $pedido['id']) ?></strong></td>
-                                <td><?= htmlspecialchars($pedido['creado_en'] ?? $pedido['fecha']) ?></td>
-                                <td><small><?= htmlspecialchars(strtoupper($pedido['metodo_pago'])) ?></small></td>
-                                <td><strong>S/ <?= number_format((float)$pedido['total'], 2) ?></strong></td>
-                                <td>
-                                    <?php 
-                                    $estado = $pedido['estado'] ?? 'pendiente';
-                                    if ($estado === 'pendiente'): ?>
-                                        <span class="estado-pedido estado-pendiente">Pendiente de verificación</span>
-                                    <?php elseif ($estado === 'pagado'): ?>
-                                        <span class="estado-pedido estado-pagado">Pago Confirmado</span>
-                                    <?php else: ?>
-                                        <span class="estado-pedido estado-cancelado">Cancelado</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <a href="<?= URL_BASE ?>/pedido/detalle/<?= htmlspecialchars($pedido['id']) ?>" style="color: var(--vino); font-weight: 700;">
-                                        Ver detalles
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px; color: var(--suave);">
-                                Aún no has registrado ningún pedido. ¡Explora nuestro catálogo para comenzar!
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+        <section class="tarjeta-contenido" aria-labelledby="titulo-historial">
+            <h2 id="titulo-historial" class="visualmente-oculto">Historial de pedidos</h2>
+            <?php if (empty($pedidosCliente)): ?>
+                <!-- Mensaje mostrado cuando el cliente todavía no registró compras. -->
+                <div class="estado-vacio">
+                    <h2>Aún no tienes pedidos</h2>
+                    <p>Explora el catálogo cuando quieras preparar tu celebración.</p>
+                    <a href="<?= URL_BASE ?>/inicio#productos" class="boton-principal">Ver productos</a>
+                </div>
+            <?php else: ?>
+                <div class="tabla-responsive">
+                    <table class="tabla-pedidos">
+                        <thead><tr><th>Código</th><th>Fecha</th><th>Pago</th><th>Total</th><th>Estado</th><th><span class="visualmente-oculto">Acciones</span></th></tr></thead>
+                        <tbody>
+                            <?php foreach ($pedidosCliente as $pedido): ?>
+                                <?php $estado = $pedido['estado'] ?? 'pendiente'; ?>
+                                <tr>
+                                    <td><strong><?= htmlspecialchars($pedido['codigo'] ?? (string) $pedido['id']) ?></strong></td>
+                                    <td><?= htmlspecialchars($pedido['creado_en'] ?? $pedido['fecha']) ?></td>
+                                    <td><?= htmlspecialchars(ucfirst($pedido['metodo_pago'])) ?></td>
+                                    <td><strong>S/ <?= number_format((float) $pedido['total'], 2) ?></strong></td>
+                                    <td><span class="estado-pedido estado-<?= htmlspecialchars($estado) ?>"><?= htmlspecialchars(ucfirst($estado)) ?></span></td>
+                                    <td><a class="enlace-accion" href="<?= URL_BASE ?>/pedido/detalle/<?= (int) $pedido['id'] ?>">Ver detalle</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </section>
     </main>
-
 </body>
 </html>
