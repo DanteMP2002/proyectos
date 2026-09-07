@@ -1,0 +1,112 @@
+/**
+ * modal.js — Vínculo Bodas
+ * ============================================================
+ * Maneja la apertura y cierre del modal de detalle de producto.
+ *
+ * CÓMO FUNCIONA:
+ * 1. Cada tarjeta de producto en inicio.php tiene atributos data-*
+ *    (data-nombre, data-descripcion, data-precio, etc.)
+ * 2. Al hacer clic en una tarjeta, abrirModal() lee esos datos
+ *    y los pone dentro del HTML del modal.
+ * 3. El modal se muestra añadiendo la clase CSS "activo".
+ *
+ * DEPENDENCIAS:
+ * - modal.css  (los estilos del modal)
+ * - El HTML de inicio.php debe tener un elemento con id="modal-producto"
+ * ============================================================
+ */
+
+
+// ─── 1. REFERENCIAS AL DOM ─────────────────────────────────────────────────
+// Guardamos referencias a los elementos del modal para no buscarlos
+// cada vez que se abre/cierra (es más eficiente).
+
+const modalOverlay     = document.getElementById('modal-producto');
+const modalNombre      = document.getElementById('modal-nombre');
+const modalDescripcion = document.getElementById('modal-descripcion');
+const modalPrecio      = document.getElementById('modal-precio');
+const modalWhatsapp    = document.getElementById('modal-whatsapp');
+const modalImagen      = document.getElementById('modal-imagen');
+const modalCategoria   = document.getElementById('modal-categoria');
+const modalBtnCarrito  = document.getElementById('modal-btn-carrito');
+
+
+// ─── 2. FUNCIÓN PARA ABRIR EL MODAL ────────────────────────────────────────
+/**
+ * Recibe el elemento <article> de la tarjeta de producto sobre el que
+ * se hizo clic, lee sus atributos data-* y rellena el modal con esa info.
+ *
+ * @param {HTMLElement} tarjeta - El <article class="tarjeta-producto"> clickeado
+ */
+function abrirModal(tarjeta) {
+    // Leer todos los datos guardados en los atributos data-* de la tarjeta
+    const nombre      = tarjeta.dataset.nombre      || 'Producto';
+    const descripcion = tarjeta.dataset.descripcion || '';
+    const precio      = parseFloat(tarjeta.dataset.precio) || 0;
+    const urlWhatsapp = tarjeta.dataset.whatsapp    || '#';
+    const imagen      = tarjeta.dataset.imagen      || '';
+    const categoria   = tarjeta.dataset.categoria   || '';
+    const productoId  = tarjeta.dataset.id          || '';
+    const agotado     = tarjeta.classList.contains('producto-agotado');
+
+    // Rellenar el modal con los datos leídos
+    modalNombre.textContent      = nombre;
+    modalDescripcion.textContent = descripcion;
+    modalPrecio.textContent      = `S/ ${precio.toFixed(2)}`;
+    modalWhatsapp.href           = urlWhatsapp;
+    modalCategoria.textContent   = categoria;
+
+    // Mostrar la imagen si existe, o esconder el contenedor si no hay
+    if (imagen) {
+        modalImagen.src = imagen;
+        modalImagen.alt = `Foto de ${nombre}`;
+        modalImagen.parentElement.style.display = '';
+    } else {
+        modalImagen.parentElement.style.display = 'none';
+    }
+
+    // Configurar el botón de carrito según si hay stock o no
+    if (agotado) {
+        modalBtnCarrito.textContent        = 'Sin stock disponible';
+        modalBtnCarrito.classList.add('agotado');
+        modalBtnCarrito.removeAttribute('data-agregar'); // sin data-agregar no dispara nada en tienda.js
+    } else {
+        modalBtnCarrito.textContent        = 'Añadir al carrito';
+        modalBtnCarrito.classList.remove('agotado');
+        modalBtnCarrito.dataset.agregar    = productoId; // tienda.js escucha este atributo
+    }
+
+    // Mostrar el modal añadiendo la clase CSS "activo"
+    modalOverlay.classList.add('activo');
+
+    // Bloquear el scroll del body para que no se desplace la página detrás
+    document.body.style.overflow = 'hidden';
+}
+
+
+// ─── 3. FUNCIÓN PARA CERRAR EL MODAL ───────────────────────────────────────
+/**
+ * Oculta el modal y restaura el scroll normal de la página.
+ */
+function cerrarModal() {
+    modalOverlay.classList.remove('activo');
+    document.body.style.overflow = '';
+}
+
+
+// ─── 4. EVENTOS DE CIERRE ──────────────────────────────────────────────────
+
+// Cerrar al hacer clic en el fondo oscuro (fuera de la caja blanca)
+modalOverlay.addEventListener('click', function(evento) {
+    // Solo cerramos si el clic fue en el overlay en sí, NO en la caja interior
+    if (evento.target === modalOverlay) {
+        cerrarModal();
+    }
+});
+
+// Cerrar al presionar la tecla Escape (accesibilidad)
+document.addEventListener('keydown', function(evento) {
+    if (evento.key === 'Escape' && modalOverlay.classList.contains('activo')) {
+        cerrarModal();
+    }
+});

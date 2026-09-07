@@ -11,6 +11,7 @@ unset($_SESSION['mensaje_compra']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vínculo Bodas | Tienda</title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
+    <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/modal.css">
 </head>
 <body>
 
@@ -319,6 +320,7 @@ unset($_SESSION['mensaje_compra']);
 
     <script>window.URL_BASE = '<?= URL_BASE ?>';</script>
     <script src="<?= URL_BASE ?>/public/js/tienda.js"></script>
+    <script src="<?= URL_BASE ?>/public/js/modal.js"></script>
 
 </body>
 </html>
