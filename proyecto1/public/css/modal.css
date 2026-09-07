@@ -98,9 +98,45 @@
     cursor: pointer;
 }
 /* Estado visible del modal */
-#modal-producto.visible,
 #fondo-modal.visible {
     display: block;
     opacity: 1;
     pointer-events: auto;
+}
+/* Asegura que el scroll del body vuelva a funcionar cuando no tenga la clase activa */
+body {
+    overflow-x: hidden;
+}
+
+/* Contenedor/Overlay del modal centrado y fijo */
+#modal-producto {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 550px;
+    max-height: 85vh; /* Evita que sobrepase la altura de la pantalla */
+    overflow-y: auto;  /* Agrega scroll interno si el contenido es muy largo */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+}
+
+/* Control para imágenes que se desbordan */
+#modal-producto img,
+#modal-imagen {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 15px auto;
+}
+
+/* Estado visible */
+#modal-producto.visible {
+    display: block;
 }

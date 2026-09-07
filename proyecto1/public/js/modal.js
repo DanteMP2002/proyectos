@@ -90,13 +90,19 @@ function abrirModal(tarjeta) {
  * Oculta el modal y restaura el scroll normal de la página.
  */
 function cerrarModal() {
-        modalOverlay.classList.remove('visible');
-        if (fondoModal && !document.querySelector('.modal-acceso.visible, .panel-carrito.visible')) {
-            fondoModal.classList.remove('visible');
-        }
-        modalOverlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+    modalOverlay.classList.remove('visible');
+    
+    // Ocultar fondo modal si existe
+    if (fondoModal) {
+        fondoModal.classList.remove('visible');
     }
+    
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    
+    // Restaurar el scroll del navegador obligatoriamente
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+}
 
 
 // ─── 4. EVENTOS DE CIERRE ──────────────────────────────────────────────────
