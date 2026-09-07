@@ -84,7 +84,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
             </div>
 
             <!-- ─── NUEVA BARRA DE FILTROS COMBINADOS ─── -->
-            <div class="filtro-productos">
+            <div class="filtro-productos" aria-label="Filtros del catálogo">
                 
                 <!-- Buscador por Texto -->
                 <div class="campo-filtro">
@@ -111,16 +111,16 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     </select>
                 </div>
 
-                <!-- Ordenar por Precio -->
-                <div class="campo-filtro">
-                    <label for="orden-precio">Ordenar por precio</label>
-                    <select id="orden-precio">
+                <div class="campo-filtro campo-orden">
+                    <label for="orden-catalogo">Ordenar productos</label>
+                    <select id="orden-catalogo">
                         <option value="">Recomendados</option>
                         <option value="menor-mayor">Precio: Menor a Mayor</option>
                         <option value="mayor-menor">Precio: Mayor a Menor</option>
+                        <option value="nombre">Nombre: A a Z</option>
                     </select>
                 </div>
-
+                <button id="invertir-orden" class="boton-invertir-orden" type="button" title="Invertir el orden" aria-label="Invertir el orden">↕</button>
             </div>
 
             <!-- ─── REJILLA DE PRODUCTOS (Ajustada con data-attributes para JS) ─── -->
@@ -321,7 +321,24 @@ $tokenFormulario = Autenticacion::tokenFormulario();
 
     <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
-        © <?= date('Y') ?> Vínculo Bodas · Diseñado para celebrar.
+        <div class="pie-pagina-contenido">
+            <div class="pie-marca">
+                <a class="marca" href="#inicio">MUNDO NOVIAS <span>&amp; QUINCE</span></a>
+                <p>Detalles elegidos para celebrar momentos que se quedan para siempre.</p>
+            </div>
+            <div class="pie-enlaces">
+                <h2>Explora</h2>
+                <a href="#productos">Catálogo</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="<?= URL_BASE ?>/pedido/mispedidos">Mis pedidos</a>
+            </div>
+            <div class="pie-contacto">
+                <h2>¿Necesitas ayuda?</h2>
+                <p>Escríbenos y te ayudamos a elegir.</p>
+                <a href="https://wa.me/51920134856" target="_blank" rel="noopener">WhatsApp ↗</a>
+            </div>
+        </div>
+        <div class="pie-legal">© <?= date('Y') ?> Mundo Novias &amp; Quince. Hecho para celebrar.</div>
     </footer>
 
     <script>window.URL_BASE = '<?= URL_BASE ?>';</script>
