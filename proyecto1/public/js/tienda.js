@@ -14,15 +14,11 @@
  *   - La variable global window.URL_BASE definida en el PHP
  * ============================================================
  */
- 
- 
 // ─── UTILIDADES GENERALES ─────────────────────────────────────────────────
- 
 /**
  * Atajo para document.querySelector (como el $ de jQuery, pero nativo).
  * Ejemplo: $('#boton-carrito') en vez de document.querySelector('#boton-carrito')
  */
-
 /* Interacciones públicas: carrito de invitado, modales y acceso protegido. */
 const $ = (selector) => document.querySelector(selector);
 /**
@@ -277,6 +273,21 @@ $('#fondo-modal').addEventListener('click', () => {
  * Solo existe si el usuario NO está logueado (PHP no lo renderiza si hay sesión).
  */
 document.addEventListener('DOMContentLoaded', () => {
+    const botonCarrito = document.getElementById('boton-carrito');
+    const panelCarrito = document.getElementById('panel-carrito');
+    const fondoModal = document.getElementById('fondo-modal');
+    const botonesCerrar = document.querySelectorAll('[data-cerrar]');
+
+    // Abrir el carrito
+    if (botonCarrito && panelCarrito) {
+        botonCarrito.addEventListener('click', (e) => {
+            e.preventDefault();
+            panelCarrito.classList.add('activo');
+            panelCarrito.setAttribute('aria-hidden', 'false');
+            if (fondoModal) fondoModal.classList.add('activo');
+        });
+    }
+    // Abrir el modal de login desde el header
     const botonLoginNav = document.getElementById('enlace-login-nav');
     if (botonLoginNav) {
         botonLoginNav.addEventListener('click', (e) => {
@@ -284,8 +295,30 @@ document.addEventListener('DOMContentLoaded', () => {
             abrir('modal-acceso');
         });
     }
-});
+    // Cerrar con botones que tengan data-cerrar
+    botonesCerrar.forEach(boton => {
+        boton.addEventListener('click', () => {
+            const objetivoId = boton.getAttribute('data-cerrar');
+            const elemento = document.getElementById(objetivoId);
+            if (elemento) {
+                elemento.classList.remove('activo');
+                elemento.setAttribute('aria-hidden', 'true');
+            }
+            if (fondoModal) fondoModal.classList.remove('activo');
+        });
+    });
 
+    // Cerrar al hacer clic en el fondo oscuro
+    if (fondoModal) {
+        fondoModal.addEventListener('click', () => {
+            if (panelCarrito) {
+                panelCarrito.classList.remove('activo');
+                panelCarrito.setAttribute('aria-hidden', 'true');
+            }
+            fondoModal.classList.remove('activo');
+        });
+    }
+});
 // ─── INICIALIZACIÓN ────────────────────────────────────────────────────────
 // Al cargar la página, recuperamos el carrito guardado en la sesión PHP.
 actualizarResumen();
