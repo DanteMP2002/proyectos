@@ -135,27 +135,38 @@ a { color: inherit; text-decoration: none; }
     font-size: 1.35rem; 
 }
 .ver-detalle { color: var(--vino-principal); font-weight: 700; }
+/* Panel lateral del carrito */
 .panel-carrito {
     position: fixed;
     top: 0;
     right: 0;
-    width: 350px;
+    width: 380px;
+    max-width: 100%;
     height: 100vh;
-    background: #fff;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     z-index: 1000;
 }
 
+/* Estado activo del carrito */
 .panel-carrito.activo {
     transform: translateX(0);
 }
 
+/* Fondo oscuro superpuesto */
+.fondo-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
 .fondo-modal.activo {
     display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 999;
 }
