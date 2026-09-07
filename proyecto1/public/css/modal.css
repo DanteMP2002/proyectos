@@ -66,3 +66,41 @@
 .modal-boton-whatsapp:hover {
     background: var(--estado-whatsapp-hover);
 }
+/* Ventana modal centrada */
+.modal-overlay,
+.modal-producto {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    width: 90%;
+    max-width: 500px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+}
+
+/* Estado.visible del modal */
+.modal-overlay.visible,
+.modal-producto.visible {
+    display: block;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Cursor inte.visible en las tarjetas de producto */
+.tarjeta-producto {
+    cursor: pointer;
+}
+/* Estado visible del modal */
+#modal-producto.visible,
+#fondo-modal.visible {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
