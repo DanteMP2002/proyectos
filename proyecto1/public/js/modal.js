@@ -26,9 +26,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalWhatsapp    = document.getElementById('modal-whatsapp');
     const modalImagen      = document.getElementById('modal-imagen');
     const modalCategoria   = document.getElementById('modal-categoria');
+    const modalGaleria     = document.getElementById('modal-galeria');
     const modalBtnCarrito  = document.getElementById('modal-btn-carrito');
     const fondoModal       = document.getElementById('fondo-modal');
 if (!modalOverlay) return;
+
+let imagenesModal = [];
+
+function mostrarImagenModal(indice) {
+    const imagen = imagenesModal[indice];
+    if (!imagen) return;
+
+    modalImagen.src = imagen;
+    modalGaleria?.querySelectorAll('[data-modal-imagen]').forEach((miniatura, indiceMiniatura) => {
+        miniatura.classList.toggle('activa', indiceMiniatura === indice);
+    });
+}
+
+function cargarGaleriaModal(imagenes, nombre) {
+    imagenesModal = imagenes;
+    if (!modalGaleria) return;
+
+    modalGaleria.innerHTML = imagenes.length > 1
+        ? imagenes.map((imagen, indice) => `
+            <button type="button" class="modal-miniatura${indice === 0 ? ' activa' : ''}" data-modal-imagen="${indice}" aria-label="Ver imagen ${indice + 1} de ${nombre}">
+                <img src="${imagen}" alt="Miniatura de ${nombre}">
+            </button>`).join('')
+        : '';
+}
 
 // ─── 2. FUNCIÓN PARA ABRIR EL MODAL ────────────────────────────────────────
 /**
@@ -45,6 +70,13 @@ function abrirModal(tarjeta) {
         const precio      = parseFloat(tarjeta.dataset.precio) || 0;
         const urlWhatsapp = tarjeta.dataset.whatsapp    || '#';
         const imagen      = tarjeta.dataset.imagen      || '';
+        let imagenes      = [];
+        try {
+            imagenes = JSON.parse(tarjeta.dataset.imagenes || '[]');
+        } catch {
+            imagenes = [];
+        }
+        if (!imagenes.length && imagen) imagenes = [imagen];
         const categoria   = tarjeta.dataset.categoria   || '';
         const productoId  = tarjeta.dataset.id          || '';
         const agotado     = tarjeta.classList.contains('producto-agotado');
@@ -58,7 +90,8 @@ function abrirModal(tarjeta) {
 
     // Mostrar la imagen si existe, o esconder el contenedor si no hay
     if (imagen) {
-        modalImagen.src = imagen;
+        cargarGaleriaModal(imagenes, nombre);
+        mostrarImagenModal(0);
         modalImagen.alt = `Foto de ${nombre}`;
         modalImagen.parentElement.style.display = '';
     } else {
@@ -110,6 +143,12 @@ function cerrarModal() {
 // Cerrar al hacer clic en el fondo oscuro (fuera de la caja blanca)
 // Event Delegated Listener
     document.addEventListener('click', (evento) => {
+        const botonMiniatura = evento.target.closest('[data-modal-imagen]');
+        if (botonMiniatura) {
+            mostrarImagenModal(Number(botonMiniatura.dataset.modalImagen));
+            return;
+        }
+
         const botonDetalle = evento.target.closest('[data-ver-producto]') || evento.target.closest('.tarjeta-producto');
         if (botonDetalle && !evento.target.closest('[data-agregar]')) {
             const tarjeta = evento.target.closest('.tarjeta-producto');

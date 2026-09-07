@@ -78,6 +78,38 @@ function iniciarFiltrosCatalogo() {
     });
 
     ordenarTarjetas();
+    iniciarRotacionImagenes(tarjetasOriginales);
+}
+
+function iniciarRotacionImagenes(tarjetas) {
+    tarjetas.forEach((tarjeta) => {
+        const imagen = tarjeta.querySelector('.contenedor-imagen-producto img');
+        if (!imagen) return;
+
+        let imagenes;
+        try {
+            imagenes = JSON.parse(tarjeta.dataset.imagenes || '[]');
+        } catch {
+            imagenes = [];
+        }
+
+        if (imagenes.length < 2) return;
+
+        let indice = 0;
+        let temporizador;
+        tarjeta.addEventListener('mouseenter', () => {
+            temporizador = window.setInterval(() => {
+                indice = (indice + 1) % imagenes.length;
+                imagen.src = imagenes[indice];
+            }, 3000);
+        });
+        tarjeta.addEventListener('mouseleave', () => {
+            window.clearInterval(temporizador);
+            temporizador = undefined;
+            indice = 0;
+            imagen.src = imagenes[0];
+        });
+    });
 }
 
 if (document.readyState === 'loading') {
