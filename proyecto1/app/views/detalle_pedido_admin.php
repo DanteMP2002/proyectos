@@ -9,11 +9,9 @@ $esAdmin = Autenticacion::esAdministrador();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedido <?= htmlspecialchars($pedido['codigo']) ?></title>
+    <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
-    <?php if ($esAdmin): ?>
-        <!-- Solo carga el estilo oscuro premium si es el administrador -->
-        <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/stylesAdmin.css">
-    <?php endif; ?>
+    <?php if ($esAdmin): ?> <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/stylesAdmin.css"> <?php endif; ?>
     
     <!-- Estilos adaptativos locales para el cliente si no es administrador -->
     <?php if (!$esAdmin): ?>

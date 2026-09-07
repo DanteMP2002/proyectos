@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar Pedido | Vínculo Bodas</title>
+    <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
     <style>
         .seccion-checkout-cliente {
