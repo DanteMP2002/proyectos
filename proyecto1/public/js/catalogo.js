@@ -27,11 +27,11 @@ function iniciarFiltrosCatalogo() {
 
         tarjetasOriginales.forEach((tarjeta) => {
             const nombre = normalizarTexto(tarjeta.dataset.nombre);
-            const descripcion = normalizarTexto(tarjeta.dataset.descripcion);
             const categoria = normalizarTexto(tarjeta.dataset.categoria);
-            const coincideTexto = !textoBuscado
-                || nombre.includes(textoBuscado)
-                || descripcion.includes(textoBuscado);
+            // El campo dice "Buscar producto": se compara solo con el nombre.
+            // Incluir la descripción hacía que letras frecuentes (a, e, o)
+            // coincidieran con casi todas las tarjetas.
+            const coincideTexto = !textoBuscado || nombre.includes(textoBuscado);
             const coincideCategoria = !categoriaElegida || categoria === categoriaElegida;
             const coincide = coincideTexto && coincideCategoria;
 
