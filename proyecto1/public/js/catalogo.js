@@ -14,14 +14,6 @@ function iniciarFiltrosCatalogo() {
     const tarjetasOriginales = Array.from(contenedor.querySelectorAll('.tarjeta-producto'));
     let ordenInvertido = false;
 
-    function normalizarTexto(valor) {
-        return String(valor)
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLocaleLowerCase('es')
-            .trim();
-    }
-
     const mensajeVacio = document.createElement('p');
     mensajeVacio.className = 'mensaje-sin-resultados';
     mensajeVacio.textContent = 'No encontramos productos con esos filtros.';
@@ -102,9 +94,14 @@ function iniciarRotacionImagenes(tarjetas) {
 
         let imagenes;
         try {
-            imagenes = JSON.parse(tarjeta.dataset.imagenes || '[]');
+            imagenes = leerImagenesTarjeta(tarjeta);
         } catch {
             imagenes = [];
+        }
+
+        const nombreHover = tarjeta.querySelector('.nombre-hover-producto');
+        if (nombreHover && nombreHover.scrollWidth > nombreHover.clientWidth) {
+            nombreHover.classList.add('nombre-largo');
         }
 
         if (imagenes.length < 2) return;
@@ -143,6 +140,23 @@ function iniciarRotacionImagenes(tarjetas) {
             imagen.src = imagenes[0];
         });
     });
+}
+
+function normalizarTexto(valor) {
+    const texto = String(valor || '');
+    const normalizado = typeof texto.normalize === 'function' ? texto.normalize('NFD') : texto;
+    return normalizado.replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+}
+
+function leerImagenesTarjeta(tarjeta) {
+    const valor = tarjeta.getAttribute('data-imagenes');
+    try {
+        const imagenes = JSON.parse(valor || '[]');
+        return Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
+    } catch (error) {
+        const portada = tarjeta.getAttribute('data-imagen');
+        return portada ? [portada] : [];
+    }
 }
 
 if (document.readyState === 'loading') {

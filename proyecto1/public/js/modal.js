@@ -33,6 +33,17 @@ if (!modalOverlay) return;
 
 let imagenesModal = [];
 
+function leerImagenesTarjeta(tarjeta) {
+    const valor = tarjeta.getAttribute('data-imagenes');
+    try {
+        const imagenes = JSON.parse(valor || '[]');
+        return Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
+    } catch (error) {
+        const portada = tarjeta.getAttribute('data-imagen');
+        return portada ? [portada] : [];
+    }
+}
+
 function mostrarImagenModal(indice) {
     const imagen = imagenesModal[indice];
     if (!imagen) return;
@@ -70,12 +81,7 @@ function abrirModal(tarjeta) {
         const precio      = parseFloat(tarjeta.dataset.precio) || 0;
         const urlWhatsapp = tarjeta.dataset.whatsapp    || '#';
         const imagen      = tarjeta.dataset.imagen      || '';
-        let imagenes      = [];
-        try {
-            imagenes = JSON.parse(tarjeta.dataset.imagenes || '[]');
-        } catch {
-            imagenes = [];
-        }
+        let imagenes      = leerImagenesTarjeta(tarjeta);
         if (!imagenes.length && imagen) imagenes = [imagen];
         const categoria   = tarjeta.dataset.categoria   || '';
         const productoId  = tarjeta.dataset.id          || '';
