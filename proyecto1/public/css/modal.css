@@ -21,9 +21,11 @@
 /* Caja interna: hacer clic aquí no cierra el modal. */
 .modal-caja {
     position: relative;
-    width: min(540px, 100%);
-    max-height: 90vh;
-    overflow-y: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(300px, .88fr);
+    width: min(1000px, 92vw);
+    max-height: 86vh;
+    overflow: hidden;
     border-radius: 16px;
     background: var(--blanco-puro);
     box-shadow: var(--sombra-modal);
@@ -32,24 +34,39 @@
 }
 
 .modal-overlay.visible .modal-caja { transform: translateY(0) scale(1); }
-.modal-imagen-envoltorio { position: relative; padding: 12px; background: var(--arena-detalle); }
-.modal-imagen-visor { width: 100%; height: min(52vh, 520px); overflow: auto; overscroll-behavior: contain; scrollbar-color: var(--vino-principal) var(--arena-detalle); scrollbar-width: thin; }
+.modal-imagen-envoltorio { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 78px; gap: 12px; min-height: 0; padding: 18px; background: var(--arena-detalle); }
+.modal-imagen-visor { min-width: 0; min-height: 0; height: 100%; max-height: calc(86vh - 36px); overflow: auto; overscroll-behavior: contain; scrollbar-color: var(--vino-principal) var(--arena-detalle); scrollbar-width: thin; }
 .modal-imagen-visor img { display: block; width: auto; min-width: 100%; height: auto; min-height: 100%; object-fit: contain; object-position: center; }
-.modal-galeria { display: flex; gap: 8px; overflow-x: auto; padding: 10px 2px 2px; scrollbar-color: var(--vino-principal) var(--arena-detalle); scrollbar-width: thin; }
-.modal-miniatura { flex: 0 0 64px; width: 64px; height: 52px; padding: 2px; overflow: hidden; border: 2px solid transparent; border-radius: 5px; background: var(--blanco-puro); cursor: pointer; }
+.modal-galeria { display: flex; flex-direction: column; gap: 9px; min-width: 0; max-height: 100%; overflow-y: auto; padding: 2px 3px 2px 0; scrollbar-color: var(--vino-principal) var(--arena-detalle); scrollbar-width: thin; }
+.modal-miniatura { flex: 0 0 62px; width: 70px; height: 62px; padding: 2px; overflow: hidden; border: 2px solid transparent; border-radius: 6px; background: var(--blanco-puro); cursor: pointer; }
 .modal-miniatura img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .modal-miniatura:hover, .modal-miniatura.activa { border-color: var(--vino-principal); }
-.modal-cuerpo { padding: 24px; }
+.modal-cuerpo { display: flex; flex-direction: column; justify-content: center; min-width: 0; overflow-y: auto; padding: clamp(28px, 5vw, 56px); }
 .modal-cerrar { position: absolute; top: 12px; right: 12px; z-index: 1; width: 36px; height: 36px; border: 0; border-radius: 50%; color: var(--vino-oscuro); background: var(--blanco-puro); font-size: 1.5rem; }
 .modal-nombre { margin: 0; color: var(--vino-oscuro); font-family: var(--fuente-titulos); font-size: 1.55rem; }
 .modal-descripcion { color: var(--texto-suave); line-height: 1.6; }
 .modal-etiqueta-categoria { position: absolute; top: 20px; left: 20px; padding: 5px 10px; border-radius: 99px; color: var(--blanco-puro); background: var(--vino-principal); font-size: .82rem; font-weight: 700; }
 .modal-fila-precio { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .modal-precio-valor { color: var(--vino-principal); font-family: var(--fuente-titulos); font-size: 1.8rem; }
-.modal-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.modal-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .modal-boton-carrito, .modal-boton-whatsapp { padding: 12px; border: 0; border-radius: 4px; text-align: center; font-weight: 700; }
 .modal-boton-carrito { color: var(--blanco-puro); background: var(--vino-principal); }
 .modal-boton-whatsapp { color: var(--blanco-puro); background: var(--estado-whatsapp); }
 .modal-boton-carrito.agotado { cursor: not-allowed; opacity: .65; }
 
-@media (max-width: 520px) { .modal-acciones { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+    .modal-caja { grid-template-columns: 1fr; width: min(680px, 94vw); max-height: 90vh; overflow-y: auto; }
+    .modal-imagen-envoltorio { grid-template-columns: 1fr; min-height: 0; }
+    .modal-imagen-visor { height: min(48vh, 430px); max-height: none; }
+    .modal-galeria { flex-direction: row; max-height: none; overflow-x: auto; overflow-y: hidden; }
+    .modal-cuerpo { overflow: visible; padding: 28px; }
+}
+
+@media (max-width: 520px) {
+    .modal-overlay { padding: 12px; }
+    .modal-caja { width: 96vw; border-radius: 12px; }
+    .modal-imagen-envoltorio { padding: 12px; }
+    .modal-imagen-visor { height: 42vh; }
+    .modal-miniatura { flex-basis: 56px; width: 60px; height: 54px; }
+    .modal-acciones { grid-template-columns: 1fr; }
+}
