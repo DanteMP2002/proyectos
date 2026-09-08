@@ -128,11 +128,19 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     <?php $agotado = (int) $producto['stock'] < 1; ?>
                     <?php
                     $imagenesCatalogo = array_map(
-                        static fn(array $imagen): string => URL_BASE . '/' . ltrim($imagen['ruta_imagen'], '/'),
+                        static function (array $imagen): string {
+                            $ruta = ltrim($imagen['ruta_imagen'], '/');
+                            $archivo = __DIR__ . '/../../' . $ruta;
+                            $version = is_file($archivo) ? (string) filemtime($archivo) : '0';
+                            return URL_BASE . '/' . $ruta . '?v=' . $version;
+                        },
                         $producto['imagenes'] ?? []
                     );
                     if (!$imagenesCatalogo && !empty($producto['imagen'])) {
-                        $imagenesCatalogo[] = URL_BASE . '/' . ltrim($producto['imagen'], '/');
+                        $ruta = ltrim($producto['imagen'], '/');
+                        $archivo = __DIR__ . '/../../' . $ruta;
+                        $version = is_file($archivo) ? (string) filemtime($archivo) : '0';
+                        $imagenesCatalogo[] = URL_BASE . '/' . $ruta . '?v=' . $version;
                     }
                     $imagenesJson = htmlspecialchars(
                         json_encode($imagenesCatalogo, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT),
@@ -156,12 +164,12 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         data-whatsapp="<?= $enlace_dinamico ?>"
                         data-categoria="<?= htmlspecialchars($producto['categoria']) ?>"
                         data-precio="<?= (float)$producto['precio'] ?>"
-                        data-imagen="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/banner2.png') ?>"
+                        data-imagen="<?= htmlspecialchars($imagenesCatalogo[0] ?? URL_BASE . '/public/img/banner2.png') ?>"
                         data-imagenes="<?= $imagenesJson ?>"
                     >
                         <button class="boton-ver-detalle" type="button" data-ver-producto aria-label="Ver detalle de <?= htmlspecialchars($producto['nombre']) ?>">
                             <span class="contenedor-imagen-producto">
-                            <img src="<?= URL_BASE ?>/<?= htmlspecialchars($producto['imagen'] ?: 'public/img/logo.jpg') ?>" 
+                            <img src="<?= htmlspecialchars($imagenesCatalogo[0] ?? URL_BASE . '/public/img/logo.jpg') ?>" 
                                 alt="<?= htmlspecialchars($producto['nombre']) ?>">
                             <?php if ($agotado): ?>
                                 <span class="sello-agotado">AGOTADO</span>

@@ -213,18 +213,22 @@ class ProductoControlador
 
         try {
             $imagenesActuales = [];
-            $imagenId = (int) ($_POST['imagen_id_reemplazar'] ?? 0);
+            $accionImagen = $_POST['accion_imagen'] ?? 'ninguna';
+            $imagenId = (int) ($_POST['imagen_id_seleccionada'] ?? $_POST['imagen_id_reemplazar'] ?? 0);
             $archivoReemplazo = $_FILES['imagen_reemplazo'] ?? null;
             $hayReemplazo = $archivoReemplazo && ($archivoReemplazo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE;
-            if ($hayReemplazo) {
-                $imagenesActuales = $this->productos->listarImagenes($id);
-                $idsImagenes = array_map('intval', array_column($imagenesActuales, 'id'));
-                if ($imagenId < 1 || !in_array($imagenId, $idsImagenes, true)) {
-                    throw new RuntimeException('Selecciona en la galería qué imagen deseas reemplazar.');
-                }
+            if ($hayReemplazo && $accionImagen === 'ninguna') {
+                $accionImagen = 'reemplazar';
             }
 
             $imagenesActuales = $this->productos->listarImagenes($id);
+            if ($accionImagen !== 'ninguna') {
+                $idsImagenes = array_map('intval', array_column($imagenesActuales, 'id'));
+                if ($imagenId < 1 || !in_array($imagenId, $idsImagenes, true)) {
+                    throw new RuntimeException('Selecciona una imagen de la galería para aplicar la acción.');
+                }
+            }
+
             $datosProducto = $this->obtenerDatosFormulario();
             $indiceReemplazo = 0;
             foreach ($imagenesActuales as $indice => $imagenActual) {
@@ -233,11 +237,17 @@ class ProductoControlador
                     break;
                 }
             }
-            $imagenReemplazo = $this->guardarImagenReemplazo($id, $indiceReemplazo, $datosProducto['nombre']);
-            $indiceAdicionales = count($imagenesActuales);
-            $adicionales = $this->guardarImagenesAdicionales($id, $datosProducto['nombre'], $indiceAdicionales);
             $this->productos->actualizar($id, $datosProducto);
-            if ($imagenReemplazo !== null) {
+
+            if ($accionImagen === 'portada' && !$this->productos->establecerPortada($id, $imagenId)) {
+                throw new RuntimeException('No se pudo cambiar la portada seleccionada.');
+            }
+
+            if ($accionImagen === 'reemplazar') {
+                $imagenReemplazo = $this->guardarImagenReemplazo($id, $indiceReemplazo, $datosProducto['nombre']);
+                if ($imagenReemplazo === null) {
+                    throw new RuntimeException('Selecciona un archivo para reemplazar la imagen.');
+                }
                 $imagenAnterior = $this->productos->reemplazarImagen($id, $imagenId, $imagenReemplazo);
                 if ($imagenAnterior === false) {
                     throw new RuntimeException('La imagen seleccionada no pertenece a este producto.');
@@ -248,6 +258,20 @@ class ProductoControlador
                     unlink($rutaAnterior);
                 }
             }
+
+            if ($accionImagen === 'eliminar') {
+                $imagenAnterior = $this->productos->eliminarImagen($id, $imagenId);
+                if ($imagenAnterior === false) {
+                    throw new RuntimeException('No se pudo eliminar la imagen seleccionada.');
+                }
+                $rutaAnterior = __DIR__ . '/../../' . ltrim($imagenAnterior, '/');
+                if (is_file($rutaAnterior)) {
+                    unlink($rutaAnterior);
+                }
+            }
+
+            $imagenesDespues = $this->productos->listarImagenes($id);
+            $adicionales = $this->guardarImagenesAdicionales($id, $datosProducto['nombre'], count($imagenesDespues));
             $this->productos->guardarImagenes($id, null, $adicionales);
             $this->volverAlPanel('Producto actualizado correctamente.');
         } catch (Throwable $error) {

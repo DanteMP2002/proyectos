@@ -75,19 +75,32 @@ $esCreacion = empty($producto['id']);
                     <div>
                         <?php foreach ($imagenes as $indiceImagen => $imagen): ?>
                             <?php $letraImagen = $etiquetaImagen($indiceImagen); ?>
+                            <?php
+                            $rutaImagen = ltrim($imagen['ruta_imagen'], '/');
+                            $archivoImagen = __DIR__ . '/../../' . $rutaImagen;
+                            $versionImagen = is_file($archivoImagen) ? (string) filemtime($archivoImagen) : '0';
+                            ?>
                             <figure class="vista-previa-imagen">
-                                <img src="<?= URL_BASE ?>/<?= htmlspecialchars($imagen['ruta_imagen']) ?>" alt="Imagen del producto">
+                                <img src="<?= URL_BASE ?>/<?= htmlspecialchars($rutaImagen) ?>?v=<?= $versionImagen ?>" alt="Imagen del producto">
                                 <figcaption><strong><?= $letraImagen ?></strong> · <?= (int) $imagen['es_principal'] === 1 ? 'Portada actual' : 'Imagen adicional' ?></figcaption>
                                 <label class="selector-imagen-existente">
-                                    <input type="radio" name="imagen_id_reemplazar" value="<?= (int) $imagen['id'] ?>">
-                                    Seleccionar para reemplazar
+                                    <input type="radio" name="imagen_id_seleccionada" value="<?= (int) $imagen['id'] ?>">
+                                    Seleccionar imagen
                                 </label>
                             </figure>
                         <?php endforeach; ?>
                     </div>
                     <label class="reemplazo-imagen-admin">Archivo de reemplazo
                         <input name="imagen_reemplazo" type="file" accept="image/jpeg,image/png,image/webp">
-                        <small>Solo se reemplaza la imagen seleccionada. Las demás se conservan.</small>
+                        <small>Úsalo solo con la acción “Reemplazar archivo”.</small>
+                    </label>
+                    <label class="accion-imagen-admin">Acción para la imagen seleccionada
+                        <select name="accion_imagen">
+                            <option value="ninguna">No realizar acción</option>
+                            <option value="portada">Usar como portada</option>
+                            <option value="reemplazar">Reemplazar archivo</option>
+                            <option value="eliminar">Eliminar imagen</option>
+                        </select>
                     </label>
                 </section>
             <?php endif; ?>

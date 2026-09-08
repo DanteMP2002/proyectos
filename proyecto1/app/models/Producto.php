@@ -125,6 +125,42 @@ class Producto
         return (string) $imagenAnterior;
     }
 
+    /** Marca una imagen existente como portada y deja las demás como adicionales. */
+    public function establecerPortada(int $productoId, int $imagenId): bool
+    {
+        $consulta = $this->bd->prepare('SELECT id FROM imagenes_producto WHERE id = :imagen AND producto_id = :producto LIMIT 1');
+        $consulta->execute(['imagen' => $imagenId, 'producto' => $productoId]);
+        if ($consulta->fetchColumn() === false) {
+            return false;
+        }
+
+        $quitarActual = $this->bd->prepare('UPDATE imagenes_producto SET es_principal = NULL WHERE producto_id = :producto AND es_principal = 1');
+        $quitarActual->execute(['producto' => $productoId]);
+        $marcarNueva = $this->bd->prepare('UPDATE imagenes_producto SET es_principal = 1 WHERE id = :imagen AND producto_id = :producto');
+        return $marcarNueva->execute(['imagen' => $imagenId, 'producto' => $productoId]);
+    }
+
+    /** Elimina una imagen y promueve otra si se eliminó la portada. */
+    public function eliminarImagen(int $productoId, int $imagenId): string|false
+    {
+        $consulta = $this->bd->prepare('SELECT ruta_imagen, es_principal FROM imagenes_producto WHERE id = :imagen AND producto_id = :producto LIMIT 1');
+        $consulta->execute(['imagen' => $imagenId, 'producto' => $productoId]);
+        $imagen = $consulta->fetch();
+        if (!$imagen) {
+            return false;
+        }
+
+        $borrar = $this->bd->prepare('DELETE FROM imagenes_producto WHERE id = :imagen AND producto_id = :producto');
+        $borrar->execute(['imagen' => $imagenId, 'producto' => $productoId]);
+
+        if ((int) $imagen['es_principal'] === 1) {
+            $promover = $this->bd->prepare('UPDATE imagenes_producto SET es_principal = 1 WHERE producto_id = :producto ORDER BY id ASC LIMIT 1');
+            $promover->execute(['producto' => $productoId]);
+        }
+
+        return (string) $imagen['ruta_imagen'];
+    }
+
     private function insertarImagen(int $productoId, string $ruta, ?int $esPrincipal): void
     {
         $consulta = $this->bd->prepare('INSERT INTO imagenes_producto (producto_id, ruta_imagen, es_principal) VALUES (:producto, :ruta, :principal)');
