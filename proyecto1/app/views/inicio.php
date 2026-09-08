@@ -340,10 +340,10 @@ $tokenFormulario = Autenticacion::tokenFormulario();
     <!-- Botón de WhatsApp Arrastrable -->
      <? $mensajeBoton = "Hola, he visitado tu tienda. Quisiera mas informacion."?>
     <a href="https://wa.me/51920134856?text=<?= rawurlencode($mensajeBoton) ?>" target="_blank" class="boton-whatsapp-fijo" id="whatsapp-flotante">
-        <img class="imagen-whatsapp-fijo" src="<?= URL_BASE ?>/public/img/logo.jpg" alt="whatsapp" draggable="false">
+        <img class="imagen-whatsapp-fijo" src="<?= URL_BASE ?>/public/img/whatsapp.png" alt="whatsapp" draggable="false">
     </a>
 
-    <!-- ─── PIE DE PÁGINA ──────────────────────────────────────────────────── -->
+    <!-- ─── PIE DE PÁGIN A ──────────────────────────────────────────────────── -->
     <footer class="pie-pagina">
         <div class="pie-pagina-contenido">
             <div class="pie-marca">
