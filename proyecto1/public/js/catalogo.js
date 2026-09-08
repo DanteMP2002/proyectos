@@ -39,7 +39,9 @@ function iniciarFiltrosCatalogo() {
             // establece también el display para que los resultados que no
             // coinciden salgan siempre de la rejilla.
             tarjeta.hidden = !coincide;
-            tarjeta.style.display = coincide ? '' : 'none';
+            // Se usa !important porque una regla visual externa puede definir
+            // display:flex para las tarjetas y anular un display normal.
+            tarjeta.style.setProperty('display', coincide ? 'flex' : 'none', 'important');
             tarjeta.classList.toggle('oculta-por-filtro', !coincide);
             tarjeta.setAttribute('aria-hidden', String(!coincide));
             if (coincide) resultadosVisibles += 1;
@@ -79,6 +81,7 @@ function iniciarFiltrosCatalogo() {
     }
 
     buscador.addEventListener('input', aplicarFiltros);
+    buscador.addEventListener('keyup', aplicarFiltros);
     // `input` cubre selectores que actualizan el valor sin perder el foco;
     // `change` mantiene compatibilidad con navegadores habituales.
     filtroCategoria.addEventListener('input', aplicarFiltros);
