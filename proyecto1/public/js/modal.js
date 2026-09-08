@@ -36,7 +36,7 @@ let imagenesModal = [];
 function leerImagenesTarjeta(tarjeta) {
     const valor = tarjeta.getAttribute('data-imagenes');
     try {
-        const imagenes = JSON.parse((valor || '[]').replace(/&quot;/g, '"').replace(/&#039;/g, "'"));
+        const imagenes = JSON.parse(valor || '[]');
         return Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
     } catch (error) {
         const portada = tarjeta.getAttribute('data-imagen');
@@ -156,7 +156,6 @@ function cerrarModal() {
         }
 
         const botonDetalle = evento.target.closest('[data-ver-producto]') || evento.target.closest('.tarjeta-producto');
-        if (evento.target.closest('.boton-consulta-agotado')) return;
         if (botonDetalle && !evento.target.closest('[data-agregar]')) {
             const tarjeta = evento.target.closest('.tarjeta-producto');
             if (tarjeta) abrirModal(tarjeta);
