@@ -97,6 +97,12 @@ document.addEventListener('click', async (evento) => {
         return abrirCapa('modal-acceso');
     }
 
+    if (evento.target.closest('#enlace-registro-nav')) {
+        buscarElemento('#vista-ingreso').hidden = true;
+        buscarElemento('#vista-registro').hidden = false;
+        return abrirCapa('modal-acceso');
+    }
+
     if (evento.target.closest('[data-mostrar-registro]')) {
         buscarElemento('#vista-ingreso').hidden = true;
         buscarElemento('#vista-registro').hidden = false;

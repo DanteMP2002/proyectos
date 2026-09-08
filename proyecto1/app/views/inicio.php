@@ -47,10 +47,11 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     <button class="enlace-salir" type="submit">Cerrar sesión</button>
                 </form>
             <?php else: ?>
-                <!-- Si es invitado, ve la opción de ingresar (puedes enlazarlo a tu disparador de modal JS) -->
-                <button class="enlace-ingreso" data-mostrar-ingreso id="enlace-login-nav" type="button">
-                    Iniciar sesión / Registrarse
-                </button>
+                <span class="acceso-navegacion" aria-label="Acceso a cuenta">
+                    <button class="enlace-ingreso" data-mostrar-ingreso id="enlace-login-nav" type="button">Iniciar sesión</button>
+                    <span aria-hidden="true">|</span>
+                    <button class="enlace-ingreso" data-mostrar-registro id="enlace-registro-nav" type="button">Registrarse</button>
+                </span>
             <?php endif; ?>
         </nav>
 
