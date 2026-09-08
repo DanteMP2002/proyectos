@@ -72,10 +72,24 @@ class ProductoControlador
     }
 
     /** Guarda un archivo con nombre legible, letra de posición e ID de producto. */
-    private function guardarArchivo(array $archivo, int $productoId, int $indiceImagen, string $nombreProducto): string
+    private function guardarArchivo(array $archivo, int $productoId, int $indiceImagen, string $nombreProducto, bool $permitirSobrescritura = false): string
     {
-        if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || ($archivo['size'] ?? 0) > 5 * 1024 * 1024) {
-            throw new RuntimeException('Cada imagen debe pesar como máximo 5 MB.');
+        $error = (int) ($archivo['error'] ?? UPLOAD_ERR_NO_FILE);
+        if ($error !== UPLOAD_ERR_OK) {
+            $mensajes = [
+                UPLOAD_ERR_INI_SIZE => 'supera el límite de subida configurado en PHP',
+                UPLOAD_ERR_FORM_SIZE => 'supera el límite permitido por el formulario',
+                UPLOAD_ERR_PARTIAL => 'se subió de forma incompleta',
+                UPLOAD_ERR_NO_FILE => 'no contiene un archivo',
+                UPLOAD_ERR_NO_TMP_DIR => 'no tiene carpeta temporal disponible',
+                UPLOAD_ERR_CANT_WRITE => 'no pudo escribirse en el disco',
+            ];
+            $nombre = $archivo['name'] ?? 'archivo desconocido';
+            throw new RuntimeException('La imagen "' . $nombre . '" ' . ($mensajes[$error] ?? 'produjo un error de subida') . '.');
+        }
+
+        if (($archivo['size'] ?? 0) > 5 * 1024 * 1024) {
+            throw new RuntimeException('La imagen "' . ($archivo['name'] ?? 'archivo') . '" supera el máximo de 5 MB.');
         }
 
         $tipo = (new finfo(FILEINFO_MIME_TYPE))->file($archivo['tmp_name']);
@@ -89,8 +103,12 @@ class ProductoControlador
         }
 
         $prefijo = $this->slugArchivo($nombreProducto);
-        $letra = $this->etiquetaImagen($indiceImagen);
-        $nombreArchivo = $prefijo . '-' . $letra . '_' . $productoId . '.' . $extensiones[$tipo];
+        do {
+            $letra = $this->etiquetaImagen($indiceImagen);
+            $nombreArchivo = $prefijo . '-' . $letra . '_' . $productoId . '.' . $extensiones[$tipo];
+            $indiceImagen++;
+        } while (!$permitirSobrescritura && is_file($this->carpetaImagenes . $nombreArchivo));
+
         if (!move_uploaded_file($archivo['tmp_name'], $this->carpetaImagenes . $nombreArchivo)) {
             throw new RuntimeException('No se pudo guardar la imagen.');
         }
@@ -121,7 +139,7 @@ class ProductoControlador
 
         $rutas = [];
         foreach ($archivos['name'] as $indice => $nombre) {
-            if ($nombre === '' || $archivos['error'][$indice] === UPLOAD_ERR_NO_FILE) {
+            if ($nombre === '' && $archivos['error'][$indice] === UPLOAD_ERR_NO_FILE) {
                 continue;
             }
 
@@ -145,7 +163,7 @@ class ProductoControlador
             return null;
         }
 
-        return $this->guardarArchivo($archivo, $productoId, $indiceImagen, $nombreProducto);
+        return $this->guardarArchivo($archivo, $productoId, $indiceImagen, $nombreProducto, true);
     }
 
     public function crear(): void
@@ -206,16 +224,17 @@ class ProductoControlador
                 }
             }
 
+            $imagenesActuales = $this->productos->listarImagenes($id);
             $datosProducto = $this->obtenerDatosFormulario();
             $indiceReemplazo = 0;
-            foreach ($imagenesActuales ?? [] as $indice => $imagenActual) {
+            foreach ($imagenesActuales as $indice => $imagenActual) {
                 if ((int) $imagenActual['id'] === $imagenId) {
                     $indiceReemplazo = $indice;
                     break;
                 }
             }
             $imagenReemplazo = $this->guardarImagenReemplazo($id, $indiceReemplazo, $datosProducto['nombre']);
-            $indiceAdicionales = count($imagenesActuales ?? []);
+            $indiceAdicionales = count($imagenesActuales);
             $adicionales = $this->guardarImagenesAdicionales($id, $datosProducto['nombre'], $indiceAdicionales);
             $this->productos->actualizar($id, $datosProducto);
             if ($imagenReemplazo !== null) {
