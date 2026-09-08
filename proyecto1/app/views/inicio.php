@@ -354,14 +354,16 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                 <h2>Explora</h2>
                 <a href="#productos">Catálogo</a>
                 <a href="#nosotros">Nosotros</a>
-                <a href="<?= URL_BASE ?>/pedido/mispedidos">Mis pedidos</a>
+                <?php if (Autenticacion::iniciado()): ?>
+                    <a href="<?= URL_BASE ?>/pedido/mispedidos">Mis pedidos</a>
+                <?php endif; ?>
             </div>
             <div class="pie-contacto">
                 <h2>¿Necesitas ayuda?</h2>
                 <p>Escríbenos y te ayudamos a elegir.</p>
                 <a href="https://wa.me/51920134856" target="_blank" rel="noopener">WhatsApp ↗</a>
                 <div class="redes-pie" aria-label="Redes sociales">
-                    <span class="icono-red-social" title="Instagram" aria-label="Instagram">◎</span>
+                    <span class="icono-red-social" title="Instagram" aria-label="Instagram">o</span>
                     <span class="icono-red-social" title="Facebook" aria-label="Facebook">f</span>
                     <span class="icono-red-social" title="TikTok" aria-label="TikTok">♪</span>
                 </div>
