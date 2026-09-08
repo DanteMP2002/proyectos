@@ -162,6 +162,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                             <?php if ($agotado): ?>
                                 <span class="sello-agotado">AGOTADO</span>
                             <?php endif; ?>
+                            <span class="nombre-hover-producto"><?= htmlspecialchars($producto['nombre']) ?></span>
                             </span>
                             <span class="contenido-producto">
                                 <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
@@ -356,8 +357,8 @@ $tokenFormulario = Autenticacion::tokenFormulario();
 
     <script>window.URL_BASE = '<?= URL_BASE ?>';</script>
     <script src="<?= URL_BASE ?>/public/js/tienda.js"></script>
-    <script src="<?= URL_BASE ?>/public/js/catalogo.js"></script>
-    <script src="<?= URL_BASE ?>/public/js/modal.js"></script>
+    <script src="<?= URL_BASE ?>/public/js/catalogo.js?v=20260908"></script>
+    <script src="<?= URL_BASE ?>/public/js/modal.js?v=20260908"></script>
 
 </body>
 </html>

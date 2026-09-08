@@ -8,7 +8,8 @@ function iniciarFiltrosCatalogo() {
     const botonInvertir = document.getElementById('invertir-orden');
     const contenedor = document.getElementById('contenedor-productos');
 
-    if (!buscador || !filtroCategoria || !selectorOrden || !botonInvertir || !contenedor) return;
+    if (!buscador || !filtroCategoria || !contenedor || contenedor.dataset.filtrosIniciados === 'true') return;
+    contenedor.dataset.filtrosIniciados = 'true';
 
     const tarjetasOriginales = Array.from(contenedor.querySelectorAll('.tarjeta-producto'));
     let ordenInvertido = false;
@@ -43,6 +44,7 @@ function iniciarFiltrosCatalogo() {
                 && (!categoriaElegida || categoria === categoriaElegida);
 
             tarjeta.hidden = !coincide;
+            tarjeta.classList.toggle('oculta-por-filtro', !coincide);
             if (coincide) resultadosVisibles += 1;
         });
 
@@ -58,7 +60,7 @@ function iniciarFiltrosCatalogo() {
     }
 
     function compararTarjetas(primera, segunda) {
-        const criterio = selectorOrden.value;
+        const criterio = selectorOrden?.value || '';
         let resultado = 0;
 
         if (criterio === 'menor-mayor') {
@@ -81,8 +83,8 @@ function iniciarFiltrosCatalogo() {
 
     buscador.addEventListener('input', aplicarFiltros);
     filtroCategoria.addEventListener('change', aplicarFiltros);
-    selectorOrden.addEventListener('change', ordenarTarjetas);
-    botonInvertir.addEventListener('click', () => {
+    selectorOrden?.addEventListener('change', ordenarTarjetas);
+    botonInvertir?.addEventListener('click', () => {
         ordenInvertido = !ordenInvertido;
         botonInvertir.classList.toggle('invertido', ordenInvertido);
         botonInvertir.setAttribute('aria-label', ordenInvertido ? 'Restaurar orden' : 'Invertir el orden');
@@ -107,17 +109,36 @@ function iniciarRotacionImagenes(tarjetas) {
 
         if (imagenes.length < 2) return;
 
+        let temporizadorInicial;
+        let temporizadorLento;
         let indice = 0;
-        let temporizador;
+
+        function detenerRotacion() {
+            window.clearTimeout(temporizadorInicial);
+            window.clearInterval(temporizadorLento);
+            temporizadorInicial = undefined;
+            temporizadorLento = undefined;
+        }
+
         tarjeta.addEventListener('mouseenter', () => {
-            temporizador = window.setInterval(() => {
-                indice = (indice + 1) % imagenes.length;
-                imagen.src = imagenes[indice];
-            }, 3000);
+            detenerRotacion();
+            indice = 1;
+            imagen.src = imagenes[indice];
+
+            temporizadorInicial = window.setTimeout(() => {
+                temporizadorLento = window.setInterval(() => {
+                    indice += 1;
+                    if (indice >= imagenes.length) {
+                        imagen.src = imagenes[0];
+                        detenerRotacion();
+                        return;
+                    }
+                    imagen.src = imagenes[indice];
+                }, 2500);
+            }, 2500);
         });
         tarjeta.addEventListener('mouseleave', () => {
-            window.clearInterval(temporizador);
-            temporizador = undefined;
+            detenerRotacion();
             indice = 0;
             imagen.src = imagenes[0];
         });

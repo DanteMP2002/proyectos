@@ -178,6 +178,7 @@ a { color: inherit; text-decoration: none; }
 .boton-invertir-orden { display: grid; width: 44px; height: 44px; padding: 0; place-items: center; border: 1px solid var(--vino-principal); border-radius: 6px; color: var(--vino-principal); background: var(--blanco-puro); font-size: 1.35rem; font-weight: 700; transition: color .2s, background .2s, transform .2s; }
 .boton-invertir-orden:hover, .boton-invertir-orden.invertido { color: var(--blanco-puro); background: var(--vino-principal); transform: rotate(180deg); }
 .mensaje-sin-resultados { grid-column: 1 / -1; margin: 22px 0 0; padding: 28px; border: 1px dashed #d8b6c2; border-radius: 10px; color: var(--texto-suave); background: var(--rosa-suave); text-align: center; }
+.tarjeta-producto.oculta-por-filtro { display: none; }
 
 /* ─── TARJETAS DE PRODUCTOS (VESTIDOS) ─── */
 .rejilla-productos {
@@ -207,6 +208,8 @@ a { color: inherit; text-decoration: none; }
     overflow: hidden;
     background-color: var(--arena-detalle);
 }
+.nombre-hover-producto { position: absolute; right: 10px; bottom: 10px; left: 10px; z-index: 2; padding: 9px 12px; border: 1px solid rgba(255, 255, 255, .65); border-radius: 7px; color: var(--vino-oscuro); background: rgba(255, 249, 245, .92); box-shadow: 0 5px 14px rgba(78, 23, 48, .16); font-family: var(--fuente-titulos); font-size: .95rem; font-weight: 700; opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s; }
+.tarjeta-producto:hover .nombre-hover-producto { opacity: 1; transform: translateY(0); }
 .contenedor-imagen-producto img {
     width: 100%;
     height: 100%;
