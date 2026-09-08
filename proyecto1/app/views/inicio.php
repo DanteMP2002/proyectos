@@ -181,11 +181,11 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                                 <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
                                 <strong><?= htmlspecialchars($producto['nombre']) ?></strong>
                                 <span class="ver-detalle">Ver detalle</span>
-                                <?php if ($agotado): ?>
-                                    <a class="boton-consulta-agotado" href="<?= $enlace_dinamico ?>" target="_blank" rel="noopener">Consultar disponibilidad</a>
-                                <?php endif; ?>
                             </span>
                         </button>
+                        <?php if ($agotado): ?>
+                            <a class="boton-consulta-agotado" href="<?= $enlace_dinamico ?>" target="_blank" rel="noopener">Consultar disponibilidad</a>
+                        <?php endif; ?>
                     </article>
 
                 <?php endforeach; ?>

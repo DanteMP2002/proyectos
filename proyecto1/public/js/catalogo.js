@@ -8,7 +8,7 @@ function iniciarFiltrosCatalogo() {
     const botonInvertir = document.getElementById('invertir-orden');
     const contenedor = document.getElementById('contenedor-productos');
 
-    if (!buscador || !filtroCategoria || !contenedor || contenedor.dataset.filtrosIniciados === 'true') return;
+    if (!contenedor || contenedor.dataset.filtrosIniciados === 'true') return;
     contenedor.dataset.filtrosIniciados = 'true';
 
     const tarjetasOriginales = Array.from(contenedor.querySelectorAll('.tarjeta-producto'));
@@ -73,8 +73,8 @@ function iniciarFiltrosCatalogo() {
         aplicarFiltros();
     }
 
-    buscador.addEventListener('input', aplicarFiltros);
-    filtroCategoria.addEventListener('change', aplicarFiltros);
+    buscador?.addEventListener('input', aplicarFiltros);
+    filtroCategoria?.addEventListener('change', aplicarFiltros);
     selectorOrden?.addEventListener('change', ordenarTarjetas);
     botonInvertir?.addEventListener('click', () => {
         ordenInvertido = !ordenInvertido;
@@ -151,7 +151,7 @@ function normalizarTexto(valor) {
 function leerImagenesTarjeta(tarjeta) {
     const valor = tarjeta.getAttribute('data-imagenes');
     try {
-        const imagenes = JSON.parse(valor || '[]');
+        const imagenes = JSON.parse((valor || '[]').replace(/&quot;/g, '"').replace(/&#039;/g, "'"));
         return Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
     } catch (error) {
         const portada = tarjeta.getAttribute('data-imagen');
