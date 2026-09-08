@@ -156,7 +156,7 @@ function cerrarModal() {
         }
 
         const botonDetalle = evento.target.closest('[data-ver-producto]') || evento.target.closest('.tarjeta-producto');
-        if (botonDetalle && !evento.target.closest('[data-agregar]')) {
+        if (botonDetalle && !evento.target.closest('[data-agregar], .boton-consulta-agotado')) {
             const tarjeta = evento.target.closest('.tarjeta-producto');
             if (tarjeta) abrirModal(tarjeta);
             return;

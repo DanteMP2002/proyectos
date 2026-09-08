@@ -170,22 +170,14 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     >
                         <button class="boton-ver-detalle" type="button" data-ver-producto aria-label="Ver detalle de <?= htmlspecialchars($producto['nombre']) ?>">
                             <span class="contenedor-imagen-producto">
-                            <img src="<?= htmlspecialchars($imagenesCatalogo[0] ?? URL_BASE . '/public/img/logo.jpg') ?>" 
-                                alt="<?= htmlspecialchars($producto['nombre']) ?>">
-                            <?php if ($agotado): ?>
-                                <span class="sello-agotado">AGOTADO</span>
-                            <?php endif; ?>
-                            <span class="nombre-hover-producto"><?= htmlspecialchars($producto['nombre']) ?></span>
-                            </span>
-                            <span class="contenido-producto">
-                                <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
-                                <strong><?= htmlspecialchars($producto['nombre']) ?></strong>
-                                <span class="ver-detalle">Ver detalle</span>
-                                <?php if ($agotado): ?>
-                                    <a class="boton-consulta-agotado" href="<?= $enlace_dinamico ?>" target="_blank" rel="noopener">Consultar disponibilidad</a>
-                                <?php endif; ?>
+                                <img src="<?= htmlspecialchars($imagenesCatalogo[0] ?? URL_BASE . '/public/img/logo.jpg') ?>"
+                                    alt="<?= htmlspecialchars($producto['nombre']) ?>">
+                                <span class="categoria-superpuesta"><?= htmlspecialchars($producto['categoria']) ?></span>
                             </span>
                         </button>
+                        <?php if ($agotado): ?>
+                            <a class="boton-consulta-agotado" href="<?= $enlace_dinamico ?>" target="_blank" rel="noopener">Consultar disponibilidad</a>
+                        <?php endif; ?>
                     </article>
 
                 <?php endforeach; ?>
