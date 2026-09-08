@@ -35,7 +35,7 @@ $esCreacion = empty($producto['id']);
                     <option value="Decoraciones" <?= $categoriaActual === 'Decoraciones' ? 'selected' : '' ?>>Decoración y arreglos</option>
                     <option value="Bebidas" <?= $categoriaActual === 'Bebidas' ? 'selected' : '' ?>>Bebidas y coctelería</option>
                     <option value="Bocaditos" <?= $categoriaActual === 'Bocaditos' ? 'selected' : '' ?>>Bocaditos y catering</option>
-                    <option value="Pasteles y Postres" <?= $categoriaActual === 'Pasteles y Postres' ? 'selected' : '' ?>>Pasteles y postres</option>
+                    <option value="Postres" <?= $categoriaActual === 'Postres' ? 'selected' : '' ?>>Pasteles o Postres</option>
                     <option value="Tarjetas" <?= $categoriaActual === 'Tarjetas' ? 'selected' : '' ?>>Tarjetas e invitaciones</option>
                     <option value="Misceláneos" <?= $categoriaActual === 'Misceláneos' ? 'selected' : '' ?>>Otros</option>
                 </select>
@@ -98,7 +98,7 @@ $esCreacion = empty($producto['id']);
                         <select name="accion_imagen">
                             <option value="ninguna">No realizar acción</option>
                             <option value="portada">Usar como portada</option>
-                            <option value="reemplazar">Reemplazar archivo</option>
+                            <option value="reemplazar">Reemplazar imagen</option>
                             <option value="eliminar">Eliminar imagen</option>
                         </select>
                     </label>

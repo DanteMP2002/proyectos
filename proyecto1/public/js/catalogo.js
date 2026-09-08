@@ -32,8 +32,8 @@ function iniciarFiltrosCatalogo() {
             const coincideTexto = !textoBuscado
                 || nombre.includes(textoBuscado)
                 || descripcion.includes(textoBuscado);
-            const coincide = coincideTexto
-                && (!categoriaElegida || categoria === categoriaElegida);
+            const coincideCategoria = !categoriaElegida || categoria === categoriaElegida;
+            const coincide = coincideTexto && coincideCategoria;
 
             tarjeta.hidden = !coincide;
             tarjeta.classList.toggle('oculta-por-filtro', !coincide);

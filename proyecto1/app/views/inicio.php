@@ -166,6 +166,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         data-precio="<?= (float)$producto['precio'] ?>"
                         data-imagen="<?= htmlspecialchars($imagenesCatalogo[0] ?? URL_BASE . '/public/img/banner2.png') ?>"
                         data-imagenes="<?= $imagenesJson ?>"
+                        data-agotado="<?= $agotado ? '1' : '0' ?>"
                     >
                         <button class="boton-ver-detalle" type="button" data-ver-producto aria-label="Ver detalle de <?= htmlspecialchars($producto['nombre']) ?>">
                             <span class="contenedor-imagen-producto">
@@ -180,6 +181,9 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                                 <span class="categoria-producto"><?= htmlspecialchars($producto['categoria']) ?></span>
                                 <strong><?= htmlspecialchars($producto['nombre']) ?></strong>
                                 <span class="ver-detalle">Ver detalle</span>
+                                <?php if ($agotado): ?>
+                                    <a class="boton-consulta-agotado" href="<?= $enlace_dinamico ?>" target="_blank" rel="noopener">Consultar disponibilidad</a>
+                                <?php endif; ?>
                             </span>
                         </button>
                     </article>
@@ -188,29 +192,29 @@ $tokenFormulario = Autenticacion::tokenFormulario();
             </div>
         </section>
 
-    <!-- Un solo modal reutilizable. JavaScript llena sus datos al pulsar una tarjeta. -->
-    <section id="modal-producto" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-nombre" aria-hidden="true">
-        <div class="modal-caja">
-            <div class="modal-imagen-envoltorio">
-                <div class="modal-imagen-visor">
-                    <img id="modal-imagen" src="" alt="">
+        <!-- Un solo modal reutilizable. JavaScript llena sus datos al pulsar una tarjeta. -->
+        <section id="modal-producto" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-nombre" aria-hidden="true">
+            <div class="modal-caja">
+                <div class="modal-imagen-envoltorio">
+                    <div class="modal-imagen-visor">
+                        <img id="modal-imagen" src="" alt="">
+                    </div>
+                    <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto"></div>
+                    <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
+                    <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
                 </div>
-                <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto"></div>
-                <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
-                <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
-            </div>
-            <div class="modal-cuerpo">
-                <h2 id="modal-nombre" class="modal-nombre"></h2>
-                <p id="modal-descripcion" class="modal-descripcion"></p>
-                <hr class="modal-separador">
-                <div class="modal-fila-precio"><span class="modal-etiqueta-precio">Precio</span><strong id="modal-precio" class="modal-precio-valor"></strong></div>
-                <div class="modal-acciones">
-                    <button id="modal-btn-carrito" class="modal-boton-carrito" type="button">Añadir al carrito</button>
-                    <a id="modal-whatsapp" class="modal-boton-whatsapp" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+                <div class="modal-cuerpo">
+                    <h2 id="modal-nombre" class="modal-nombre"></h2>
+                    <p id="modal-descripcion" class="modal-descripcion"></p>
+                    <hr class="modal-separador">
+                    <div class="modal-fila-precio"><span class="modal-etiqueta-precio">Precio</span><strong id="modal-precio" class="modal-precio-valor"></strong></div>
+                    <div class="modal-acciones">
+                        <button id="modal-btn-carrito" class="modal-boton-carrito" type="button">Añadir al carrito</button>
+                        <a id="modal-whatsapp" class="modal-boton-whatsapp" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
         <!-- Bloque informativo de la tienda. -->
         <section class="seccion-nosotros" id="nosotros">
