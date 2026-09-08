@@ -59,14 +59,25 @@ $esCreacion = empty($producto['id']);
                 </label>
             </fieldset>
 
+            <?php
+            $etiquetaImagen = static function (int $indice): string {
+                $etiqueta = '';
+                do {
+                    $etiqueta = chr(65 + ($indice % 26)) . $etiqueta;
+                    $indice = intdiv($indice, 26) - 1;
+                } while ($indice >= 0);
+                return $etiqueta;
+            };
+            ?>
             <?php if ($imagenes): ?>
                 <section class="galeria-imagenes-admin" aria-labelledby="titulo-imagenes-actuales">
                     <h2 id="titulo-imagenes-actuales">Imágenes actuales</h2>
                     <div>
-                        <?php foreach ($imagenes as $imagen): ?>
+                        <?php foreach ($imagenes as $indiceImagen => $imagen): ?>
+                            <?php $letraImagen = $etiquetaImagen($indiceImagen); ?>
                             <figure class="vista-previa-imagen">
                                 <img src="<?= URL_BASE ?>/<?= htmlspecialchars($imagen['ruta_imagen']) ?>" alt="Imagen del producto">
-                                <figcaption><?= (int) $imagen['es_principal'] === 1 ? 'Portada actual' : 'Imagen adicional' ?></figcaption>
+                                <figcaption><strong><?= $letraImagen ?></strong> · <?= (int) $imagen['es_principal'] === 1 ? 'Portada actual' : 'Imagen adicional' ?></figcaption>
                                 <label class="selector-imagen-existente">
                                     <input type="radio" name="imagen_id_reemplazar" value="<?= (int) $imagen['id'] ?>">
                                     Seleccionar para reemplazar

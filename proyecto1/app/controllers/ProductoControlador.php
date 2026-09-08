@@ -51,8 +51,17 @@ class ProductoControlador
         ];
     }
 
-    /** Guarda un archivo de imagen y devuelve la ruta pública que va a la base de datos. */
-    private function guardarArchivo(array $archivo): string
+    /** Convierte el nombre del producto en una parte segura y legible del archivo. */
+    private function slugArchivo(string $texto): string
+    {
+        $texto = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $texto) ?: $texto;
+        $texto = strtolower($texto);
+        $texto = preg_replace('/[^a-z0-9]+/', '-', $texto) ?? '';
+        return trim($texto, '-') ?: 'producto';
+    }
+
+    /** Guarda un archivo con un nombre legible y devuelve la ruta pública. */
+    private function guardarArchivo(array $archivo, ?string $nombreProducto = null): string
     {
         if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || ($archivo['size'] ?? 0) > 5 * 1024 * 1024) {
             throw new RuntimeException('Cada imagen debe pesar como máximo 5 MB.');
@@ -68,7 +77,9 @@ class ProductoControlador
             throw new RuntimeException('No se pudo preparar la carpeta de imágenes.');
         }
 
-        $nombreArchivo = bin2hex(random_bytes(12)) . '.' . $extensiones[$tipo];
+        $prefijo = $this->slugArchivo($nombreProducto ?: 'producto');
+        $sufijo = date('YmdHis') . '-' . bin2hex(random_bytes(3));
+        $nombreArchivo = $prefijo . '-' . $sufijo . '.' . $extensiones[$tipo];
         if (!move_uploaded_file($archivo['tmp_name'], $this->carpetaImagenes . $nombreArchivo)) {
             throw new RuntimeException('No se pudo guardar la imagen.');
         }
@@ -86,7 +97,7 @@ class ProductoControlador
             throw new RuntimeException('Debes seleccionar una imagen principal para el producto.');
         }
 
-        return $sinArchivo ? null : $this->guardarArchivo($archivo);
+        return $sinArchivo ? null : $this->guardarArchivo($archivo, $_POST['nombre'] ?? null);
     }
 
     /** Recorre el campo multiple y guarda únicamente archivos seleccionados. */
@@ -109,7 +120,7 @@ class ProductoControlador
                 'tmp_name' => $archivos['tmp_name'][$indice],
                 'error' => $archivos['error'][$indice],
                 'size' => $archivos['size'][$indice],
-            ]);
+            ], $_POST['nombre'] ?? null);
         }
 
         return $rutas;
@@ -123,7 +134,7 @@ class ProductoControlador
             return null;
         }
 
-        return $this->guardarArchivo($archivo);
+        return $this->guardarArchivo($archivo, $_POST['nombre'] ?? null);
     }
 
     public function crear(): void
