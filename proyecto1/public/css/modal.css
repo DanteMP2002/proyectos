@@ -52,7 +52,7 @@
 .modal-boton-carrito, .modal-boton-whatsapp { padding: 12px; border: 0; border-radius: 4px; text-align: center; font-weight: 700; }
 .modal-boton-carrito { color: var(--blanco-puro); background: var(--vino-principal); }
 .modal-boton-whatsapp { color: var(--blanco-puro); background: var(--estado-whatsapp); }
-.modal-boton-carrito.agotado { cursor: not-allowed; opacity: .65; }
+.modal-boton-carrito.agotado { cursor: not-allowed; color: #7d263d; background: #f8dfe5; box-shadow: none; opacity: 1; }
 
 @media (max-width: 760px) {
     .modal-caja { grid-template-columns: 1fr; width: min(680px, 94vw); max-height: 90vh; overflow-y: auto; }
