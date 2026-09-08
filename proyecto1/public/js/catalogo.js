@@ -155,6 +155,14 @@ function normalizarTexto(valor) {
 }
 
 function leerImagenesTarjeta(tarjeta) {
+    const plantilla = tarjeta.querySelector('.datos-imagenes-producto');
+    if (plantilla?.content) {
+        const imagenesPlantilla = Array.from(plantilla.content.querySelectorAll('img'))
+            .map((imagen) => imagen.getAttribute('src'))
+            .filter(Boolean);
+        if (imagenesPlantilla.length) return imagenesPlantilla;
+    }
+
     const valor = tarjeta.getAttribute('data-imagenes');
     try {
         const imagenes = JSON.parse(decodeURIComponent(valor || '[]'));

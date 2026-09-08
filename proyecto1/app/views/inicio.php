@@ -179,6 +179,11 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         <?php if ($agotado): ?>
                             <a class="boton-consulta-agotado" href="<?= $enlace_dinamico ?>" target="_blank" rel="noopener">Consultar disponibilidad</a>
                         <?php endif; ?>
+                        <template class="datos-imagenes-producto">
+                            <?php foreach ($imagenesCatalogo as $imagenCatalogo): ?>
+                                <img src="<?= htmlspecialchars($imagenCatalogo) ?>" alt="">
+                            <?php endforeach; ?>
+                        </template>
                     </article>
 
                 <?php endforeach; ?>
