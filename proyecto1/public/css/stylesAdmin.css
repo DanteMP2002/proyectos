@@ -135,7 +135,7 @@ body.body-admin textarea:focus-visible {
 .vista-previa-imagen figcaption { margin-bottom: 10px; color: var(--admin-texto-gris); font-size: .85rem; }
 .vista-previa-imagen figcaption strong { display: inline-grid; width: 24px; height: 24px; margin-right: 4px; place-items: center; border-radius: 50%; color: var(--admin-bg-oscuro); background: var(--admin-oro-metalico); font-size: .8rem; }
 .vista-previa-imagen img { width: 100%; height: 160px; border-radius: 4px; object-fit: cover; }
-.selector-imagen-existente { display: flex; align-items: center; justify-content: center; gap: 7px; color: var(--admin-oro-rosa); font-size: .85rem; font-weight: 700; }
+.selector-imagen-existente { display: grid; align-items: center; justify-content: center; gap: 7px; color: var(--admin-oro-rosa); font-size: .85rem; font-weight: 700; grid-auto-flow: column; }
 .selector-imagen-existente input { width: auto; }
 .selector-imagen-existente:has(input:checked) { outline: 2px solid var(--admin-oro-metalico); outline-offset: 4px; }
 .reemplazo-imagen-admin { display: grid; gap: 8px; padding-top: 4px; }
