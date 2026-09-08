@@ -41,7 +41,7 @@
 .modal-miniatura { flex: 0 0 62px; width: 70px; height: 62px; padding: 2px; overflow: hidden; border: 2px solid transparent; border-radius: 6px; background: var(--blanco-puro); cursor: pointer; }
 .modal-miniatura img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .modal-miniatura:hover, .modal-miniatura.activa { border-color: var(--vino-principal); }
-.modal-cuerpo { display: flex; flex-direction: column; justify-content: center; min-width: 0; overflow-y: auto; padding: clamp(28px, 5vw, 56px); }
+.modal-cuerpo { display: flex; flex-direction: column; justify-content: space-evenly; min-width: 0; overflow-y: auto; padding: clamp(28px, 5vw, 56px); }
 .modal-cerrar { position: absolute; top: 12px; right: 12px; z-index: 1; width: 36px; height: 36px; border: 0; border-radius: 50%; color: var(--vino-oscuro); background: var(--blanco-puro); font-size: 1.5rem; }
 .modal-nombre { margin: 0; color: var(--vino-oscuro); font-family: var(--fuente-titulos); font-size: 1.55rem; }
 .modal-descripcion { color: var(--texto-suave); line-height: 1.6; }
