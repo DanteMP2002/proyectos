@@ -13,6 +13,14 @@ function iniciarFiltrosCatalogo() {
     const tarjetasOriginales = Array.from(contenedor.querySelectorAll('.tarjeta-producto'));
     let ordenInvertido = false;
 
+    function normalizarTexto(valor) {
+        return String(valor)
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLocaleLowerCase('es')
+            .trim();
+    }
+
     const mensajeVacio = document.createElement('p');
     mensajeVacio.className = 'mensaje-sin-resultados';
     mensajeVacio.textContent = 'No encontramos productos con esos filtros.';
@@ -20,14 +28,18 @@ function iniciarFiltrosCatalogo() {
     contenedor.after(mensajeVacio);
 
     function aplicarFiltros() {
-        const textoBuscado = buscador.value.trim().toLocaleLowerCase();
-        const categoriaElegida = filtroCategoria.value;
+        const textoBuscado = normalizarTexto(buscador.value);
+        const categoriaElegida = normalizarTexto(filtroCategoria.value);
         let resultadosVisibles = 0;
 
         tarjetasOriginales.forEach((tarjeta) => {
-            const nombre = (tarjeta.dataset.nombre || '').toLocaleLowerCase();
-            const categoria = tarjeta.dataset.categoria || '';
-            const coincide = nombre.includes(textoBuscado)
+            const nombre = normalizarTexto(tarjeta.dataset.nombre);
+            const descripcion = normalizarTexto(tarjeta.dataset.descripcion);
+            const categoria = normalizarTexto(tarjeta.dataset.categoria);
+            const coincideTexto = !textoBuscado
+                || nombre.includes(textoBuscado)
+                || descripcion.includes(textoBuscado);
+            const coincide = coincideTexto
                 && (!categoriaElegida || categoria === categoriaElegida);
 
             tarjeta.hidden = !coincide;
@@ -49,15 +61,14 @@ function iniciarFiltrosCatalogo() {
         const criterio = selectorOrden.value;
         let resultado = 0;
 
-        if (criterio === 'menor-mayor' || criterio === 'mayor-menor') {
+        if (criterio === 'menor-mayor') {
             resultado = Number(primera.dataset.precio) - Number(segunda.dataset.precio);
-            if (criterio === 'mayor-menor') resultado *= -1;
         } else if (criterio === 'nombre') {
-            resultado = (primera.dataset.nombre || '').localeCompare(segunda.dataset.nombre || '', 'es');
+            resultado = normalizarTexto(primera.dataset.nombre).localeCompare(normalizarTexto(segunda.dataset.nombre), 'es');
         } else {
             resultado = prioridadRecomendada(primera) - prioridadRecomendada(segunda);
             // Mantiene el orden original dentro de cada grupo recomendado.
-            if (resultado === 0) result = tarjetasOriginales.indexOf(primera) - tarjetasOriginales.indexOf(segunda);
+            if (resultado === 0) resultado = tarjetasOriginales.indexOf(primera) - tarjetasOriginales.indexOf(segunda);
         }
 
         return ordenInvertido ? resultado * -1 : resultado;
@@ -65,6 +76,7 @@ function iniciarFiltrosCatalogo() {
 
     function ordenarTarjetas() {
         [...tarjetasOriginales].sort(compararTarjetas).forEach((tarjeta) => contenedor.append(tarjeta));
+        aplicarFiltros();
     }
 
     buscador.addEventListener('input', aplicarFiltros);

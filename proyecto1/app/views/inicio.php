@@ -115,8 +115,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     <label for="orden-catalogo">Ordenar productos</label>
                     <select id="orden-catalogo">
                         <option value="">Recomendados</option>
-                        <option value="menor-mayor">Precio: Menor a Mayor</option>
-                        <option value="mayor-menor">Precio: Mayor a Menor</option>
+                        <option value="menor-mayor">Precio</option>
                         <option value="nombre">Nombre: A a Z</option>
                     </select>
                 </div>
