@@ -171,6 +171,9 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                                 <img src="<?= htmlspecialchars($imagenesCatalogo[0] ?? URL_BASE . '/public/img/logo.jpg') ?>"
                                     alt="<?= htmlspecialchars($producto['nombre']) ?>">
                                 <span class="categoria-superpuesta"><?= htmlspecialchars($producto['categoria']) ?></span>
+                                <?php if ($agotado): ?>
+                                    <span class="sello-agotado">AGOTADO</span>
+                                <?php endif; ?>
                             </span>
                         </button>
                         <?php if ($agotado): ?>

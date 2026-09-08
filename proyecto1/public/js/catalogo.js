@@ -118,14 +118,14 @@ function iniciarRotacionImagenes(tarjetas) {
         if (imagenes.length < 2) return;
 
         let temporizadorInicial;
-        let temporizadorLento;
+        let temporizadorCarrusel;
         let indice = 0;
 
         function detenerRotacion() {
             window.clearTimeout(temporizadorInicial);
-            window.clearInterval(temporizadorLento);
+            window.clearInterval(temporizadorCarrusel);
             temporizadorInicial = undefined;
-            temporizadorLento = undefined;
+            temporizadorCarrusel = undefined;
         }
 
         tarjeta.addEventListener('mouseenter', () => {
@@ -134,16 +134,11 @@ function iniciarRotacionImagenes(tarjetas) {
             imagen.src = imagenes[indice];
 
             temporizadorInicial = window.setTimeout(() => {
-                temporizadorLento = window.setInterval(() => {
-                    indice += 1;
-                    if (indice >= imagenes.length) {
-                        imagen.src = imagenes[0];
-                        detenerRotacion();
-                        return;
-                    }
+                temporizadorCarrusel = window.setInterval(() => {
+                    indice = (indice + 1) % imagenes.length;
                     imagen.src = imagenes[indice];
-                }, 2500);
-            }, 2500);
+                }, 1800);
+            }, 500);
         });
         tarjeta.addEventListener('mouseleave', () => {
             detenerRotacion();
