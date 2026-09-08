@@ -357,8 +357,8 @@ $tokenFormulario = Autenticacion::tokenFormulario();
 
     <script>window.URL_BASE = '<?= URL_BASE ?>';</script>
     <script src="<?= URL_BASE ?>/public/js/tienda.js"></script>
-    <script src="<?= URL_BASE ?>/public/js/catalogo.js?v=20260908"></script>
-    <script src="<?= URL_BASE ?>/public/js/modal.js?v=20260908"></script>
+    <script src="<?= URL_BASE ?>/public/js/catalogo.js?v=<?= filemtime(__DIR__ . '/../..' . '/public/js/catalogo.js') ?>"></script>
+    <script src="<?= URL_BASE ?>/public/js/modal.js?v=<?= filemtime(__DIR__ . '/../..' . '/public/js/modal.js') ?>"></script>
 
 </body>
 </html>
