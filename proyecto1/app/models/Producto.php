@@ -41,7 +41,7 @@ class Producto
 
         $ids = array_map(static fn(array $producto): int => (int) $producto['id'], $productos);
         $marcadores = implode(',', array_fill(0, count($ids), '?'));
-        $consulta = $this->bd->prepare("SELECT producto_id, ruta_imagen, es_principal FROM imagenes_producto WHERE producto_id IN ($marcadores) ORDER BY es_principal DESC, id ASC");
+        $consulta = $this->bd->prepare("SELECT producto_id, ruta_imagen, es_principal FROM imagenes_producto WHERE producto_id IN ($marcadores) ORDER BY producto_id ASC, (es_principal = 1) DESC, id ASC");
         $consulta->execute($ids);
 
         $imagenesPorProducto = [];

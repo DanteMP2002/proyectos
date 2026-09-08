@@ -148,3 +148,17 @@ INSERT INTO productos (nombre, categoria, descripcion, precio, stock, imagen) VA
 ('Vestido Aurora', 'Vestidos', 'Un diseño elegante para una celebración inolvidable.', 1290.00, 4, 'public/img/logo.jpg'),
 ('Centro de mesa floral', 'Decoración', 'Detalle delicado para vestir cada mesa.', 95.00, 18, 'public/img/logo.jpg'),
 ('Anillos Promesa', 'Joyería', 'Símbolo clásico para comenzar una nueva etapa.', 680.00, 7, 'public/img/logo.jpg');
+
+
+-- Ejecutar una sola vez en la base de datos remota.
+-- Las imágenes adicionales usan NULL; solo la portada usa 1.
+ALTER TABLE imagenes_producto
+  DROP INDEX uk_producto_principal,
+  MODIFY es_principal TINYINT(1) NULL DEFAULT NULL;
+
+UPDATE imagenes_producto
+SET es_principal = NULL
+WHERE es_principal = 0;
+
+ALTER TABLE imagenes_producto
+  ADD UNIQUE KEY uk_producto_principal (producto_id, es_principal);

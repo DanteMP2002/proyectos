@@ -134,7 +134,11 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     if (!$imagenesCatalogo && !empty($producto['imagen'])) {
                         $imagenesCatalogo[] = URL_BASE . '/' . ltrim($producto['imagen'], '/');
                     }
-                    $imagenesJson = htmlspecialchars(json_encode($imagenesCatalogo, JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8');
+                    $imagenesJson = htmlspecialchars(
+                        json_encode($imagenesCatalogo, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT),
+                        ENT_QUOTES,
+                        'UTF-8'
+                    );
                     ?>
                     <?php
                     // Construimos el enlace dinámico de WhatsApp con el nombre del producto
