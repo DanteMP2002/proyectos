@@ -60,8 +60,19 @@ class ProductoControlador
         return trim($texto, '-') ?: 'producto';
     }
 
-    /** Guarda un archivo con un nombre legible y devuelve la ruta pública. */
-    private function guardarArchivo(array $archivo, ?string $nombreProducto = null): string
+    /** Convierte una posición en etiqueta A, B, ..., Z, AA, AB. */
+    private function etiquetaImagen(int $indice): string
+    {
+        $etiqueta = '';
+        do {
+            $etiqueta = chr(65 + ($indice % 26)) . $etiqueta;
+            $indice = intdiv($indice, 26) - 1;
+        } while ($indice >= 0);
+        return $etiqueta;
+    }
+
+    /** Guarda un archivo con nombre legible, letra de posición e ID de producto. */
+    private function guardarArchivo(array $archivo, int $productoId, int $indiceImagen, string $nombreProducto): string
     {
         if (($archivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK || ($archivo['size'] ?? 0) > 5 * 1024 * 1024) {
             throw new RuntimeException('Cada imagen debe pesar como máximo 5 MB.');
@@ -77,9 +88,9 @@ class ProductoControlador
             throw new RuntimeException('No se pudo preparar la carpeta de imágenes.');
         }
 
-        $prefijo = $this->slugArchivo($nombreProducto ?: 'producto');
-        $sufijo = date('YmdHis') . '-' . bin2hex(random_bytes(3));
-        $nombreArchivo = $prefijo . '-' . $sufijo . '.' . $extensiones[$tipo];
+        $prefijo = $this->slugArchivo($nombreProducto);
+        $letra = $this->etiquetaImagen($indiceImagen);
+        $nombreArchivo = $prefijo . '-' . $letra . '_' . $productoId . '.' . $extensiones[$tipo];
         if (!move_uploaded_file($archivo['tmp_name'], $this->carpetaImagenes . $nombreArchivo)) {
             throw new RuntimeException('No se pudo guardar la imagen.');
         }
@@ -88,7 +99,7 @@ class ProductoControlador
     }
 
     /** La portada es obligatoria al crear y opcional al editar. */
-    private function guardarPortada(bool $esObligatoria): ?string
+    private function guardarPortada(bool $esObligatoria, int $productoId, string $nombreProducto): ?string
     {
         $archivo = $_FILES['imagen_principal'] ?? null;
         $sinArchivo = !$archivo || ($archivo['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE;
@@ -97,11 +108,11 @@ class ProductoControlador
             throw new RuntimeException('Debes seleccionar una imagen principal para el producto.');
         }
 
-        return $sinArchivo ? null : $this->guardarArchivo($archivo, $_POST['nombre'] ?? null);
+        return $sinArchivo ? null : $this->guardarArchivo($archivo, $productoId, 0, $nombreProducto);
     }
 
     /** Recorre el campo multiple y guarda únicamente archivos seleccionados. */
-    private function guardarImagenesAdicionales(): array
+    private function guardarImagenesAdicionales(int $productoId, string $nombreProducto, int $indiceInicial): array
     {
         $archivos = $_FILES['imagenes_adicionales'] ?? null;
         if (!$archivos || !is_array($archivos['name'])) {
@@ -120,21 +131,21 @@ class ProductoControlador
                 'tmp_name' => $archivos['tmp_name'][$indice],
                 'error' => $archivos['error'][$indice],
                 'size' => $archivos['size'][$indice],
-            ], $_POST['nombre'] ?? null);
+            ], $productoId, $indiceInicial++, $nombreProducto);
         }
 
         return $rutas;
     }
 
     /** Guarda el archivo seleccionado para reemplazar una imagen existente. */
-    private function guardarImagenReemplazo(): ?string
+    private function guardarImagenReemplazo(int $productoId, int $indiceImagen, string $nombreProducto): ?string
     {
         $archivo = $_FILES['imagen_reemplazo'] ?? null;
         if (!$archivo || ($archivo['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
             return null;
         }
 
-        return $this->guardarArchivo($archivo, $_POST['nombre'] ?? null);
+        return $this->guardarArchivo($archivo, $productoId, $indiceImagen, $nombreProducto);
     }
 
     public function crear(): void
@@ -151,9 +162,10 @@ class ProductoControlador
         $this->exigirFormularioSeguro();
 
         try {
-            $portada = $this->guardarPortada(true);
-            $adicionales = $this->guardarImagenesAdicionales();
-            $productoId = $this->productos->crear($this->obtenerDatosFormulario());
+            $datosProducto = $this->obtenerDatosFormulario();
+            $productoId = $this->productos->crear($datosProducto);
+            $portada = $this->guardarPortada(true, $productoId, $datosProducto['nombre']);
+            $adicionales = $this->guardarImagenesAdicionales($productoId, $datosProducto['nombre'], 1);
             $this->productos->guardarImagenes($productoId, $portada, $adicionales);
             $this->volverAlPanel('Producto creado correctamente.');
         } catch (Throwable $error) {
@@ -182,6 +194,7 @@ class ProductoControlador
         }
 
         try {
+            $imagenesActuales = [];
             $imagenId = (int) ($_POST['imagen_id_reemplazar'] ?? 0);
             $archivoReemplazo = $_FILES['imagen_reemplazo'] ?? null;
             $hayReemplazo = $archivoReemplazo && ($archivoReemplazo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE;
@@ -193,16 +206,26 @@ class ProductoControlador
                 }
             }
 
-            $imagenReemplazo = $this->guardarImagenReemplazo();
-            $adicionales = $this->guardarImagenesAdicionales();
-            $this->productos->actualizar($id, $this->obtenerDatosFormulario());
+            $datosProducto = $this->obtenerDatosFormulario();
+            $indiceReemplazo = 0;
+            foreach ($imagenesActuales ?? [] as $indice => $imagenActual) {
+                if ((int) $imagenActual['id'] === $imagenId) {
+                    $indiceReemplazo = $indice;
+                    break;
+                }
+            }
+            $imagenReemplazo = $this->guardarImagenReemplazo($id, $indiceReemplazo, $datosProducto['nombre']);
+            $indiceAdicionales = count($imagenesActuales ?? []);
+            $adicionales = $this->guardarImagenesAdicionales($id, $datosProducto['nombre'], $indiceAdicionales);
+            $this->productos->actualizar($id, $datosProducto);
             if ($imagenReemplazo !== null) {
                 $imagenAnterior = $this->productos->reemplazarImagen($id, $imagenId, $imagenReemplazo);
                 if ($imagenAnterior === false) {
                     throw new RuntimeException('La imagen seleccionada no pertenece a este producto.');
                 }
                 $rutaAnterior = __DIR__ . '/../../' . ltrim($imagenAnterior, '/');
-                if (is_file($rutaAnterior)) {
+                $rutaNueva = __DIR__ . '/../../' . ltrim($imagenReemplazo, '/');
+                if ($rutaAnterior !== $rutaNueva && is_file($rutaAnterior)) {
                     unlink($rutaAnterior);
                 }
             }
