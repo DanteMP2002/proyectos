@@ -251,6 +251,7 @@ a { color: inherit; text-decoration: none; }
 .contenedor-imagen-producto {
     display: block;
     position: relative;
+    
     width: 100%;
     aspect-ratio: 4 / 3;
     overflow: hidden;

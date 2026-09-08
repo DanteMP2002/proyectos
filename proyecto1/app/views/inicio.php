@@ -214,6 +214,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     </div>
                 </div>
             </div>
+            
         </section>
 
         <!-- Bloque informativo de la tienda. -->
