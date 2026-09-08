@@ -142,11 +142,9 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         $version = is_file($archivo) ? (string) filemtime($archivo) : '0';
                         $imagenesCatalogo[] = URL_BASE . '/' . $ruta . '?v=' . $version;
                     }
-                    $imagenesJson = htmlspecialchars(
-                        json_encode($imagenesCatalogo, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT),
-                        ENT_QUOTES,
-                        'UTF-8'
-                    );
+                    // Se codifica para que URLs con &, comillas o parámetros de versión
+                    // lleguen intactas a JavaScript al abrir la galería.
+                    $imagenesJson = rawurlencode(json_encode($imagenesCatalogo, JSON_UNESCAPED_SLASHES));
                     ?>
                     <?php
                     // Construimos el enlace dinámico de WhatsApp con el nombre del producto
@@ -191,7 +189,9 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     <div class="modal-imagen-visor">
                         <img id="modal-imagen" src="" alt="">
                     </div>
-                    <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto"></div>
+                    <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto">
+                        <img id=   >
+                    </div>
                     <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
                     <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
                 </div>

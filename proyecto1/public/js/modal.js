@@ -36,7 +36,7 @@ let imagenesModal = [];
 function leerImagenesTarjeta(tarjeta) {
     const valor = tarjeta.getAttribute('data-imagenes');
     try {
-        const imagenes = JSON.parse(valor || '[]');
+        const imagenes = JSON.parse(decodeURIComponent(valor || '[]'));
         return Array.isArray(imagenes) ? imagenes.filter(Boolean) : [];
     } catch (error) {
         const portada = tarjeta.getAttribute('data-imagen');
