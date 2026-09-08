@@ -35,8 +35,13 @@ function iniciarFiltrosCatalogo() {
             const coincideCategoria = !categoriaElegida || categoria === categoriaElegida;
             const coincide = coincideTexto && coincideCategoria;
 
+            // `hidden` puede quedar anulado por reglas CSS de la tarjeta. Se
+            // establece también el display para que los resultados que no
+            // coinciden salgan siempre de la rejilla.
             tarjeta.hidden = !coincide;
+            tarjeta.style.display = coincide ? '' : 'none';
             tarjeta.classList.toggle('oculta-por-filtro', !coincide);
+            tarjeta.setAttribute('aria-hidden', String(!coincide));
             if (coincide) resultadosVisibles += 1;
         });
 
@@ -74,6 +79,9 @@ function iniciarFiltrosCatalogo() {
     }
 
     buscador.addEventListener('input', aplicarFiltros);
+    // `input` cubre selectores que actualizan el valor sin perder el foco;
+    // `change` mantiene compatibilidad con navegadores habituales.
+    filtroCategoria.addEventListener('input', aplicarFiltros);
     filtroCategoria.addEventListener('change', aplicarFiltros);
     selectorOrden?.addEventListener('change', ordenarTarjetas);
     botonInvertir?.addEventListener('click', () => {
