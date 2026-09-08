@@ -360,6 +360,11 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                 <h2>¿Necesitas ayuda?</h2>
                 <p>Escríbenos y te ayudamos a elegir.</p>
                 <a href="https://wa.me/51920134856" target="_blank" rel="noopener">WhatsApp ↗</a>
+                <div class="redes-pie" aria-label="Redes sociales">
+                    <span class="icono-red-social" title="Instagram" aria-label="Instagram">◎</span>
+                    <span class="icono-red-social" title="Facebook" aria-label="Facebook">f</span>
+                    <span class="icono-red-social" title="TikTok" aria-label="TikTok">♪</span>
+                </div>
             </div>
         </div>
         <div class="pie-legal">© <?= date('Y') ?> Mundo Novias &amp; Quince. Hecho para celebrar.</div>
