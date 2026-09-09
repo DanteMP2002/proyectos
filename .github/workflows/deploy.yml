@@ -18,4 +18,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /htdocs/  # Si es para un subdominio, cambia esto por el nombre de la carpeta (ej. /dante2077.ct.ws/)
+          server-dir: /htdocs/proyecto1/  # Si es para un subdominio, cambia esto por el nombre de la carpeta (ej. /dante2077.ct.ws/)
+          dangerous-clean-slate: true
