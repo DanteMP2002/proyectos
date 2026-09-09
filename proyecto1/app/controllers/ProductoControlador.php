@@ -1,5 +1,5 @@
 <?php
-//require_once __DIR__ . '/../helpers/Autenticacion.php';
+require_once __DIR__ . '/../helpers/Autenticacion.php';
 require_once __DIR__ . '/../models/Producto.php';
 
 /** Gestiona productos, portada y galería de imágenes. */

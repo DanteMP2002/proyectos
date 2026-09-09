@@ -10,7 +10,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda |  MUNDO NOVIAS <span>& QUINCE</span></title>
+    <title>Tienda | NOVIAS & QUINCE</title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css?v=<?= filemtime(__DIR__ . '/../..' . '/public/css/styles1.css') ?>">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/modal.css">
@@ -200,7 +200,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         <span id="modal-contador-imagenes" class="modal-contador-imagenes" hidden></span>
                     </div>
                     <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto">
-                        
+                        <img id="modal-imagen" src="" alt="">
                     </div>
                     <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
                     <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>

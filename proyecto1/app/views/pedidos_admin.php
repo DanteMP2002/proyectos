@@ -15,7 +15,7 @@
         <!-- SIDEBAR DE NAVEGACIÓN -->
         <aside class="sidebar-admin">
             <div class="sidebar-marca">
-                <h2>Vínculo Bodas</h2>
+                <h2>MUNDO NOVIAS <span>& QUINCE</span></h2>
                 <span class="etiqueta">Administración</span>
             </div>
             <nav class="navegacion-sidebar" aria-label="Navegación principal">
