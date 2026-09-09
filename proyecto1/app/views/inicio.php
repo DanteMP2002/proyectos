@@ -197,6 +197,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                 <div class="modal-imagen-envoltorio">
                     <div class="modal-imagen-visor">
                         <img id="modal-imagen" src="" alt="">
+                        <span id="modal-contador-imagenes" class="modal-contador-imagenes" hidden></span>
                     </div>
                     <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto">
                         

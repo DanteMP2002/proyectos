@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalPrecio      = document.getElementById('modal-precio');
     const modalWhatsapp    = document.getElementById('modal-whatsapp');
     const modalImagen      = document.getElementById('modal-imagen');
+    const modalContador    = document.getElementById('modal-contador-imagenes');
     const modalCategoria   = document.getElementById('modal-categoria');
     const modalGaleria     = document.getElementById('modal-galeria');
     const modalBtnCarrito  = document.getElementById('modal-btn-carrito');
@@ -57,6 +58,10 @@ function mostrarImagenModal(indice) {
     if (!imagen) return;
 
     modalImagen.src = imagen;
+    if (modalContador) {
+        modalContador.hidden = imagenesModal.length < 2;
+        modalContador.textContent = `${indice + 1} / ${imagenesModal.length}`;
+    }
     modalGaleria?.querySelectorAll('[data-modal-imagen]').forEach((miniatura, indiceMiniatura) => {
         miniatura.classList.toggle('activa', indiceMiniatura === indice);
     });
@@ -66,12 +71,22 @@ function cargarGaleriaModal(imagenes, nombre) {
     imagenesModal = imagenes;
     if (!modalGaleria) return;
 
-    modalGaleria.innerHTML = imagenes.length > 1
-        ? imagenes.map((imagen, indice) => `
-            <button type="button" class="modal-miniatura${indice === 0 ? ' activa' : ''}" data-modal-imagen="${indice}" aria-label="Ver imagen ${indice + 1} de ${nombre}">
-                <img src="${imagen}" alt="Miniatura de ${nombre}">
-            </button>`).join('')
-        : '';
+    modalGaleria.replaceChildren();
+    modalGaleria.hidden = imagenes.length < 2;
+
+    imagenes.forEach((imagen, indice) => {
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.className = `modal-miniatura${indice === 0 ? ' activa' : ''}`;
+        boton.dataset.modalImagen = String(indice);
+        boton.setAttribute('aria-label', `Ver imagen ${indice + 1} de ${nombre}`);
+
+        const miniatura = document.createElement('img');
+        miniatura.src = imagen;
+        miniatura.alt = `Miniatura ${indice + 1} de ${nombre}`;
+        boton.append(miniatura);
+        modalGaleria.append(boton);
+    });
 }
 
 // ─── 2. FUNCIÓN PARA ABRIR EL MODAL ────────────────────────────────────────
@@ -103,8 +118,8 @@ function abrirModal(tarjeta) {
     modalCategoria.textContent   = categoria;
 
     // Mostrar la imagen si existe, o esconder el contenedor si no hay
-    if (imagen) {
-        cargarGaleriaModal(imagenes, nombre);
+    cargarGaleriaModal(imagenes, nombre);
+    if (imagenes.length) {
         mostrarImagenModal(0);
         modalImagen.alt = `Foto de ${nombre}`;
         modalImagen.parentElement.style.display = '';
