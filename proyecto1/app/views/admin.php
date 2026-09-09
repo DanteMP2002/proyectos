@@ -8,7 +8,7 @@ $token = Autenticacion::tokenFormulario();
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Panel Administrador | Vínculo Bodas</title>
+        <title>Panel Administrador | MUNDO NOVIAS <span>& QUINCE</span></title>
         <!-- Tu CSS original se mantiene si es necesario, pero añadimos el nuevo exclusivo para el Admin -->
          <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
         <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
@@ -21,7 +21,7 @@ $token = Autenticacion::tokenFormulario();
             <!-- 1. MENÚ LATERAL (SIDEBAR) -->
             <aside class="sidebar-admin">
                 <div class="sidebar-marca">
-                    <h2>Vínculo Bodas</h2>
+                    <h2>MUNDO NOVIAS <span>& QUINCE</span></h2>
                     <span class="etiqueta">Panel Protegido</span>
                 </div>
                 
@@ -34,11 +34,11 @@ $token = Autenticacion::tokenFormulario();
                 </div>
 
                 <nav class="navegacion-sidebar" aria-label="Navegación principal">
-                    <a href="<?= URL_BASE ?>/inicio" class="nav-link"><span>🏪</span> Ver tienda</a>
-                    <a href="<?= URL_BASE ?>/pedido" class="nav-link"><span>📦</span> Pedidos</a>
+                    <a href="<?= URL_BASE ?>/inicio" class="nav-link">Ver tienda</a>
+                    <a href="<?= URL_BASE ?>/pedido" class="nav-link">Pedidos</a>
                     <form action="<?= URL_BASE ?>/login/salir" method="post" class="formulario-salir">
                         <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
-                        <button class="nav-link salir" type="submit"><span>🚪</span> Cerrar sesión</button>
+                        <button class="nav-link salir" type="submit">Cerrar sesión</button>
                     </form>
                 </nav>
             </aside>
@@ -84,7 +84,7 @@ $token = Autenticacion::tokenFormulario();
                         </div>
                     </article>
                 </section>
-
+                    <br>
                 <!-- Sección: Tabla de Gestión de Catálogo -->
                 <section class="tarjeta-blanca-seccion">
                     <div class="encabezado-tabla">

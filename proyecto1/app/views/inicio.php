@@ -10,7 +10,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vínculo Bodas | Tienda</title>
+    <title>Tienda |  MUNDO NOVIAS <span>& QUINCE</span></title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css?v=<?= filemtime(__DIR__ . '/../..' . '/public/css/styles1.css') ?>">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/modal.css">
@@ -50,7 +50,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                 <span class="acceso-navegacion" aria-label="Acceso a cuenta">
                     <button class="enlace-ingreso" data-mostrar-ingreso id="enlace-login-nav" type="button">Iniciar sesión</button>
                     <span aria-hidden="true">|</span>
-                    <button class="enlace-ingreso" data-mostrar-registro id="enlace-registro-nav" type="button">Registrarse</button>
+                    <button data-mostrar-registro class="cambio-formulario enlace-ingreso"  id="enlace-registro-nav" type="button">Registrarse</button>
                 </span>
             <?php endif; ?>
         </nav>

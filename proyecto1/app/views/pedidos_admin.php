@@ -19,9 +19,9 @@
                 <span class="etiqueta">Administración</span>
             </div>
             <nav class="navegacion-sidebar" aria-label="Navegación principal">
-                <a href="<?= URL_BASE ?>/admin" class="nav-link"><span>📊</span> Panel Catálogo</a>
-                <a href="<?= URL_BASE ?>/pedido" class="nav-link"><span>📦</span> Pedidos</a>
-                <a href="<?= URL_BASE ?>/inicio" class="nav-link"><span>🏪</span> Ver tienda</a>
+                <a href="<?= URL_BASE ?>/admin" class="nav-link">Panel Catálogo</a>
+                <a href="<?= URL_BASE ?>/pedido" class="nav-link">Pedidos</a>
+                <a href="<?= URL_BASE ?>/inicio" class="nav-link">Ver tienda</a>
             </nav>
         </aside>
 

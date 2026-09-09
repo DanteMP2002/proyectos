@@ -8,7 +8,7 @@ $esAdmin = Autenticacion::esAdministrador();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido <?= htmlspecialchars($pedido['codigo']) ?></title>
+    <title>Pedido <?= htmlspecialchars($pedido['codigo']) ?> | MUNDO NOVIAS <span>& QUINCE</span></title>
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/variables.css">
     <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/styles1.css">
     <?php if ($esAdmin): ?> <link rel="stylesheet" href="<?= URL_BASE ?>/public/css/stylesAdmin.css"> <?php endif; ?>
