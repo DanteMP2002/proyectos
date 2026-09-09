@@ -1,0 +1,81 @@
+{
+    "description": "DO NOT DELETE THIS FILE. This file is used to keep track of which files have been synced in the most recent deployment. If you delete this file a resync will need to be done (which can take a while) - read more: https://github.com/SamKirkland/FTP-Deploy-Action",
+    "version": "1.0.0",
+    "generatedTime": 1788119921111,
+    "data": [
+        {
+            "type": "file",
+            "name": "README.md",
+            "size": 897,
+            "hash": "217553cad1f442c92334fb0387075af718611e0d2393c5851bf1307631c8d26d"
+        },
+        {
+            "type": "file",
+            "name": "index.php",
+            "size": 2494,
+            "hash": "f1b2049051c1cfe052f548c0cf35f0786bea7babeacc00563aa1e90351b62954"
+        },
+        {
+            "type": "file",
+            "name": "logo.jpg",
+            "size": 3723,
+            "hash": "9d549b4c425e060935ea9d0e443a62c1eb60d5d60911c8a8b06d23d094f86c2f"
+        },
+        {
+            "type": "folder",
+            "name": "proyecto1"
+        },
+        {
+            "type": "folder",
+            "name": "proyecto2"
+        },
+        {
+            "type": "file",
+            "name": "styles.css",
+            "size": 4041,
+            "hash": "124da48fd24901ac4d0852840781ef34f7faa011a6d8b45aa11f85d8c44fb226"
+        },
+        {
+            "type": "folder",
+            "name": "proyecto1/config"
+        },
+        {
+            "type": "folder",
+            "name": "proyecto1/css"
+        },
+        {
+            "type": "folder",
+            "name": "proyecto1/img"
+        },
+        {
+            "type": "file",
+            "name": "proyecto1/index.php",
+            "size": 1903,
+            "hash": "389e92d8a395dc5ba555c92d007cd0bc9b210943f784a7d2e30f317db1c532fb"
+        },
+        {
+            "type": "file",
+            "name": "proyecto2/index.html",
+            "size": 14015,
+            "hash": "0f3735440734e4ff6ac5b9c2f7da97591c7411e4bca76ea334845d68a335a5fe"
+        },
+        {
+            "type": "file",
+            "name": "proyecto1/config/conexion.php",
+            "size": 645,
+            "hash": "ed0225f27b00f2793db28665c143fad0ea598c59546464b368f33c883786c4ea"
+        },
+        {
+            "type": "file",
+            "name": "proyecto1/css/styles1.css",
+            "size": 4484,
+            "hash": "83b9cf81c463763e16f4c50238ef3de474f16557a313a1885f2b974208c5d022"
+        },
+        {
+            "type": "file",
+            "name": "proyecto1/img/logo.jpg",
+            "size": 3723,
+            "hash": "9d549b4c425e060935ea9d0e443a62c1eb60d5d60911c8a8b06d23d094f86c2f"
+        }
+    ]
+}
