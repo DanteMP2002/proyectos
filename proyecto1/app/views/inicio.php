@@ -149,9 +149,10 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                     ?>
                     <?php
                     // Construimos el enlace dinámico de WhatsApp con el nombre del producto
-                        $nombre_producto = $producto['nombre']; 
+                        $nombre_producto = $producto['nombre'];
+                        $categoria_producto = $producto['categoria'];
                         $telefono = "51920134856"; 
-                        $mensaje = "Buen dia, me interesa el *" . $nombre_producto . "* y quisiera mas informacion.";
+                        $mensaje = "Buen dia, este  producto de la seccion:\n" . $categoria_producto . ", con nombre: *" . $nombre_producto . "* me ha llamado la atencion y quisiera mas informacion.";
                         $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
                     ?>
 

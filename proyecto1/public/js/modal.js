@@ -1,5 +1,6 @@
 /** esto es una pequña actualizacion veo que no actualizo
  * 8-9-2026-21:07
+ * no esta guardan en este js
  * modal.js — Vínculo Bodas
  * ============================================================
  * Maneja la apertura y cierre del modal de detalle de producto.
