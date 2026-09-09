@@ -152,7 +152,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         $nombre_producto = $producto['nombre'];
                         $categoria_producto = $producto['categoria'];
                         $telefono = "51920134856"; 
-                        $mensaje = "Buen dia, este  producto de la seccion:\n" . $categoria_producto . ", con nombre: *" . $nombre_producto . "* me ha llamado la atencion y quisiera mas informacion.";
+                        $mensaje = "Buen dia.\nEl producto de la seccion:" . $categoria_producto . ",\n con nombre: *" . $nombre_producto . "* me ha llamado la atencion y quisiera mas informacion.";
                         $enlace_dinamico = "https://wa.me/" . $telefono . "?text=" . rawurlencode($mensaje);
                     ?>
 
@@ -349,7 +349,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
     </section>
     <!-- Boton de WhatsApp para comunicacion -->
     <!-- Botón de WhatsApp Arrastrable -->
-     <? $mensajeBoton = "Hola, he visitado tu tienda. Quisiera mas informacion."?>
+     <? $mensajeBoton = "Hola, he visitado tu tienda. Quisiera mas informacion sobre los productos que ofrecen."?>
     <a href="https://wa.me/51920134856?text=<?= rawurlencode($mensajeBoton) ?>" target="_blank" class="boton-whatsapp-fijo" id="whatsapp-flotante">
         <img class="imagen-whatsapp-fijo" src="<?= URL_BASE ?>/public/img/whatsapp.jpg" alt="whatsapp" draggable="false">
     </a>
