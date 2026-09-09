@@ -50,7 +50,7 @@
 
     <footer id="contacto">
         <div class="contenedor">
-            © <?= date('Y') ?> Dante — Portafolio de proyectos
+            © <?= date('Y') ?> DanteMP — Portafolio de proyectos
         </div>
     </footer>
 </body>
