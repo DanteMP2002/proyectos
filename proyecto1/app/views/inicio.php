@@ -200,7 +200,7 @@ $tokenFormulario = Autenticacion::tokenFormulario();
                         <span id="modal-contador-imagenes" class="modal-contador-imagenes" hidden></span>
                     </div>
                     <div id="modal-galeria" class="modal-galeria" aria-label="Más imágenes del producto">
-                        <img id="modal-imagen" src="" alt="">
+                        
                     </div>
                     <span id="modal-categoria" class="modal-etiqueta-categoria"></span>
                     <button class="modal-cerrar" type="button" data-cerrar-producto aria-label="Cerrar detalle">×</button>
